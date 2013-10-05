@@ -15,7 +15,7 @@ import tracker.server.jdo.Transaction;
 import tracker.server.jdo.TransactionItem;
 import tracker.shared.CreateTransactionItemRequest;
 import tracker.shared.CreateTransactionRequest;
-import tracker.shared.TransactionDetail;
+import tracker.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -52,10 +52,10 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<TransactionDetail> getTransactions(Date olderThan, int count) {
+	public List<GetTransactionsResponse> getTransactions(Date olderThan, int count) {
 
-		List<TransactionDetail> transactionDtailList = new LinkedList<TransactionDetail>();
-		Map<Long, TransactionDetail> transactionDetailMap = new HashMap<Long, TransactionDetail>();
+		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
+		Map<Long, GetTransactionsResponse> transactionDetailMap = new HashMap<Long, GetTransactionsResponse>();
 
 		PersistenceManager pm = PMF.get();
 
@@ -68,7 +68,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		List<Transaction> transactionList = (List<Transaction>) query.execute(olderThan);
 
 		for (Transaction transaction : transactionList) {
-			TransactionDetail transactionDetail = new TransactionDetail();
+			GetTransactionsResponse transactionDetail = new GetTransactionsResponse();
 
 			transactionDetail.setId(transaction.getId());
 			transactionDetail.setDescription(transaction.getDescription());

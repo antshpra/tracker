@@ -5,7 +5,7 @@ import java.util.List;
 
 import tracker.shared.CreateTransactionItemRequest;
 import tracker.shared.CreateTransactionRequest;
-import tracker.shared.TransactionDetail;
+import tracker.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -22,6 +22,6 @@ public interface TransactionService extends RemoteService {
 	long createTransactionItem(CreateTransactionItemRequest request)
 			throws IllegalArgumentException;
 
-	List<TransactionDetail> getTransactions(Date olderThan, int count);
+	List<GetTransactionsResponse> getTransactions(Date olderThan, int count);
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import tracker.shared.CreateTransactionItemRequest;
 import tracker.shared.CreateTransactionRequest;
-import tracker.shared.TransactionDetail;
+import tracker.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -21,6 +21,6 @@ public interface TransactionServiceAsync {
 			AsyncCallback<Long> callback) throws IllegalArgumentException;
 
 	void getTransactions(Date olderThan, int count,
-			AsyncCallback<List<TransactionDetail>> callback);
+			AsyncCallback<List<GetTransactionsResponse>> callback);
 
 }
