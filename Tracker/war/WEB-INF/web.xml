@@ -7,16 +7,6 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.antshpra.tracker.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/tracker/greet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>transactionService</servlet-name>
     <servlet-class>tracker.server.TransactionServiceImpl</servlet-class>
   </servlet>
