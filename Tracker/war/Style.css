@@ -1,0 +1,22 @@
+html body {
+    margin: 0px;
+}
+
+
+.table-style-1 {
+	width: 100%;
+	background-color: #EEE;
+	border-collapse: collapse;
+}
+
+.table-style-1 td {
+    border-bottom: 1px solid #CCC;
+}
+
+.table-style-1 td .gwt-HTML {
+    padding: 10px;
+}
+
+.table-style-1 td .highlighted {
+    background-color: cyan;
+}

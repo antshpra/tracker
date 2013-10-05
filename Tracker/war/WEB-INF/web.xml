@@ -15,10 +15,20 @@
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/tracker/greet</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>transactionService</servlet-name>
+    <servlet-class>tracker.server.TransactionServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>transactionService</servlet-name>
+    <url-pattern>/_ah/gwtrpc</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Tracker.html</welcome-file>
+    <welcome-file>Transactions.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
