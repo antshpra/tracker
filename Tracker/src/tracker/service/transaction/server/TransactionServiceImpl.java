@@ -10,8 +10,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import tracker.PMF;
-import tracker.server.jdo.Transaction;
-import tracker.server.jdo.TransactionItem;
+import tracker.data.jdo.TransactionJDO;
+import tracker.data.jdo.TransactionItemJDO;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
@@ -27,7 +27,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		RequestValidator.validate( request );
 
-		Transaction transaction = new Transaction();
+		TransactionJDO transaction = new TransactionJDO();
 		transaction.setCreationDate( new Date() );
 		transaction.setTransactionDate( new Date() );
 		transaction.setDescription( request.getDescription() );
@@ -52,7 +52,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		RequestValidator.validate( request );
 
-		TransactionItem transactionItem = new TransactionItem();
+		TransactionItemJDO transactionItem = new TransactionItemJDO();
 		transactionItem.setCreationDate(new Date());
 		transactionItem.setDescription(request.getDescription());
 		transactionItem.setCreatedBy("prashant@claymus.com");
@@ -72,15 +72,15 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		PersistenceManager pm = PMF.get();
 
-		Query query = pm.newQuery(Transaction.class);
+		Query query = pm.newQuery(TransactionJDO.class);
 		query.setFilter("creationDate < olderThan");
 		query.declareParameters(Date.class.getName() + " olderThan");
 		query.setOrdering("creationDate DESC");
 		query.setRange(0, count);
 
-		List<Transaction> transactionList = (List<Transaction>) query.execute(olderThan);
+		List<TransactionJDO> transactionList = (List<TransactionJDO>) query.execute(olderThan);
 
-		for (Transaction transaction : transactionList) {
+		for (TransactionJDO transaction : transactionList) {
 			GetTransactionsResponse transactionDetail = new GetTransactionsResponse();
 
 			transactionDetail.setId(transaction.getId());
