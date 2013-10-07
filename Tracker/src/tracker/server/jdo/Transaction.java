@@ -15,11 +15,11 @@ public class Transaction {
 	@Persistent( column = "TRANSACTION_ID", primaryKey = "true", valueStrategy = IdGeneratorStrategy.IDENTITY )
 	private Long id;
 
-	@Persistent( column = "DESCRIPTION" )
-	private String description;
-	
 	@Persistent( column = "TRANSACTION_DATE" )
 	private Date transactionDate;
+	
+	@Persistent( column = "DESCRIPTION" )
+	private String description;
 	
 	@Persistent( column = "CREATION_DATE" )
 	private Date creationDate;
@@ -30,18 +30,18 @@ public class Transaction {
 	
 	public long getId() { return this.id; }
 	
-	public String getDescription() { return this.description; }
-	
 	public Date getTransactionDate() { return this.transactionDate; }
+	
+	public String getDescription() { return this.description; }
 	
 	public Date getCreationDate() { return this.creationDate; }
 
 	public String getCreatedBy() { return this.createdBy; }
 
 	
-	public void setDescription( String description ) { this.description = description; }
-	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
+	
+	public void setDescription( String description ) { this.description = description; }
 	
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	

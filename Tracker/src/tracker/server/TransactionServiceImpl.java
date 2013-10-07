@@ -16,6 +16,7 @@ import tracker.server.jdo.TransactionItem;
 import tracker.shared.CreateTransactionItemRequest;
 import tracker.shared.CreateTransactionRequest;
 import tracker.shared.GetTransactionsResponse;
+import antshpra.gwt.rpc.server.RequestValidator;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -24,29 +25,41 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 	public long createTransaction(CreateTransactionRequest request) throws IllegalArgumentException {
 
-		request.validate();
+		RequestValidator.validate( request );
 
 		Transaction transaction = new Transaction();
-		transaction.setDescription(request.getDescription());
-		transaction.setTransactionDate(request.getTransactionDate());
-		transaction.setCreationDate(new Date());
-		transaction.setCreatedBy("prashant@claymus.com");
+		transaction.setCreationDate( new Date() );
+		transaction.setTransactionDate( new Date() );
+		transaction.setDescription( request.getDescription() );
+		transaction.setCreatedBy("prashant@claymus.com"); // TODO: Set user id instead of hard coded id
 
 		transaction = PMF.get().makePersistent(transaction);
+		
+		if( request.getCreateTransactionItemRequestList() == null ) {
+			// TODO: Print log "CreateTransactionItemRequestList is null."
+			return transaction.getId();
+		}
+		
+		for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() ) { // TODO: make a batch call instead
+			itemRequest.setTransactionId( transaction.getId() );
+			createTransactionItem( itemRequest );
+		}
 
 		return transaction.getId();
 	}
 
 	public long createTransactionItem(CreateTransactionItemRequest request) throws IllegalArgumentException {
 
-		request.validate();
+		RequestValidator.validate( request );
 
 		TransactionItem transactionItem = new TransactionItem();
-		transactionItem.setDescription(request.getDescription());
 		transactionItem.setCreationDate(new Date());
+		transactionItem.setDescription(request.getDescription());
 		transactionItem.setCreatedBy("prashant@claymus.com");
 
-		transactionItem = PMF.get().makePersistent(transactionItem);
+		// TODO: set transactionItem.key, the parent-child relationship
+		
+		transactionItem = PMF.get().makePersistent( transactionItem );
 
 		return transactionItem.getId();
 	}

@@ -3,43 +3,46 @@
  */
 package tracker.shared;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import antshpra.gwt.rpc.shared.Request;
+import antshpra.gwt.rpc.shared.RequiredField;
 
 @SuppressWarnings( "serial" )
-public class CreateTransactionRequest implements Serializable {
+public class CreateTransactionRequest extends Request {
 
+	private Date transactionDate;
+
+	@RequiredField
 	private String description;
 
-	private long transactionDate;
+	private List<CreateTransactionItemRequest> createTransactionItemRequestList;
 	
+	
+	public Date getTransactionDate() { return  this.transactionDate; }
 	
 	public String getDescription() { return this.description; }
 
-	public Date getTransactionDate() { return new Date( this.transactionDate ); }
+	public List<CreateTransactionItemRequest> getCreateTransactionItemRequestList() { return this.createTransactionItemRequestList; };
 	
+	
+	public void setTransactionDate( Date transactionDate ) {
+		assertNonNull( transactionDate );
+		this.transactionDate = transactionDate;
+	}
 	
 	public void setDescription( String description ) {
-		if( description == null || description.trim().length() == 0 )
-			throw new IllegalArgumentException( "Please provide some description." );
+		assertNonNull( description );
+		assertNonEmpty( description );
 		this.description = description.trim();
 	}
 	
-	public void setTransactionDate( Date transactionDate ) {
-		if( transactionDate == null)
-			throw new IllegalArgumentException( "Please selecat a date." );
-		this.transactionDate = transactionDate.getTime();
-	}
-	
-	
-	public void validate() {
-		if( this.description == null )
-			throw new IllegalArgumentException( "Transaction description can not be null." );
-		else if( this.description.trim().length() == 0 )
-			throw new IllegalArgumentException( "Transaction description can not be an empty string." );
-	
-		if( this.transactionDate == 0 )
-			throw new IllegalArgumentException( "A valid tranaction date must be provided." );
+	public void addCreateTransactionItemRequest( CreateTransactionItemRequest createTransactionItemRequest ) {
+		if( this.createTransactionItemRequestList == null )
+			this.createTransactionItemRequestList = new LinkedList<CreateTransactionItemRequest>();
+		this.createTransactionItemRequestList.add( createTransactionItemRequest );
 	}
 	
 }
