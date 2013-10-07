@@ -1,11 +1,11 @@
-package tracker.client;
+package tracker.service.transaction.client;
 
 import java.util.Date;
 import java.util.List;
 
-import tracker.shared.CreateTransactionItemRequest;
-import tracker.shared.CreateTransactionRequest;
-import tracker.shared.GetTransactionsResponse;
+import tracker.service.transaction.shared.CreateTransactionItemRequest;
+import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

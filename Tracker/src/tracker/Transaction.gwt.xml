@@ -8,7 +8,8 @@
   
 <module rename-to='transaction'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
-  <inherits name='antshpra.gwt.rpc.RPC'/>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='tracker.service.transaction.TransactionService'/>
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

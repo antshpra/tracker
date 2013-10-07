@@ -1,4 +1,4 @@
-package tracker.server;
+package tracker.service.transaction.server;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,12 +10,12 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import tracker.PMF;
-import tracker.client.TransactionService;
 import tracker.server.jdo.Transaction;
 import tracker.server.jdo.TransactionItem;
-import tracker.shared.CreateTransactionItemRequest;
-import tracker.shared.CreateTransactionRequest;
-import tracker.shared.GetTransactionsResponse;
+import tracker.service.transaction.client.TransactionService;
+import tracker.service.transaction.shared.CreateTransactionItemRequest;
+import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionsResponse;
 import antshpra.gwt.rpc.server.RequestValidator;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

@@ -8,12 +8,12 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>transactionService</servlet-name>
-    <servlet-class>tracker.server.TransactionServiceImpl</servlet-class>
+    <servlet-class>tracker.service.transaction.server.TransactionServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>transactionService</servlet-name>
-    <url-pattern>/_ah/gwtrpc</url-pattern>
+    <url-pattern>/_ah/transaction</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
