@@ -22,10 +22,9 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='tracker.client.Transaction'/>
+  <entry-point class='tracker.module.transaction.client.Transaction'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
-  <source path='shared'/>
 
 </module>

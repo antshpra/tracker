@@ -1,4 +1,4 @@
-package tracker.client;
+package tracker.module.transaction.client;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,6 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionsResponse;
-import tracker.shared.utils.DateUtil;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
