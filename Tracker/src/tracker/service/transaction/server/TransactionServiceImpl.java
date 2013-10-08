@@ -6,12 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import tracker.PMF;
-import tracker.data.jdo.TransactionJDO;
-import tracker.data.jdo.TransactionItemJDO;
+import tracker.datasource.TransactionDataSource;
+import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
@@ -33,7 +34,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transaction.setDescription( request.getDescription() );
 		transaction.setCreatedBy("prashant@claymus.com"); // TODO: Set user id instead of hard coded id
 
-		transaction = PMF.get().getPersistenceManager().makePersistent(transaction);
+		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		transaction = transactionDataSource.persistTransaction( transaction );
 		
 		if( request.getCreateTransactionItemRequestList() == null ) {
 			// TODO: Print log "CreateTransactionItemRequestList is null."
@@ -45,6 +47,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			createTransactionItem( itemRequest );
 		}
 
+		transactionDataSource.close();
+		
 		return transaction.getId();
 	}
 
@@ -59,7 +63,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		// TODO: set transactionItem.key, the parent-child relationship
 		
-		transactionItem = PMF.get().getPersistenceManager().makePersistent( transactionItem );
+		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		transactionItem = transactionDataSource.persistTransactionItem( transactionItem );
 
 		return transactionItem.getId();
 	}
@@ -70,7 +75,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
 		Map<Long, GetTransactionsResponse> transactionDetailMap = new HashMap<Long, GetTransactionsResponse>();
 
-		PersistenceManager pm = PMF.get().getPersistenceManager();
+		PersistenceManager pm = JDOHelper.getPersistenceManagerFactory( "transactions-optional" ).getPersistenceManager();
 
 		Query query = pm.newQuery(TransactionJDO.class);
 		query.setFilter("creationDate < olderThan");
