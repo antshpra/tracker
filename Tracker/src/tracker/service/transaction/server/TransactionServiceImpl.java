@@ -33,7 +33,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transaction.setDescription( request.getDescription() );
 		transaction.setCreatedBy("prashant@claymus.com"); // TODO: Set user id instead of hard coded id
 
-		transaction = PMF.get().makePersistent(transaction);
+		transaction = PMF.get().getPersistenceManager().makePersistent(transaction);
 		
 		if( request.getCreateTransactionItemRequestList() == null ) {
 			// TODO: Print log "CreateTransactionItemRequestList is null."
@@ -59,7 +59,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		// TODO: set transactionItem.key, the parent-child relationship
 		
-		transactionItem = PMF.get().makePersistent( transactionItem );
+		transactionItem = PMF.get().getPersistenceManager().makePersistent( transactionItem );
 
 		return transactionItem.getId();
 	}
@@ -70,7 +70,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
 		Map<Long, GetTransactionsResponse> transactionDetailMap = new HashMap<Long, GetTransactionsResponse>();
 
-		PersistenceManager pm = PMF.get();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		Query query = pm.newQuery(TransactionJDO.class);
 		query.setFilter("creationDate < olderThan");

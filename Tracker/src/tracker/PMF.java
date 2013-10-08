@@ -1,7 +1,6 @@
 package tracker;
 
 import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
 public final class PMF {
@@ -12,8 +11,8 @@ public final class PMF {
 	private PMF() {
 	}
 
-	public static PersistenceManager get() {
-		return PMF.pmfInstance.getPersistenceManager();
+	public static PersistenceManagerFactory get() {
+		return PMF.pmfInstance;
 	}
 
 }
