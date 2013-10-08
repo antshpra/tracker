@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tracker.service.transaction.shared;
 
 import java.util.Date;

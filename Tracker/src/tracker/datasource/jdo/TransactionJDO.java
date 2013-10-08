@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tracker.datasource.jdo;
 
 import java.util.Date;

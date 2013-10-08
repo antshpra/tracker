@@ -9,9 +9,6 @@ import tracker.service.transaction.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * The async counterpart of <code>TransactionService</code>.
- */
 public interface TransactionServiceAsync {
 
 	void createTransaction(CreateTransactionRequest request,

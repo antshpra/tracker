@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tracker.service.transaction.shared;
 
 import java.io.Serializable;
@@ -8,11 +5,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-
-/**
- * @author prashant@claymus.com
- *
- */
 @SuppressWarnings( "serial" )
 public class GetTransactionsResponse implements Serializable {
 
