@@ -2,12 +2,12 @@ package tracker.datasource;
 
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
-import antshpra.gae.datasource.GAEDataSource;
+import antshpra.gae.datasource.JDODataSource;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 
-public class TransactionDataSource extends GAEDataSource {
+public class TransactionDataSource extends JDODataSource {
 
 	public TransactionJDO getTransaction( long transactionId ) throws EntityNotFoundException {
 		return super.pm.getObjectById( TransactionJDO.class, transactionId );
