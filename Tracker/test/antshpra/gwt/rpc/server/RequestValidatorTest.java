@@ -1,4 +1,4 @@
-package antshpra.gwtrpc.client;
+package antshpra.gwt.rpc.server;
 
 import org.junit.Test;
 
