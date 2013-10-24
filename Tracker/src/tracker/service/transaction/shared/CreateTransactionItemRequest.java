@@ -23,8 +23,9 @@ public class CreateTransactionItemRequest extends Request {
 	public String getDescription() { return this.description; }
 	
 	
-	public void setTransactionId( long transactionId ) {
-		assertNonNegative( transactionId );
+	public void setTransactionId( Long transactionId ) {
+		assertNonNull( transactionId );
+		assertNonNegative( transactionId.longValue() );
 		this.transactionId = transactionId;
 	}
 	

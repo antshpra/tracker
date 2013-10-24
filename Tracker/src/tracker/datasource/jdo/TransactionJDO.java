@@ -25,7 +25,7 @@ public class TransactionJDO {
 	private String createdBy;
 	
 	
-	public long getId() { return this.id; }
+	public Long getId() { return this.id; }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	

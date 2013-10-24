@@ -24,7 +24,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
-	public long createTransaction(CreateTransactionRequest request) throws IllegalArgumentException {
+	public Long createTransaction(CreateTransactionRequest request) {
 
 		RequestValidator.validate( request );
 
@@ -52,7 +52,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transaction.getId();
 	}
 
-	public long createTransactionItem(CreateTransactionItemRequest request) throws IllegalArgumentException {
+	public Long createTransactionItem(CreateTransactionItemRequest request) throws IllegalArgumentException {
 
 		RequestValidator.validate( request );
 

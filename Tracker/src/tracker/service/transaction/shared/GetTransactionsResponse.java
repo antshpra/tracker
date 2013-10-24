@@ -8,7 +8,7 @@ import java.util.List;
 @SuppressWarnings( "serial" )
 public class GetTransactionsResponse implements Serializable {
 
-	private long id;
+	private Long id;
 
 	private String description;
 	
@@ -19,7 +19,7 @@ public class GetTransactionsResponse implements Serializable {
 	private List<GetTransactionsResponse.Item> itemList = new LinkedList<GetTransactionsResponse.Item>();
 	
 	
-	public long getId() { return this.id; }
+	public Long getId() { return this.id; }
 	
 	public String getDescription() { return this.description; }
 	
@@ -30,7 +30,7 @@ public class GetTransactionsResponse implements Serializable {
 	public List<GetTransactionsResponse.Item> getItemList() { return this.itemList; }
 
 
-	public void setId( long id ) { this.id = id; }
+	public void setId( Long id ) { this.id = id; }
 	
 	public void setDescription( String description ) { this.description = description; }
 	
@@ -52,7 +52,7 @@ public class GetTransactionsResponse implements Serializable {
 		private String createdBy;
 			
 		
-		public long getId() { return this.id; }
+		public Long getId() { return this.id; }
 		
 		public String getDescription() { return this.description; }
 		
@@ -61,7 +61,7 @@ public class GetTransactionsResponse implements Serializable {
 		public String getCreatedBy() { return this.createdBy; }
 
 		
-		public void setId( long id ) { this.id = id; }
+		public void setId( Long id ) { this.id = id; }
 		
 		public void setDescription( String description ) { this.description = description; }
 		

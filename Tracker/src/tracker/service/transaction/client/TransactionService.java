@@ -13,11 +13,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("../_ah/transaction")
 public interface TransactionService extends RemoteService {
 
-	long createTransaction(CreateTransactionRequest request)
-			throws IllegalArgumentException;
+	Long createTransaction(CreateTransactionRequest request);
 
-	long createTransactionItem(CreateTransactionItemRequest request)
-			throws IllegalArgumentException;
+	Long createTransactionItem(CreateTransactionItemRequest request);
 
 	List<GetTransactionsResponse> getTransactions(Date olderThan, int count);
 

@@ -30,9 +30,9 @@ public class TransactionItemJDO {
 	private String createdBy;
 	
 	
-	public long getId() { return this.key.getId(); }
+	public Long getId() { return this.key.getId(); }
 	
-	public long getTransactionId() { return this.transactionId; }
+	public Long getTransactionId() { return this.transactionId; }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	
@@ -45,7 +45,7 @@ public class TransactionItemJDO {
 	
 	public void setKey( Key key ) { this.key = key; }
 	
-	public void setTransactionId( long transactionId ) { this.transactionId = transactionId; }
+	public void setTransactionId( Long transactionId ) { this.transactionId = transactionId; }
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	
