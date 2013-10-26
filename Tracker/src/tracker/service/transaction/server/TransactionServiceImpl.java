@@ -21,7 +21,6 @@ import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionsResponse;
 import antshpra.gwt.rpc.server.RequestValidator;
 
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")

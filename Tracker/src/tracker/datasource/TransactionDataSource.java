@@ -17,6 +17,10 @@ public class TransactionDataSource extends JDODataSource {
 	private static Logger logger = Logger.getLogger( TransactionDataSource.class.getName() );
 	
 	
+	public TransactionJDO getTransaction( String transactionId ) {
+		return (TransactionJDO) super.pm.getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<TransactionItemJDO> getTransactionItemList( String transactionId ) {
 		Query query = pm.newQuery( TransactionItemJDO.class );
