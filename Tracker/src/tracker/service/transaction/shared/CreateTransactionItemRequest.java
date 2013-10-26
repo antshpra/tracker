@@ -8,7 +8,8 @@ import antshpra.gwt.rpc.shared.RequiredField;
 @SuppressWarnings( "serial" )
 public class CreateTransactionItemRequest extends Request {
 
-	private Long transactionId;
+	@RequiredField
+	private String transactionId;
 
 	private Date transactionDate;
 	
@@ -16,28 +17,28 @@ public class CreateTransactionItemRequest extends Request {
 	private String description;
 	
 	
-	public Long getTransactionId() { return this.transactionId; }
+	public String getTransactionId() { return this.transactionId; }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 
 	public String getDescription() { return this.description; }
 	
 	
-	public void setTransactionId( Long transactionId ) {
+	public void setTransactionId( String transactionId ) {
 		assertNonNull( transactionId );
-		assertNonNegative( transactionId.longValue() );
+		assertNonEmpty( transactionId );
 		this.transactionId = transactionId;
-	}
-	
-	public void setDescription( String description ) {
-		assertNonNull( description );
-		assertNonEmpty( description );
-		this.description = description;
 	}
 	
 	public void setTransactionDate( Date transactionDate ) {
 		assertNonNull( transactionDate );
 		this.transactionDate = transactionDate;
+	}
+
+	public void setDescription( String description ) {
+		assertNonNull( description );
+		assertNonEmpty( description );
+		this.description = description;
 	}
 	
 }

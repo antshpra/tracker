@@ -6,11 +6,14 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 @PersistenceCapable( table = "TRANSACTION" )
 public class TransactionJDO {
 
 	@Persistent( column = "TRANSACTION_ID", primaryKey = "true", valueStrategy = IdGeneratorStrategy.IDENTITY )
-	private Long id;
+	private Key transactionId;
 
 	@Persistent( column = "TRANSACTION_DATE" )
 	private Date transactionDate;
@@ -25,7 +28,7 @@ public class TransactionJDO {
 	private String createdBy;
 	
 	
-	public Long getId() { return this.id; }
+	public String getId() { return KeyFactory.keyToString( this.transactionId ); }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	

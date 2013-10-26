@@ -11,10 +11,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface TransactionServiceAsync {
 
-	void createTransaction(CreateTransactionRequest request, AsyncCallback<Long> callback);
+	void createTransaction( CreateTransactionRequest request, AsyncCallback<String> callback );
 
-	void createTransactionItem(CreateTransactionItemRequest request, AsyncCallback<Long> callback);
+	void createTransactionItem( CreateTransactionItemRequest request, AsyncCallback<String> callback );
 
-	void getTransactions(Date olderThan, int count, AsyncCallback<List<GetTransactionsResponse>> callback);
+	void createTransactionItemList( List<CreateTransactionItemRequest> requestList, AsyncCallback<List<String>> callback );
+
+	void getTransactions( Date olderThan, int count, AsyncCallback<List<GetTransactionsResponse>> callback );
 
 }

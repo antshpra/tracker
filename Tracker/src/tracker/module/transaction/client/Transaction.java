@@ -80,7 +80,7 @@ public class Transaction implements EntryPoint {
 					Window.alert( ex.getMessage() );
 				}
 				
-				transactionService.createTransaction( request, new AsyncCallback<Long>() {
+				transactionService.createTransaction( request, new AsyncCallback<String>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -89,7 +89,7 @@ public class Transaction implements EntryPoint {
 					}
 
 					@Override
-					public void onSuccess(Long result) {
+					public void onSuccess(String result) {
 						Window.alert( result + "" );
 					}
 					
@@ -168,7 +168,7 @@ public class Transaction implements EntryPoint {
 								}
 							};
 							
-							final long transId = transactionDetail.getId();
+							final String transId = transactionDetail.getId();
 							MouseUpHandler mouseUpHandler = new MouseUpHandler() {
 								@Override
 								public void onMouseUp( MouseUpEvent event ) {

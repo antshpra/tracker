@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
@@ -19,61 +21,94 @@ import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionsResponse;
 import antshpra.gwt.rpc.server.RequestValidator;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
-	public Long createTransaction(CreateTransactionRequest request) {
+	private static Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
+	
+	
+	public String createTransaction( CreateTransactionRequest request ) {
 
 		RequestValidator.validate( request );
 
+		if( request.getCreateTransactionItemRequestList() != null )
+			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() )
+				RequestValidator.validate( itemRequest );
+
 		TransactionJDO transaction = new TransactionJDO();
-		transaction.setCreationDate( new Date() );
-		transaction.setTransactionDate( new Date() );
+		transaction.setTransactionDate( request.getTransactionDate() == null ? new Date() : request.getTransactionDate() );
 		transaction.setDescription( request.getDescription() );
-		transaction.setCreatedBy("prashant@claymus.com"); // TODO: Set user id instead of hard coded id
+		transaction.setCreationDate( new Date() );
+		transaction.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
 
 		TransactionDataSource transactionDataSource = new TransactionDataSource();
 		transaction = transactionDataSource.persistTransaction( transaction );
-		
-		if( request.getCreateTransactionItemRequestList() == null ) {
-			// TODO: Print log "CreateTransactionItemRequestList is null."
-			return transaction.getId();
-		}
-		
-		for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() ) { // TODO: make a batch call instead
-			itemRequest.setTransactionId( transaction.getId() );
-			createTransactionItem( itemRequest );
-		}
-
 		transactionDataSource.close();
 		
+		if( request.getCreateTransactionItemRequestList() != null ) {
+			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() )
+				itemRequest.setTransactionId( transaction.getId() );
+			createTransactionItemList( request.getCreateTransactionItemRequestList() );
+		} else {
+			logger.log( Level.INFO, "CreateTransactionItemRequestList is null." );
+		}
+
 		return transaction.getId();
 	}
 
-	public Long createTransactionItem(CreateTransactionItemRequest request) throws IllegalArgumentException {
+	public String createTransactionItem( CreateTransactionItemRequest itemRequest ) {
 
-		RequestValidator.validate( request );
+		RequestValidator.validate( itemRequest );
 
 		TransactionItemJDO transactionItem = new TransactionItemJDO();
-		transactionItem.setCreationDate(new Date());
-		transactionItem.setDescription(request.getDescription());
-		transactionItem.setCreatedBy("prashant@claymus.com");
-
-		// TODO: set transactionItem.key, the parent-child relationship
+		transactionItem.setTransactionId( itemRequest.getTransactionId() );
+		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
+		transactionItem.setDescription( itemRequest.getDescription() );
+		transactionItem.setCreationDate( new Date() );
+		transactionItem.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
 		
 		TransactionDataSource transactionDataSource = new TransactionDataSource();
 		transactionItem = transactionDataSource.persistTransactionItem( transactionItem );
-
+		transactionDataSource.close();
+		
 		return transactionItem.getId();
 	}
 
+	public List<String> createTransactionItemList( List<CreateTransactionItemRequest> itemRequestList ) {
+
+		for( CreateTransactionItemRequest itemRequest : itemRequestList )
+			RequestValidator.validate( itemRequest );
+
+		List<TransactionItemJDO> transactionItemList = new LinkedList<TransactionItemJDO>();
+		for( CreateTransactionItemRequest itemRequest : itemRequestList ) {
+			TransactionItemJDO transactionItem = new TransactionItemJDO();
+			transactionItem.setTransactionId( itemRequest.getTransactionId() );
+			transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
+			transactionItem.setDescription( itemRequest.getDescription() );
+			transactionItem.setCreationDate( new Date() );
+			transactionItem.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
+			transactionItemList.add( transactionItem );
+		}
+
+		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		transactionItemList = transactionDataSource.persistTransactionItemList( transactionItemList );
+		transactionDataSource.close();
+
+		List<String> transactionItemIdList = new LinkedList<String>();
+		for( TransactionItemJDO transactionItem : transactionItemList )
+			transactionItemIdList.add( transactionItem.getId() );
+		
+		return transactionItemIdList;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<GetTransactionsResponse> getTransactions(Date olderThan, int count) {
 
 		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
-		Map<Long, GetTransactionsResponse> transactionDetailMap = new HashMap<Long, GetTransactionsResponse>();
+		Map<String, GetTransactionsResponse> transactionDetailMap = new HashMap<String, GetTransactionsResponse>();
 
 		PersistenceManager pm = JDOHelper.getPersistenceManagerFactory( "transactions-optional" ).getPersistenceManager();
 

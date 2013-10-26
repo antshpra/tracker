@@ -2,20 +2,23 @@ package tracker.datasource.jdo;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable( table = "TRANSACTION_ITEM" )
 public class TransactionItemJDO {
 
 	@Persistent( column = "TRANSACTION_ITEM_ID", primaryKey = "true", valueStrategy = IdGeneratorStrategy.IDENTITY )
-	private Key key;
+	private Key transactionItemId;
 
 	@Persistent( column = "TRANSACTION_ID" )
-	private Long transactionId;
+	@Extension( vendorName = "datanucleus", key = "gae.parent-pk", value = "true" )
+	private String transactionId;
 	
 	@Persistent( column = "TRANSACTION_DATE" )
 	private Date transactionDate;
@@ -30,9 +33,9 @@ public class TransactionItemJDO {
 	private String createdBy;
 	
 	
-	public Long getId() { return this.key.getId(); }
+	public String getId() { return KeyFactory.keyToString( this.transactionItemId ); }
 	
-	public Long getTransactionId() { return this.transactionId; }
+	public String getTransactionId() { return this.transactionId; }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	
@@ -43,9 +46,7 @@ public class TransactionItemJDO {
 	public String getCreatedBy() { return this.createdBy; }
 
 	
-	public void setKey( Key key ) { this.key = key; }
-	
-	public void setTransactionId( Long transactionId ) { this.transactionId = transactionId; }
+	public void setTransactionId( String transactionId ) { this.transactionId = transactionId; }
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	

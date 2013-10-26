@@ -22,7 +22,7 @@ public class CreateTransactionRequest extends Request {
 	
 	public String getDescription() { return this.description; }
 
-	public List<CreateTransactionItemRequest> getCreateTransactionItemRequestList() { return this.createTransactionItemRequestList; };
+	public List<CreateTransactionItemRequest> getCreateTransactionItemRequestList() { return this.createTransactionItemRequestList; }
 	
 	
 	public void setTransactionDate( Date transactionDate ) {
@@ -39,6 +39,7 @@ public class CreateTransactionRequest extends Request {
 	public void addCreateTransactionItemRequest( CreateTransactionItemRequest createTransactionItemRequest ) {
 		if( this.createTransactionItemRequestList == null )
 			this.createTransactionItemRequestList = new LinkedList<CreateTransactionItemRequest>();
+		createTransactionItemRequest.setTransactionId( "dummy-id" ); // Required to pass server validation. Will be set to a valid transaction id by the API.
 		this.createTransactionItemRequestList.add( createTransactionItemRequest );
 	}
 	
