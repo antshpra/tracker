@@ -37,7 +37,7 @@ public class DateUtil {
 	private Date date;
 	private boolean timerRunning = false;
 	
-	private DateUtil( Label dateLabel, Label timeLabel ) {
+	public DateUtil( Label dateLabel, Label timeLabel ) {
 		this.dateLabel = dateLabel;
 		this.timeLabel = timeLabel;
 	}
@@ -65,8 +65,7 @@ public class DateUtil {
 			this.timeLabel.setText( getTime( date ) );
 	}
 	
-	// TODO: make it non-static final
-	public static String getDay( Date date ) { // TODO: I18n
+	private String getDay( Date date ) { // TODO: I18n & Test Cases
 		
 		long date_tz_day = ( date.getTime() + TZ_IST_MILLISECONDS ) / MILLISECONDS_IN_A_DAY;
 		long today_tz_day = ( new Date().getTime() + TZ_IST_MILLISECONDS ) / MILLISECONDS_IN_A_DAY;
@@ -100,8 +99,7 @@ public class DateUtil {
 		
 	}
 	
-	// TODO: make it non-static final
-	public static String getTime( Date date ) { // TODO: I18n
+	private String getTime( Date date ) { // TODO: I18n & Test Cases
 		
 		long date_tz_min = date.getTime() / MILLISECONDS_IN_A_MINUTE;
 		long now_tz_min = new Date().getTime() / MILLISECONDS_IN_A_MINUTE;

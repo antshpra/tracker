@@ -25,11 +25,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 public class Transaction implements EntryPoint {
@@ -53,16 +53,6 @@ public class Transaction implements EntryPoint {
 	public void onModuleLoad() {
 		
 		final DatePicker datePicker = new DatePicker();
-		
-		ListBox yearList = new ListBox();
-		for( int i = 2000; i <= 2025; i++ )
-			yearList.addItem( Integer.toString( i ) );
-
-		ListBox monthList = new ListBox();
-		for( int i = 0; i <= 12; i++ )
-			monthList.addItem( Integer.toString( i ) );
-		
-		
 		
 		final TextBox descriptionInput = new TextBox();
 		Button saveButton = new Button( "Save" );
@@ -101,6 +91,7 @@ public class Transaction implements EntryPoint {
 		RootPanel.get().add( datePicker );		
 		RootPanel.get().add( descriptionInput );
 		RootPanel.get().add( saveButton );
+		
 		
 		
 		
@@ -149,13 +140,22 @@ public class Transaction implements EntryPoint {
 						for( GetTransactionsResponse transactionDetail : transactionDetailList ) {
 							int rowNum = Transaction.this.transactionsTable.getRowCount();
 							
-							final HTML dateTimeHTML = new HTML( DateUtil.getDay( transactionDetail.getCreationDate() ) + "<br/>" + DateUtil.getTime( transactionDetail.getCreationDate() ) );
+							final VerticalPanel dateTimePanel = new VerticalPanel();
+							
+							Label dateLabel = new Label();
+							Label timeLabel = new Label();
+							
+							dateTimePanel.add( dateLabel );
+							dateTimePanel.add( timeLabel );
+							
+							new DateUtil( dateLabel, timeLabel ).setDate( transactionDetail.getCreationDate() );
+							
 							final HTML descriptionHTML = new HTML( transactionDetail.getDescription() + "<br/>added by " + transactionDetail.getCreatedBy() );
 							
 							MouseOverHandler mouseOverHandler = new MouseOverHandler() {
 								@Override
 								public void onMouseOver( MouseOverEvent event ) {
-									dateTimeHTML.addStyleName( "highlighted" );
+									dateTimePanel.addStyleName( "highlighted" );
 									descriptionHTML.addStyleName( "highlighted" );
 								}
 							};
@@ -163,7 +163,7 @@ public class Transaction implements EntryPoint {
 							MouseOutHandler mouseOutHandler = new MouseOutHandler() {
 								@Override
 								public void onMouseOut( MouseOutEvent event ) {
-									dateTimeHTML.removeStyleName( "highlighted" );
+									dateTimePanel.removeStyleName( "highlighted" );
 									descriptionHTML.removeStyleName( "highlighted" );
 								}
 							};
@@ -176,16 +176,13 @@ public class Transaction implements EntryPoint {
 								}
 							};
 							
-							dateTimeHTML.addMouseOverHandler( mouseOverHandler );
 							descriptionHTML.addMouseOverHandler( mouseOverHandler );
 							
-							dateTimeHTML.addMouseOutHandler( mouseOutHandler );
 							descriptionHTML.addMouseOutHandler( mouseOutHandler );
 							
-							dateTimeHTML.addMouseUpHandler( mouseUpHandler );
 							descriptionHTML.addMouseUpHandler( mouseUpHandler );
 							
-							Transaction.this.transactionsTable.setWidget( rowNum, 0, dateTimeHTML );
+							Transaction.this.transactionsTable.setWidget( rowNum, 0, dateTimePanel );
 							Transaction.this.transactionsTable.setWidget( rowNum, 1, descriptionHTML );
 						}
 						
