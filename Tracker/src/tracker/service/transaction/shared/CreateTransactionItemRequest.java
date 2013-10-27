@@ -5,8 +5,9 @@ import java.util.Date;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
 
-@SuppressWarnings( "serial" )
 public class CreateTransactionItemRequest extends Request {
+
+	private static final long serialVersionUID = -5056758107795072352L;
 
 	@RequiredField
 	private String transactionId;
