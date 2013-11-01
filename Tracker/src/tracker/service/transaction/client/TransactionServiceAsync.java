@@ -5,6 +5,8 @@ import java.util.List;
 
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionListRequest;
+import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,6 +19,8 @@ public interface TransactionServiceAsync {
 
 	void createTransactionItemList( List<CreateTransactionItemRequest> requestList, AsyncCallback<List<String>> callback );
 
+	void getTransactionList( GetTransactionListRequest request, AsyncCallback<GetTransactionListResponse> callback);
+	
 	void getTransactions( Date olderThan, int count, AsyncCallback<List<GetTransactionsResponse>> callback );
 
 }

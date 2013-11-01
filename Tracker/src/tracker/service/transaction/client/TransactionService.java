@@ -5,6 +5,8 @@ import java.util.List;
 
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionListRequest;
+import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionsResponse;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -19,6 +21,8 @@ public interface TransactionService extends RemoteService {
 
 	List<String> createTransactionItemList( List<CreateTransactionItemRequest> requestList );
 
+	GetTransactionListResponse getTransactionList( GetTransactionListRequest request );
+	
 	List<GetTransactionsResponse> getTransactions(Date olderThan, int count);
 
 }

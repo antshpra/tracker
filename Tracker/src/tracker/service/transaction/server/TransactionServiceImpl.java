@@ -18,6 +18,8 @@ import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionListRequest;
+import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionsResponse;
 import antshpra.gwt.rpc.server.RequestValidator;
 
@@ -103,6 +105,12 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transactionItemIdList;
 	}
 	
+	@Override
+	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<GetTransactionsResponse> getTransactions(Date olderThan, int count) {
 
