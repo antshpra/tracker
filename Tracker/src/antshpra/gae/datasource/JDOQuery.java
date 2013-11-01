@@ -1,4 +1,4 @@
-package antshpra.gae.datasource.query;
+package antshpra.gae.datasource;
 
 import java.util.HashMap;
 import java.util.Map;

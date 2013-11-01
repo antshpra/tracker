@@ -6,7 +6,7 @@ import java.util.List;
 import javax.jdo.Query;
 
 import tracker.datasource.jdo.TransactionJDO;
-import antshpra.gae.datasource.query.JDOQuery;
+import antshpra.gae.datasource.JDOQuery;
 
 import com.google.appengine.api.datastore.Key;
 
