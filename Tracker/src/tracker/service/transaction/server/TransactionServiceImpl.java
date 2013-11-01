@@ -13,6 +13,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import tracker.datasource.TransactionDataSource;
+import tracker.datasource.TransactionQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.client.TransactionService;
@@ -21,6 +22,7 @@ import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionListRequest;
 import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionsResponse;
+import tracker.service.transaction.shared.TransactionData;
 import antshpra.gwt.rpc.server.RequestValidator;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -31,6 +33,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	private static Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
 	
 	
+	@Override
 	public String createTransaction( CreateTransactionRequest request ) {
 
 		RequestValidator.validate( request );
@@ -60,6 +63,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transaction.getId();
 	}
 
+	@Override
 	public String createTransactionItem( CreateTransactionItemRequest itemRequest ) {
 
 		RequestValidator.validate( itemRequest );
@@ -78,6 +82,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transactionItem.getId();
 	}
 
+	@Override
 	public List<String> createTransactionItemList( List<CreateTransactionItemRequest> itemRequestList ) {
 
 		for( CreateTransactionItemRequest itemRequest : itemRequestList )
@@ -107,11 +112,47 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	
 	@Override
 	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		RequestValidator.validate( request );
+		
+		Date startDate = request.getStartDate();
+		Date endDate = request.getEndDate();
+		
+		GetTransactionListResponse response = new GetTransactionListResponse();
+		List<TransactionData> transactionDataList = new LinkedList<TransactionData>(); 
+
+		if( ( startDate != null && endDate == null )
+				|| ( startDate == null && endDate != null )
+				|| ( startDate != null && endDate != null && !startDate.equals( endDate ) )
+				|| ( startDate != null && endDate != null && startDate.equals( endDate ) && request.isStartDateInclusive() && request.isEndDateInclusive() ) ) {
+
+			TransactionDataSource transactionDataSource = new TransactionDataSource();	
+			TransactionQuery transactionQuery = transactionDataSource.newTransactionQuery();
+			transactionQuery.setCreationDate( startDate, request.isStartDateInclusive(), endDate, request.isEndDateInclusive() );
+			transactionQuery.orderByCreationDate( request.isChronologicalOrder() );
+			List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize(), false );
+			transactionDataSource.close();
+
+			logger.log( Level.INFO, transactionDataList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
+			
+			for( TransactionJDO transaction : transactionList ) {
+				TransactionData transactionData = new TransactionData();
+				transactionData.setId( transaction.getId() );
+				transactionData.setTransactionDate( transaction.getTransactionDate() );
+				transactionData.setDescription( transaction.getDescription() );
+				transactionData.setCreationDate( transaction.getCreationDate() );
+				transactionData.setCreatedBy( transaction.getCreatedBy() );
+				transactionDataList.add( transactionData );
+			}
+		} else {
+			logger.log( Level.INFO, "Not enough data or time range. Returning empty transactionDataList." );
+		}
+		
+		response.setTransactionDataList( transactionDataList );
+		return response;		
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
 	public List<GetTransactionsResponse> getTransactions(Date olderThan, int count) {
 
 		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
@@ -125,6 +166,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		query.setOrdering("creationDate DESC");
 		query.setRange(0, count);
 
+		@SuppressWarnings("unchecked")
 		List<TransactionJDO> transactionList = (List<TransactionJDO>) query.execute(olderThan);
 
 		for (TransactionJDO transaction : transactionList) {
