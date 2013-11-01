@@ -1,6 +1,7 @@
 package antshpra.gwt.rpc.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public abstract class Request implements Serializable {
@@ -20,4 +21,9 @@ public abstract class Request implements Serializable {
 			throw new IllegalArgumentException();
 	}
 
+	protected void assertStartDateIsNotAfterEndDate( Date startDate, Date endDate ) {
+		if( startDate.after( endDate ) )
+			throw new IllegalArgumentException();
+	}
+	
 }
