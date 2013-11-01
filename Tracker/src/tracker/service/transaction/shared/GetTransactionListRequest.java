@@ -48,7 +48,7 @@ public class GetTransactionListRequest extends Request {
 		this.endDate = endDate;
 	}
 
-	public void setStartDateIclusive( boolean startDateInclusive ) {
+	public void setStartDateInclusive( boolean startDateInclusive ) {
 		this.startDateInclusive = startDateInclusive;
 	}
 

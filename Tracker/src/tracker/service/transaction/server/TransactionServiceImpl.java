@@ -133,14 +133,14 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize(), false );
 			transactionDataSource.close();
 
-			logger.log( Level.INFO, transactionDataList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
+			logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
 			
 			for( TransactionJDO transaction : transactionList ) {
 				TransactionData transactionData = new TransactionData();
 				transactionData.setId( transaction.getId() );
-				transactionData.setTransactionDate( transaction.getTransactionDate() );
+				transactionData.setTransactionDate( new Date( transaction.getTransactionDate().getTime() ) );
 				transactionData.setDescription( transaction.getDescription() );
-				transactionData.setCreationDate( transaction.getCreationDate() );
+				transactionData.setCreationDate( new Date( transaction.getCreationDate().getTime() ) );
 				transactionData.setCreatedBy( transaction.getCreatedBy() );
 				transactionDataList.add( transactionData );
 			}
