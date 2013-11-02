@@ -15,7 +15,7 @@ public class RequestValidator {
 	
 	private RequestValidator() {}
 	
-	public static void validate( Request request ) {
+	public static void validate( Request request ) throws InvalidRequestException, ServerException {
 		Field[] fields = request.getClass().getDeclaredFields();
 		
 		for( Field field : fields ) {

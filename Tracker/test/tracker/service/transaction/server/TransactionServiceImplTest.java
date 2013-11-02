@@ -10,6 +10,8 @@ import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import antshpra.gwt.rpc.shared.InvalidRequestException;
+import antshpra.gwt.rpc.shared.ServerException;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -31,7 +33,7 @@ public class TransactionServiceImplTest {
     }
 	
 	@Test
-	public void testCreateTransaction() {
+	public void testCreateTransaction() throws InvalidRequestException, ServerException {
 		// Transaction Data
 		String transactionDescription = "Test Transaction";
 		String transactionItem1Description = "Test Transaction Item 1";

@@ -1,16 +1,10 @@
 package tracker.service.transaction.server;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionQuery;
@@ -21,9 +15,10 @@ import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionListRequest;
 import tracker.service.transaction.shared.GetTransactionListResponse;
-import tracker.service.transaction.shared.GetTransactionsResponse;
 import tracker.service.transaction.shared.TransactionData;
 import antshpra.gwt.rpc.server.RequestValidator;
+import antshpra.gwt.rpc.shared.InvalidRequestException;
+import antshpra.gwt.rpc.shared.ServerException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -34,7 +29,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	
 	
 	@Override
-	public String createTransaction( CreateTransactionRequest request ) {
+	public String createTransaction( CreateTransactionRequest request ) throws InvalidRequestException, ServerException {
 
 		RequestValidator.validate( request );
 
@@ -63,8 +58,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transaction.getId();
 	}
 
-	@Override
-	public String createTransactionItem( CreateTransactionItemRequest itemRequest ) {
+	private String createTransactionItem( CreateTransactionItemRequest itemRequest ) throws InvalidRequestException, ServerException {
 
 		RequestValidator.validate( itemRequest );
 
@@ -82,8 +76,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transactionItem.getId();
 	}
 
-	@Override
-	public List<String> createTransactionItemList( List<CreateTransactionItemRequest> itemRequestList ) {
+	private List<String> createTransactionItemList( List<CreateTransactionItemRequest> itemRequestList ) throws InvalidRequestException, ServerException {
 
 		for( CreateTransactionItemRequest itemRequest : itemRequestList )
 			RequestValidator.validate( itemRequest );
@@ -111,7 +104,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	}
 	
 	@Override
-	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) {
+	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) throws InvalidRequestException, ServerException {
 		
 		RequestValidator.validate( request );
 		
@@ -150,42 +143,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		
 		response.setTransactionDataList( transactionDataList );
 		return response;		
-	}
-
-	@Override
-	public List<GetTransactionsResponse> getTransactions(Date olderThan, int count) {
-
-		List<GetTransactionsResponse> transactionDtailList = new LinkedList<GetTransactionsResponse>();
-		Map<String, GetTransactionsResponse> transactionDetailMap = new HashMap<String, GetTransactionsResponse>();
-
-		PersistenceManager pm = JDOHelper.getPersistenceManagerFactory( "transactions-optional" ).getPersistenceManager();
-
-		Query query = pm.newQuery(TransactionJDO.class);
-		query.setFilter("creationDate < olderThan");
-		query.declareParameters(Date.class.getName() + " olderThan");
-		query.setOrdering("creationDate DESC");
-		query.setRange(0, count);
-
-		@SuppressWarnings("unchecked")
-		List<TransactionJDO> transactionList = (List<TransactionJDO>) query.execute(olderThan);
-
-		for (TransactionJDO transaction : transactionList) {
-			GetTransactionsResponse transactionDetail = new GetTransactionsResponse();
-
-			transactionDetail.setId(transaction.getId());
-			transactionDetail.setDescription(transaction.getDescription());
-			transactionDetail.setCreationDate(new Date(transaction.getCreationDate().getTime()));
-			transactionDetail.setCreatedBy(transaction.getCreatedBy());
-
-			transactionDtailList.add(transactionDetail);
-			transactionDetailMap.put(transactionDetail.getId(),transactionDetail);
-		}
-
-		query.closeAll();
-
-		pm.close();
-
-		return transactionDtailList;
 	}
 
 }

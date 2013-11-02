@@ -101,7 +101,7 @@ public class TransactionList {
 			@Override
 			public void onFailure( Throwable caught ) {
 				// TODO Auto-generated method stub
-				Window.alert( caught.getMessage() );
+				Window.alert( caught.getClass().getName() + " : " + caught.getMessage() );
 			}
 
 			@Override
