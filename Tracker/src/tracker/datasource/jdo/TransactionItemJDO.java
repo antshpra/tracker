@@ -37,11 +37,11 @@ public class TransactionItemJDO {
 	
 	public String getTransactionId() { return this.transactionId; }
 	
-	public Date getTransactionDate() { return this.transactionDate; }
+	public Date getTransactionDate() { return new Date( this.transactionDate.getTime() ); }
 	
 	public String getDescription() { return this.description; }
 	
-	public Date getCreationDate() { return this.creationDate; }
+	public Date getCreationDate() { return new Date( this.creationDate.getTime() ); }
 
 	public String getCreatedBy() { return this.createdBy; }
 

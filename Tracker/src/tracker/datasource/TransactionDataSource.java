@@ -20,7 +20,10 @@ public class TransactionDataSource extends JDODataSource {
 	
 	
 	public TransactionJDO getTransaction( String transactionId ) {
-		return (TransactionJDO) super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
+		TransactionJDO transactionJDO = super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
+		for( TransactionItemJDO transactionItemJDO : getTransactionItemList( transactionId ) )
+			transactionJDO.addTransactionItemJDO( transactionItemJDO );
+		return transactionJDO;
 	}
 	
 	protected TransactionJDO getTransaction( Key transactionKey ) {
@@ -34,11 +37,11 @@ public class TransactionDataSource extends JDODataSource {
 		return transactionJDOList;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<TransactionItemJDO> getTransactionItemList( String transactionId ) {
 		Query query = getPersistenceManager().newQuery( TransactionItemJDO.class );
 		query.setFilter( "transactionId == keyString" );
 		query.declareParameters( String.class.getName() + " keyString" );
+		@SuppressWarnings("unchecked")
 		List<TransactionItemJDO> transactionItemJDOList = (List<TransactionItemJDO>) query.execute( transactionId );
 		query.closeAll();
 		logger.log( Level.INFO, "Found " + transactionItemJDOList.size() + " transaction items for " + KeyFactory.stringToKey( transactionId ) );

@@ -15,7 +15,10 @@ import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionListRequest;
 import tracker.service.transaction.shared.GetTransactionListResponse;
+import tracker.service.transaction.shared.GetTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionResponse;
 import tracker.service.transaction.shared.TransactionData;
+import tracker.service.transaction.shared.TransactionItemData;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.ServerException;
@@ -26,7 +29,21 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
 	private static Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
-	
+
+	@Override
+	public GetTransactionResponse getTransaction( GetTransactionRequest request ) throws InvalidRequestException, ServerException {
+		
+		RequestValidator.validate( request );
+		
+		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
+		transactionDataSource.close();
+
+		GetTransactionResponse response = new GetTransactionResponse();
+		response.setTransactionData( transactionJDOToTransactionData( transaction, request.shouldLoadTransactionItemList() ) );
+		
+		return response;
+	}
 	
 	@Override
 	public String createTransaction( CreateTransactionRequest request ) throws InvalidRequestException, ServerException {
@@ -128,21 +145,42 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 			logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
 			
-			for( TransactionJDO transaction : transactionList ) {
-				TransactionData transactionData = new TransactionData();
-				transactionData.setId( transaction.getId() );
-				transactionData.setTransactionDate( new Date( transaction.getTransactionDate().getTime() ) );
-				transactionData.setDescription( transaction.getDescription() );
-				transactionData.setCreationDate( new Date( transaction.getCreationDate().getTime() ) );
-				transactionData.setCreatedBy( transaction.getCreatedBy() );
-				transactionDataList.add( transactionData );
-			}
+			for( TransactionJDO transaction : transactionList )
+				transactionDataList.add( transactionJDOToTransactionData( transaction, request.shouldLoadTransactionItemList() ) );
+
 		} else {
 			logger.log( Level.INFO, "Not enough data or time range. Returning empty transactionDataList." );
 		}
 		
 		response.setTransactionDataList( transactionDataList );
 		return response;		
+	}
+
+	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction, boolean loadTransactionItemList ) {
+		TransactionData transactionData = new TransactionData();
+		transactionData.setId( transaction.getId() );
+		transactionData.setTransactionDate( transaction.getTransactionDate() );
+		transactionData.setDescription( transaction.getDescription() );
+		transactionData.setCreationDate( transaction.getCreationDate() );
+		transactionData.setCreatedBy( transaction.getCreatedBy() );
+		
+		if( loadTransactionItemList && transaction.getTransactionItemJDOList() != null ) {
+			for( TransactionItemJDO transactionItem : transaction.getTransactionItemJDOList() )
+				transactionData.addTransactionItemData( transactionItemJDOToTransactionItemData( transactionItem ) );
+		}
+		
+		return transactionData;
+	}
+
+	private TransactionItemData transactionItemJDOToTransactionItemData( TransactionItemJDO transactionItem ) {
+		TransactionItemData transactionItemData = new TransactionItemData();
+		transactionItemData.setId( transactionItem.getId() );
+		transactionItemData.setTransactionId( transactionItem.getTransactionId() );
+		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
+		transactionItemData.setDescription( transactionItem.getDescription() );
+		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
+		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
+		return transactionItemData;
 	}
 
 }

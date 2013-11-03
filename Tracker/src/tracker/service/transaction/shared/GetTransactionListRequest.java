@@ -20,6 +20,8 @@ public class GetTransactionListRequest extends Request {
 	
 	private int pageSize = 10;
 
+	private boolean loadTransactionItemList = false;
+
 	
 	public Date getStartDate() { return this.startDate; }
 
@@ -33,6 +35,8 @@ public class GetTransactionListRequest extends Request {
 	
 	public int getPageSize() { return this.pageSize; }
 	
+	public boolean shouldLoadTransactionItemList() { return this.loadTransactionItemList; }
+
 	
 	public void setStartDate( Date startDate ) {
 		assertNonNull( startDate );
@@ -64,4 +68,8 @@ public class GetTransactionListRequest extends Request {
 		this.pageSize = pageSize;
 	}
 
+	public void setLoadTransactionItemList( boolean loadTransactionItemList ) {
+		this.loadTransactionItemList = loadTransactionItemList;
+	}
+	
 }
