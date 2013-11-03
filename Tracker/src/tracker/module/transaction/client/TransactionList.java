@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TransactionList {
@@ -39,10 +38,10 @@ public class TransactionList {
 	private Date transactionLoadedTillDate;
 	
 	public TransactionList() {
-		this.panel = new VerticalPanel();
-		
+		this.panel = new FlowPanel();
+
 		this.table = new FlexTable();
-		this.table.addStyleName( "table-style-1" );
+		this.table.addStyleName( "transaction-list_table" );
 		
 		this.subPanel = new FlowPanel();
 		this.anchor = new Anchor( "Load More Transactions" ); // TODO: I18n
@@ -77,7 +76,7 @@ public class TransactionList {
 	}
 	
 	public void addTransaction( Transaction transaction ) {
-		int rowNum = TransactionList.this.table.getRowCount();
+		int rowNum = this.table.getRowCount();
 		this.table.setWidget( rowNum, 0, transaction.getDateTimeWidget() );
 		this.table.setWidget( rowNum, 1, transaction.getDetailWidget() );
 		this.table.setWidget( rowNum, 2, transaction.getButtonsWidget() );

@@ -3,20 +3,36 @@ html body {
 }
 
 
-.table-style-1 {
+.transaction-list_table {
 	width: 100%;
 	background-color: #EEE;
 	border-collapse: collapse;
 }
 
-.table-style-1 td {
+.transaction-list_table tr td {
+	padding: 0px;
+}
+
+.transaction_date-time_panel {
+	height: 36px;
+	padding: 5px;
     border-bottom: 1px solid #CCC;
 }
 
-.table-style-1 td .gwt-HTML {
-    padding: 10px;
+.transaction_detail_panel {
+	height: 36px;
+	padding: 5px;
+	border-bottom: 1px solid #CCC;
+    border-left: 2px solid #EEE;
+    border-right: 2px solid #EEE;
 }
 
-.table-style-1 td .highlighted {
+.transaction_buttons_panel {
+	height: 36px;
+	padding: 5px;
+	border-bottom: 1px solid #CCC;
+}
+
+.transaction-list_table .highlighted {
     background-color: cyan;
 }

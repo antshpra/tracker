@@ -10,13 +10,17 @@ import tracker.service.transaction.shared.TransactionData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class Transaction {
@@ -53,30 +57,69 @@ public class Transaction {
 	
 	
 	private void init() {
-		this.dateTimePanel = new VerticalPanel();
-		this.detailPanel = new VerticalPanel();
-		this.buttonsPanel = new HorizontalPanel();
+		this.dateTimePanel = new FocusPanel();
+		this.detailPanel = new FocusPanel();
+		this.buttonsPanel = new FocusPanel();
+
+		this.dateTimePanel.addStyleName( "transaction_date-time_panel" );
+		this.detailPanel.addStyleName( "transaction_detail_panel" );
+		this.buttonsPanel.addStyleName( "transaction_buttons_panel" );
+
+		MouseOverHandler mouseOverHandler = new MouseOverHandler() {
+			
+			@Override
+			public void onMouseOver( MouseOverEvent event ) {
+				Transaction.this.dateTimePanel.addStyleName( "highlighted" );
+				Transaction.this.detailPanel.addStyleName( "highlighted" );
+				Transaction.this.buttonsPanel.addStyleName( "highlighted" );
+			}
+		};
+
+		MouseOutHandler mouseOutHandler = new MouseOutHandler() {
+			
+			@Override
+			public void onMouseOut( MouseOutEvent event ) {
+				Transaction.this.dateTimePanel.removeStyleName( "highlighted" );
+				Transaction.this.detailPanel.removeStyleName( "highlighted" );
+				Transaction.this.buttonsPanel.removeStyleName( "highlighted" );
+			}
+		};
+
+		((FocusPanel) this.dateTimePanel).addMouseOverHandler( mouseOverHandler );
+		((FocusPanel) this.detailPanel).addMouseOverHandler( mouseOverHandler );
+		((FocusPanel) this.buttonsPanel).addMouseOverHandler( mouseOverHandler );
+		
+		((FocusPanel) this.dateTimePanel).addMouseOutHandler( mouseOutHandler );
+		((FocusPanel) this.detailPanel).addMouseOutHandler( mouseOutHandler );
+		((FocusPanel) this.buttonsPanel).addMouseOutHandler( mouseOutHandler );
+		
+		FlowPanel dateTimeInnerPanel = new FlowPanel();
+		FlowPanel detailInnerPanel = new FlowPanel();
+		FlowPanel buttonsInnerPanel = new FlowPanel();
+		
+		this.dateTimePanel.add( dateTimeInnerPanel );
+		this.detailPanel.add( detailInnerPanel );
+		this.buttonsPanel.add( buttonsInnerPanel );
 		
 		Label dateLabel = new Label();
 		Label timeLabel = new Label();
-		this.dateTimePanel.add( dateLabel );
-		this.dateTimePanel.add( timeLabel );
+		dateTimeInnerPanel.add( dateLabel );
+		dateTimeInnerPanel.add( timeLabel );
 		this.dateUtil = new DateUtil( dateLabel, timeLabel );
 		
 		this.descriptionLabel = new Label();
 		this.descriptionInput = new TextBox();
-		this.detailPanel.add( this.descriptionLabel );
-		this.detailPanel.add( this.descriptionInput );
+		detailInnerPanel.add( this.descriptionLabel );
+		detailInnerPanel.add( this.descriptionInput );
 
 		this.saveButton = new Button( "Save" ); // I18n
 		this.editButton = new Button( "Edit" ); // I18n
 		this.updateButton = new Button( "Update" ); // I18n
 		this.cancelButton = new Button( "Cancel" ); // I18n
-		this.buttonsPanel.add( saveButton );
-		this.buttonsPanel.add( editButton );
-		this.buttonsPanel.add( updateButton );
-		this.buttonsPanel.add( cancelButton );
-
+		buttonsInnerPanel.add( saveButton );
+		buttonsInnerPanel.add( editButton );
+		buttonsInnerPanel.add( updateButton );
+		buttonsInnerPanel.add( cancelButton );
 		
 		this.dateUtil.setDate( new Date() );
 		
