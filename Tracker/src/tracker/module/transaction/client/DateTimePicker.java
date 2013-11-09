@@ -1,6 +1,5 @@
 package tracker.module.transaction.client;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,8 +23,6 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 	
 	public DateTimePicker() {
 		Date date = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime( date );
 		
 		dateLabel.addClickHandler( this );
 		datePicker.addValueChangeHandler( this );
@@ -33,13 +30,13 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 		
 		for( int i=0; i<=11; i++ )
 			hourList.addItem( Integer.toString( i ), Integer.toString( i ) );
-		hourList.setSelectedIndex( calendar.get( Calendar.HOUR ) );
+		hourList.setSelectedIndex( date.getHours() % 12 );
 
 		for( int i=0; i<=59; i++ )
 			minuteList.addItem( Integer.toString( i ), Integer.toString( i ) );
-		minuteList.setSelectedIndex( calendar.get( Calendar.MINUTE ) );
+		minuteList.setSelectedIndex( date.getMinutes() );
 
-		amPmButton.setValue( calendar.get( Calendar.AM_PM ) == Calendar.PM );
+		amPmButton.setValue( date.getHours() >= 12 );
 
 		FlowPanel panel = new FlowPanel();
 		panel.add( dateLabel );
@@ -61,20 +58,17 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 	@Override
 	public void onValueChange( ValueChangeEvent<Date> event )  {
 		if( event.getSource() == datePicker ) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime( event.getValue() );
-			dateLabel.setText( calendar.get( Calendar.DAY_OF_MONTH ) + "/" + ( calendar.get( Calendar.MONTH ) + 1 ) + "/" + calendar.get( Calendar.YEAR ) ); // TODO: I18n
+			Date date = event.getValue();
+			dateLabel.setText( date.getDate() + "/" + ( date.getMonth() + 1 ) + "/" + date.getYear() ); // TODO: I18n
 			datePicker.setVisible( false );
 		}
 	}
 	
 	public Date getDate() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime( datePicker.getValue() );
-		calendar.set( Calendar.HOUR, hourList.getSelectedIndex() );
-		calendar.set( Calendar.MINUTE, minuteList.getSelectedIndex() );
-		calendar.set( Calendar.AM_PM, amPmButton.isDown() ? Calendar.PM : Calendar.AM );
-		return calendar.getTime();
+		Date date = datePicker.getValue();
+		date.setHours( amPmButton.isDown() ? 12 + hourList.getSelectedIndex() : hourList.getSelectedIndex() );;
+		date.setMinutes( minuteList.getSelectedIndex() );
+		return date;
 	}
 	
 }
