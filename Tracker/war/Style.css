@@ -3,6 +3,24 @@ html body {
 }
 
 
+.transaction-DateTimePicker .gwt-Label {
+	display: inline;
+}
+
+.transaction-DateTimePicker .gwt-DatePicker {
+	position:absolute;
+}
+
+.transaction-DateTimePicker .gwt-ToggleButton {
+	display: inline-block;
+	padding: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+
+
+
 .transaction-list_table {
 	width: 100%;
 	background-color: #EEE;
@@ -16,12 +34,14 @@ html body {
 .transaction_date-time_panel {
 	height: 36px;
 	padding: 5px;
+    cursor: pointer;
     border-bottom: 1px solid #CCC;
 }
 
 .transaction_detail_panel {
 	height: 36px;
 	padding: 5px;
+    cursor: pointer;
 	border-bottom: 1px solid #CCC;
     border-left: 2px solid #EEE;
     border-right: 2px solid #EEE;
@@ -30,7 +50,9 @@ html body {
 .transaction_buttons_panel {
 	height: 36px;
 	padding: 5px;
+    cursor: pointer;
 	border-bottom: 1px solid #CCC;
+	text-align: right;
 }
 
 .transaction-list_table .highlighted {
