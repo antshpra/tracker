@@ -3,6 +3,7 @@ html body {
 }
 
 
+
 .transaction-DateTimePicker .gwt-Label {
 	display: inline;
 }
@@ -20,41 +21,41 @@ html body {
 
 
 
-
-.transaction-list_table {
-	width: 100%;
-	background-color: #EEE;
-	border-collapse: collapse;
-}
-
-.transaction-list_table tr td {
-	padding: 0px;
-}
-
-.transaction_date-time_panel {
-	height: 36px;
-	padding: 5px;
-    cursor: pointer;
+.transaction {
     border-bottom: 1px solid #CCC;
 }
 
-.transaction_detail_panel {
-	height: 36px;
-	padding: 5px;
-    cursor: pointer;
-	border-bottom: 1px solid #CCC;
-    border-left: 2px solid #EEE;
-    border-right: 2px solid #EEE;
+.transaction .transaction_DetailPanel {
+	background-color: #EEE;
+	cursor: pointer;
 }
 
-.transaction_buttons_panel {
+.transaction .transaction_DateTime {
+	display: table-cell;
 	height: 36px;
+	width: 150px;
 	padding: 5px;
-    cursor: pointer;
-	border-bottom: 1px solid #CCC;
-	text-align: right;
+	border-right: 2px solid #EEE;
 }
 
-.transaction-list_table .highlighted {
+.transaction .transaction_Detail {
+	display: table-cell;
+	height: 36px;
+	padding: 5px;
+}
+
+.transaction .highlighted {
     background-color: cyan;
 }
+
+
+
+.transactionEdit .transaction-DateTimePicker,
+.transactionEdit .gwt-Label {
+	display: inline;
+}
+
+.transactionEdit .transactionItemList .gwt-Label {
+	display: block;
+}
+

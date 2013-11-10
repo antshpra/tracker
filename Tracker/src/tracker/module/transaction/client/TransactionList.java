@@ -15,7 +15,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -26,7 +25,7 @@ public class TransactionList {
 	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
 
 	private Panel panel;
-	private FlexTable table;
+	private Panel transactionList;
 	private Panel subPanel;
 
 	private int pageSize = 10;
@@ -40,8 +39,7 @@ public class TransactionList {
 	public TransactionList() {
 		this.panel = new FlowPanel();
 
-		this.table = new FlexTable();
-		this.table.addStyleName( "transaction-list_table" );
+		this.transactionList = new FlowPanel();
 		
 		this.subPanel = new FlowPanel();
 		this.anchor = new Anchor( "Load More Transactions" ); // TODO: I18n
@@ -57,7 +55,7 @@ public class TransactionList {
 		this.subPanel.add( this.anchor );		
 		this.subPanel.add( this.label );
 		
-		this.panel.add( this.table );
+		this.panel.add( this.transactionList );
 		this.panel.add( this.subPanel );
 
 		loadTransactionList( new Date(), this.firstPageSize );
@@ -73,13 +71,6 @@ public class TransactionList {
 	
 	public void setFirstPageSize( int pageSize ) {
 		this.firstPageSize = pageSize;
-	}
-	
-	public void addTransaction( Transaction transaction ) {
-		int rowNum = this.table.getRowCount();
-		this.table.setWidget( rowNum, 0, transaction.getDateTimeWidget() );
-		this.table.setWidget( rowNum, 1, transaction.getDetailWidget() );
-		this.table.setWidget( rowNum, 2, transaction.getButtonsWidget() );
 	}
 	
 	private void loadTransactionList( Date startDate, final int pageSize ) {
@@ -109,7 +100,7 @@ public class TransactionList {
 					List<TransactionData> transactionDataList = result.getTransactionDataList();
 					
 					for( TransactionData transactionData: transactionDataList )
-						TransactionList.this.addTransaction( new Transaction( transactionData ) );
+						TransactionList.this.transactionList.add( new Transaction( transactionData ) );
 					
 					if( transactionDataList.size() != 0 ) {
 						TransactionList.this.transactionLoadedTillDate = transactionDataList.get( transactionDataList.size() - 1 ).getCreationDate();
