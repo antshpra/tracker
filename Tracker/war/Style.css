@@ -50,6 +50,26 @@ html body {
 
 
 
+.transactionItem {
+    border-bottom: 1px solid #CCC;
+}
+
+.transactionItem .transactionItem_DateTime {
+	display: table-cell;
+	height: 36px;
+	width: 150px;
+	padding: 5px;
+	border-right: 2px solid #EEE;
+}
+
+.transactionItem .transactionItem_Detail {
+	display: table-cell;
+	height: 36px;
+	padding: 5px;
+}
+
+
+
 .transactionEdit .transaction-DateTimePicker,
 .transactionEdit .gwt-Label {
 	display: inline;
