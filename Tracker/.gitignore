@@ -1,6 +1,7 @@
-/test-classes
 /gwt-unitCache
-/war/transaction
+/test-classes
+/war/page_home
+/war/WEB-INF/appengine-generated
+/war/WEB-INF/classes
 /war/WEB-INF/deploy
 /war/WEB-INF/lib
-/war/WEB-INF/classes
