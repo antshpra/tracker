@@ -104,7 +104,7 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 			public void onSuccess( GetTransactionResponse response ) {
 				List<TransactionItemData> transactionItemDataList = response.getTransactionData().getTransactionItemDataList();
 				if( transactionItemDataList == null ) {
-					Window.alert( "Nothing under this transaction !" );
+					Window.alert( "Nothing under this transaction !" ); // TODO: I18n
 				} else {
 					for( TransactionItemData transactionItemData : transactionItemDataList )
 						Transaction.this.transactionItemList.add( transactionItemData );
