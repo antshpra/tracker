@@ -1,5 +1,6 @@
 package tracker.module.transaction.client;
 
+import tracker.module.transaction.client.resources.TransactionResources;
 import tracker.service.transaction.shared.TransactionItemData;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -17,18 +18,18 @@ public class TransactionItem extends Composite {
 		FlowPanel dateTimePanel = new FlowPanel();
 		dateTimePanel.add( dateLabel );
 		dateTimePanel.add( timeLabel );
-		dateTimePanel.addStyleName( "transactionItem_DateTime" );
+		dateTimePanel.addStyleName( TransactionResources.INSTANCE.css().dateTime() );
 		
 		FlowPanel detailPanel = new FlowPanel();
 		detailPanel.add( descriptionLabel );
-		detailPanel.addStyleName( "transactionItem_Detail" );
+		detailPanel.addStyleName( TransactionResources.INSTANCE.css().detail() );
 		
 		FlowPanel panel = new FlowPanel();
 		panel.add( dateTimePanel );
 		panel.add( detailPanel );
 
 		initWidget( panel );
-		setStyleName( "transactionItem" );
+		setStyleName( TransactionResources.INSTANCE.css().transactionItem() );
 		
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
 		dateUtil.setDate( transactionItemData.getTransactionDate() );

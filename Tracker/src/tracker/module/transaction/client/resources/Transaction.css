@@ -1,0 +1,93 @@
+/* Transaction Widget Styles */
+
+.transaction {
+    border-bottom: primary-border;
+}
+
+.transaction .detailPanel {
+	background: primary-background;
+	cursor: pointer;
+}
+
+.transaction .detailPanel .dateTime {
+	display: table-cell;
+	padding: thick-padding;
+	border-right: primary-border;
+	
+	height: 36px; /* TODO: calculate and set at runtime using GWT */
+	width: 150px; /* TODO: calculate and set at runtime using GWT */
+	
+}
+
+.transaction .detailPanel .detail {
+	display: table-cell;
+	padding: thick-padding;
+	border-left: primary-border;
+
+	height: 36px; /* TODO: calculate and set at runtime using GWT */
+}
+
+.transaction .highlighted {
+    background: highlighted-background;
+}
+
+/* End of Transaction Widget Styles */
+
+
+/* TransactionItem Widget Styles */
+
+.transactionItem {
+    border-top: secondary-border;
+    background: secondary-background;
+}
+
+.transactionItem .dateTime {
+	display: table-cell;
+	padding: normal-padding;
+	border-right: secondary-border;
+
+	height: 36px; /* TODO: calculate and set at runtime using GWT */
+	width: 154px; /* TODO: calculate and set at runtime using GWT */
+}
+
+.transactionItem .detail {
+	display: table-cell;
+	padding: normal-padding;
+	border-left: secondary-border;
+
+	height: 36px; /* TODO: calculate and set at runtime using GWT */
+	padding: 5px; /* TODO: calculate and set at runtime using GWT */
+}
+
+/* End of TransactionItem Widget Styles */
+
+
+/* Other Styles */
+
+@external .transaction-*, .gwt-*, .transactionEdit, .transactionItemList;
+
+.transaction-DateTimePicker .gwt-Label {
+	display: inline;
+}
+
+.transaction-DateTimePicker .gwt-DatePicker {
+	position:absolute;
+}
+
+.transaction-DateTimePicker .gwt-ToggleButton {
+	display: inline-block;
+	padding: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+
+.transactionEdit .transaction-DateTimePicker,
+.transactionEdit .gwt-Label {
+	display: inline;
+}
+
+.transactionEdit .transactionItemList .gwt-Label {
+	display: block;
+}
+

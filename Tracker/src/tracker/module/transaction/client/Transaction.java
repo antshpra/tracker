@@ -2,6 +2,7 @@ package tracker.module.transaction.client;
 
 import java.util.List;
 
+import tracker.module.transaction.client.resources.TransactionResources;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.GetTransactionRequest;
@@ -44,11 +45,11 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 		FlowPanel dateTimePanel = new FlowPanel();
 		dateTimePanel.add( dateLabel );
 		dateTimePanel.add( timeLabel );
-		dateTimePanel.addStyleName( "transaction_DateTime" );
+		dateTimePanel.addStyleName( TransactionResources.INSTANCE.css().dateTime() );
 		
 		FlowPanel detailPanel = new FlowPanel();
 		detailPanel.add( descriptionLabel );
-		detailPanel.addStyleName( "transaction_Detail" );
+		detailPanel.addStyleName( TransactionResources.INSTANCE.css().detail() );
 		
 		FlowPanel transactionDetailInnerPanel = new FlowPanel();
 		transactionDetailInnerPanel.add( dateTimePanel );
@@ -56,7 +57,7 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 
 		transactionDetailPanel.addMouseUpHandler( this );
 		transactionDetailPanel.add( transactionDetailInnerPanel );
-		transactionDetailPanel.addStyleName( "transaction_DetailPanel" );
+		transactionDetailPanel.addStyleName( TransactionResources.INSTANCE.css().detailPanel() );
 		
 		Panel innerPanel = new FlowPanel();
 		innerPanel.add( transactionDetailPanel );
@@ -68,7 +69,7 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 		panel.add( innerPanel );
 		
 		initWidget( panel );
-		setStyleName( "transaction" );
+		setStyleName( TransactionResources.INSTANCE.css().transaction() );
 		
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
 		dateUtil.setDate( transactionData.getTransactionDate() );
@@ -78,12 +79,12 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 
 	@Override
 	public void onMouseOver( MouseOverEvent event ) {
-		transactionDetailPanel.addStyleName( "highlighted" );
+		transactionDetailPanel.addStyleName( TransactionResources.INSTANCE.css().highlighted() );
 	}
 	
 	@Override
 	public void onMouseOut( MouseOutEvent event ) {
-		transactionDetailPanel.removeStyleName( "highlighted" );
+		transactionDetailPanel.removeStyleName( TransactionResources.INSTANCE.css().highlighted() );
 	}
 
 	@Override

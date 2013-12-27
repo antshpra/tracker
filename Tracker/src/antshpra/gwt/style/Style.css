@@ -1,0 +1,15 @@
+html body {
+    margin: 0px;
+}
+
+@def primary-border 1px solid #CCC;
+@def secondary-border 1px solid #DDD;
+
+@def thin-padding 1px;
+@def normal-padding 3px;
+@def thick-padding 5px;
+
+@def primary-background #DDD;
+@def secondary-background #EEE;
+@def highlighted-background cyan;
+
