@@ -68,7 +68,6 @@ public class TransactionServiceImplTest {
 		TransactionJDO transaction = transactionDataSource.getTransaction( transactionId, true );
 		assert transaction != null;
 		assert transactionDescription.equals( transaction.getDescription() );
-		assert transaction.getTransactionItemJDOList() != null;
 		
 		List<TransactionItemJDO> transactionItemList = transaction.getTransactionItemJDOList();
 		assert transactionItemList != null;

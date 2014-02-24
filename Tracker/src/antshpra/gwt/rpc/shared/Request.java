@@ -6,22 +6,22 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public abstract class Request implements Serializable {
 
-	protected void assertNonNull( Object object ) {
+	protected static void assertNonNull( Object object ) {
 		if( object == null )
 			throw new NullPointerException();
 	}
 	
-	protected void assertNonNegative( long number ) {
+	protected static void assertNonNegative( long number ) {
 		if( number < 0 )
 			throw new IllegalArgumentException();
 	}
 	
-	protected void assertNonEmpty( String string ) {
+	protected static void assertNonEmpty( String string ) {
 		if( string == null || string.trim().isEmpty() )
 			throw new IllegalArgumentException();
 	}
 
-	protected void assertStartDateIsNotAfterEndDate( Date startDate, Date endDate ) {
+	protected static void assertStartDateIsNotAfterEndDate( Date startDate, Date endDate ) {
 		if( startDate.after( endDate ) )
 			throw new IllegalArgumentException();
 	}
