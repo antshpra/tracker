@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.8.6"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.1"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/guptapr/Documents/appengine-java-sdk-1.8.6/lib/testing/appengine-testing.jar"/>
-	<classpathentry kind="lib" path="/Users/guptapr/Documents/appengine-java-sdk-1.8.6/lib/impl/appengine-api-stubs.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/guptapr/Documents/appengine-java-sdk-1.8.9/lib/testing/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="/Users/guptapr/Documents/appengine-java-sdk-1.8.9/lib/impl/appengine-api-stubs.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
