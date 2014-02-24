@@ -65,14 +65,15 @@ public class TransactionServiceImplTest {
 		
 		TransactionDataSource transactionDataSource = new TransactionDataSource();
 
-		TransactionJDO transaction = transactionDataSource.getTransaction( transactionId );
+		TransactionJDO transaction = transactionDataSource.getTransaction( transactionId, true );
 		assert transaction != null;
 		assert transactionDescription.equals( transaction.getDescription() );
+		assert transaction.getTransactionItemJDOList() != null;
 		
-		List<TransactionItemJDO> transactionItemList = transactionDataSource.getTransactionItemList( transactionId );
+		List<TransactionItemJDO> transactionItemList = transaction.getTransactionItemJDOList();
 		assert transactionItemList != null;
 		assert transactionItemList.size() == 2;
-		
+
 		TransactionItemJDO transactionItem_1 = transactionItemList.get( 0 );
 		TransactionItemJDO transactionItem_2 = transactionItemList.get( 1 );
 
