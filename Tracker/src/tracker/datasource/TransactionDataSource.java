@@ -19,21 +19,22 @@ public class TransactionDataSource extends JDODataSource {
 	private static Logger logger = Logger.getLogger( TransactionDataSource.class.getName() );
 	
 	
-	public TransactionJDO getTransaction( String transactionId ) {
+	public TransactionJDO getTransaction( String transactionId, boolean loadTransactionItems ) {
 		TransactionJDO transactionJDO = super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
-		for( TransactionItemJDO transactionItemJDO : getTransactionItemList( transactionId ) )
-			transactionJDO.addTransactionItemJDO( transactionItemJDO );
+		if( loadTransactionItems )
+			for( TransactionItemJDO transactionItemJDO : getTransactionItemList( transactionId ) )
+				transactionJDO.addTransactionItemJDO( transactionItemJDO );
 		return transactionJDO;
 	}
 	
-	protected TransactionJDO getTransaction( Key transactionKey ) {
-		return (TransactionJDO) super.getPersistenceManager().getObjectById( TransactionJDO.class, transactionKey );
+	protected TransactionJDO getTransaction( Key transactionKey, boolean loadTransactionItems ) {
+		return getTransaction( KeyFactory.keyToString( transactionKey ), loadTransactionItems );
 	}
 
 	protected List<TransactionJDO> getTransactionList( List<Key> keyList, boolean loadTransactionItems ) {
 		List<TransactionJDO> transactionJDOList = new LinkedList<TransactionJDO>();
 		for( Key key : keyList )
-			transactionJDOList.add( getTransaction( key ) );
+			transactionJDOList.add( getTransaction( key, loadTransactionItems ) );
 		return transactionJDOList;
 	}
 	

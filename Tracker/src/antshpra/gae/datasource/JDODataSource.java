@@ -16,18 +16,18 @@ public class JDODataSource {
 	private PersistenceManager pm;
 	private final List<Query> queryList;
 	
-	protected JDODataSource() {
+	public JDODataSource() {
 		this.pm = JDODataSource.pmfInstance.getPersistenceManager();
 		this.queryList = new LinkedList<Query>();
 	}
 
-	protected Query newQuery( Class<?> classObject ) {
+	public Query newQuery( Class<?> classObject ) {
 		Query query = pm.newQuery( classObject );
 		queryList.add( query );
 		return query;
 	}
 
-	protected PersistenceManager getPersistenceManager() {
+	public PersistenceManager getPersistenceManager() {
 		return this.pm;
 	}
 	

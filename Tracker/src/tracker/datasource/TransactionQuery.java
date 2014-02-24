@@ -15,7 +15,7 @@ public class TransactionQuery extends JDOQuery {
 	private Query query;
 	private TransactionDataSource transactionDataSource;
 	
-	public TransactionQuery( Query query, TransactionDataSource transactionDataSource ) {
+	protected TransactionQuery( Query query, TransactionDataSource transactionDataSource ) {
 		super( query );
 		this.query = query;
 		this.transactionDataSource = transactionDataSource;

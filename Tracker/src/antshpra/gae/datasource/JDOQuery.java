@@ -15,12 +15,12 @@ public class JDOQuery {
 		this.paramNameValueMap = new HashMap<String, Object>();
 	}
 	
-	protected void addParameter( String param, Object value ) {
+	public void addParameter( String param, Object value ) {
 		this.paramNameValueMap.put( param, value );
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected <T> T execute() {
+	public <T> T execute() {
 		return (T) query.executeWithMap( this.paramNameValueMap );
 	}
 

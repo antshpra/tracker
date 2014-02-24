@@ -36,7 +36,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		RequestValidator.validate( request );
 		
 		TransactionDataSource transactionDataSource = new TransactionDataSource();
-		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
+		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId(), true );
 		transactionDataSource.close();
 
 		GetTransactionResponse response = new GetTransactionResponse();
