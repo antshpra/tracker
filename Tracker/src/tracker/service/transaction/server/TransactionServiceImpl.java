@@ -43,12 +43,12 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
 		
-        TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
-        transactionItemQuery.setTransactionId( request.getTransactionId() );
-        List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
+		transactionItemQuery.setTransactionId( request.getTransactionId() );
+		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
         
-        for( TransactionItemJDO transactionItem : transactionItemList )
-            transaction.addTransactionItemJDO( transactionItem );
+		for( TransactionItemJDO transactionItem : transactionItemList )
+			transaction.addTransactionItemJDO( transactionItem );
 		
 		transactionDataSource.close();
 
