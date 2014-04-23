@@ -35,6 +35,11 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	}
 
 	@Override
+	public TransactionItemTypeQuery newTransactionItemTypeQuery() {
+		return new TransactionItemTypeQueryGAEImpl( this );
+	}
+	
+	@Override
 	public TransactionJDO persistTransaction( TransactionJDO transactionJDO ) {
 		return super.getPersistenceManager().makePersistent( transactionJDO );
 	}

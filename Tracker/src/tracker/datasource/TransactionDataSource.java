@@ -13,6 +13,8 @@ public interface TransactionDataSource {
 
 	TransactionItemQuery newTransactionItemQuery();
 
+	TransactionItemTypeQuery newTransactionItemTypeQuery();
+	
 	TransactionJDO persistTransaction( TransactionJDO transactionJDO );
 	
 	TransactionItemJDO persistTransactionItem( TransactionItemJDO transactionItemJDO );
