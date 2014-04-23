@@ -2,10 +2,12 @@ package tracker.service.transaction.server;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import tracker.datasource.TransactionDataSource;
+import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
@@ -34,6 +36,7 @@ public class TransactionServiceImplTest {
 	
 	@Test
 	public void testCreateTransaction() throws InvalidRequestException, ServerException {
+		
 		// Transaction Data
 		String transactionDescription = "Test Transaction";
 		String transactionItem1Description = "Test Transaction Item 1";
@@ -60,32 +63,32 @@ public class TransactionServiceImplTest {
 		
 		
 		// Validating Data
-		assert transactionId != null;
-		assert transactionId.length() > 0;
+		Assert.assertNotNull( transactionId );
+		Assert.assertNotEquals( 0, transactionId.length() );
 		
-		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource();
 
-		TransactionJDO transaction = transactionDataSource.getTransaction( transactionId, true );
-		assert transaction != null;
-		assert transactionDescription.equals( transaction.getDescription() );
+		TransactionJDO transaction = transactionDataSource.getTransaction( transactionId );
+		Assert.assertNotNull( transaction );
+		Assert.assertEquals( transactionDescription, transaction.getDescription() );
 		
 		List<TransactionItemJDO> transactionItemList = transaction.getTransactionItemJDOList();
-		assert transactionItemList != null;
-		assert transactionItemList.size() == 2;
+		Assert.assertNotNull( transactionItemList );
+		Assert.assertEquals( 2, transactionItemList.size() );
 
 		TransactionItemJDO transactionItem_1 = transactionItemList.get( 0 );
 		TransactionItemJDO transactionItem_2 = transactionItemList.get( 1 );
 
-		assert transactionItem1Description.equals( transactionItem_1.getDescription() );
-		assert transactionItem2Description.equals( transactionItem_2.getDescription() );
+		Assert.assertEquals( transactionItem1Description, transactionItem_1.getDescription() );
+		Assert.assertEquals( transactionItem2Description, transactionItem_2.getDescription() );
 
 		
 		// Validating parent-child relationship
 		Key transactionItem1ParentKey = KeyFactory.stringToKey( transactionItem_1.getId() ).getParent(); 
 		Key transactionItem2ParentKey = KeyFactory.stringToKey( transactionItem_2.getId() ).getParent(); 
 
-		assert transactionId.equals( KeyFactory.keyToString( transactionItem1ParentKey ) );
-		assert transactionId.equals( KeyFactory.keyToString( transactionItem2ParentKey ) );
+		Assert.assertEquals( transactionId, KeyFactory.keyToString( transactionItem1ParentKey ) );
+		Assert.assertEquals( transactionId, KeyFactory.keyToString( transactionItem2ParentKey ) );
 
 		
 		// Closing data source

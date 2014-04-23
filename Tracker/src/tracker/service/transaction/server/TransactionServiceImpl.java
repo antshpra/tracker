@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import tracker.datasource.TransactionDataSource;
+import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
@@ -28,15 +29,17 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
-	private static Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
+	private static final Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
 
+	private static final TransactionDataSourceFactory transactionDataSourceFactory = new TransactionDataSourceFactory();
+	
 	@Override
 	public GetTransactionResponse getTransaction( GetTransactionRequest request ) throws InvalidRequestException, ServerException {
 		
 		RequestValidator.validate( request );
 		
-		TransactionDataSource transactionDataSource = new TransactionDataSource();
-		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId(), true );
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
 		transactionDataSource.close();
 
 		GetTransactionResponse response = new GetTransactionResponse();
@@ -60,7 +63,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transaction.setCreationDate( new Date() );
 		transaction.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
 
-		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transaction = transactionDataSource.persistTransaction( transaction );
 		transactionDataSource.close();
 		
@@ -86,7 +89,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItem.setCreationDate( new Date() );
 		transactionItem.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
 		
-		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transactionItem = transactionDataSource.persistTransactionItem( transactionItem );
 		transactionDataSource.close();
 		
@@ -109,7 +112,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItemList.add( transactionItem );
 		}
 
-		TransactionDataSource transactionDataSource = new TransactionDataSource();
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transactionItemList = transactionDataSource.persistTransactionItemList( transactionItemList );
 		transactionDataSource.close();
 
@@ -136,19 +139,19 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 				|| ( startDate != null && endDate != null && !startDate.equals( endDate ) )
 				|| ( startDate != null && endDate != null && startDate.equals( endDate ) && request.isStartDateInclusive() && request.isEndDateInclusive() ) ) {
 
-			TransactionDataSource transactionDataSource = new TransactionDataSource();	
+			TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 			TransactionQuery transactionQuery = transactionDataSource.newTransactionQuery();
 			transactionQuery.setCreationDate( startDate, request.isStartDateInclusive(), endDate, request.isEndDateInclusive() );
 			transactionQuery.orderByCreationDate( request.isChronologicalOrder() );
-			List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize(), false );
-			transactionDataSource.close();
-
+			List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize() );
+	
 			logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
 			
 			for( TransactionJDO transaction : transactionList )
 				transactionDataList.add( transactionJDOToTransactionData( transaction, request.shouldLoadTransactionItemList() ) );
 
-		} else {
+			transactionDataSource.close();
+	} else {
 			logger.log( Level.INFO, "Not enough data or time range. Returning empty transactionDataList." );
 		}
 		

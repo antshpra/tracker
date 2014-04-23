@@ -8,21 +8,21 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-public class JDODataSource {
+public class GAEJDODataSource {
 
 	private static final PersistenceManagerFactory pmfInstance =
 			JDOHelper.getPersistenceManagerFactory( "transactions-optional" );
 
-	private PersistenceManager pm;
+	private final PersistenceManager pm;
 	private final List<Query> queryList;
 	
-	public JDODataSource() {
-		this.pm = JDODataSource.pmfInstance.getPersistenceManager();
+	public GAEJDODataSource() {
+		this.pm = GAEJDODataSource.pmfInstance.getPersistenceManager();
 		this.queryList = new LinkedList<Query>();
 	}
 
-	public Query newQuery( Class<?> classObject ) {
-		Query query = pm.newQuery( classObject );
+	public Query newQuery( Class<?> clazz ) {
+		Query query = pm.newQuery( clazz );
 		queryList.add( query );
 		return query;
 	}
