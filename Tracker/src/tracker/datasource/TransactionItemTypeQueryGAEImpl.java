@@ -28,11 +28,11 @@ public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery
 		
 		// TODO: Deprecate following implementation once TransactionItemTypeDB is migrated to DataStore
 		TransactionItemTypeDB transactionItemTypeDBValues[] = TransactionItemTypeDB.values();
-		List<TransactionItemTypeJDO> transactionItemTypeList = new ArrayList<>( transactionItemTypeDBValues.length );
+		List<TransactionItemTypeJDO> transactionItemTypeJDOList = new ArrayList<>( transactionItemTypeDBValues.length );
 		for( TransactionItemTypeDB transactionItemTypeDBValue : transactionItemTypeDBValues ) {
-			transactionItemTypeList.add( transactionItemTypeDBValue.toTransactionItemTypeJDO() );
+			transactionItemTypeJDOList.add( transactionItemTypeDBValue.toTransactionItemTypeJDO() );
 		}
-		return transactionItemTypeList;
+		return transactionItemTypeJDOList;
 	}
 
 	@Override

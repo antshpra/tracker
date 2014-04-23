@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
+import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
@@ -39,11 +40,20 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		RequestValidator.validate( request );
 		
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+
 		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
+		
+        TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
+        transactionItemQuery.setTransactionId( request.getTransactionId() );
+        List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+        
+        for( TransactionItemJDO transactionItem : transactionItemList )
+            transaction.addTransactionItemJDO( transactionItem );
+		
 		transactionDataSource.close();
 
 		GetTransactionResponse response = new GetTransactionResponse();
-		response.setTransactionData( transactionJDOToTransactionData( transaction, request.shouldLoadTransactionItemList() ) );
+		response.setTransactionData( transactionJDOToTransactionData( transaction ) );
 		
 		return response;
 	}
@@ -148,7 +158,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
 			
 			for( TransactionJDO transaction : transactionList )
-				transactionDataList.add( transactionJDOToTransactionData( transaction, request.shouldLoadTransactionItemList() ) );
+				transactionDataList.add( transactionJDOToTransactionData( transaction ) );
 
 			transactionDataSource.close();
 	} else {
@@ -159,7 +169,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return response;		
 	}
 
-	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction, boolean loadTransactionItemList ) {
+	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction ) {
 		TransactionData transactionData = new TransactionData();
 		transactionData.setId( transaction.getId() );
 		transactionData.setTransactionDate( transaction.getTransactionDate() );
@@ -167,7 +177,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionData.setCreationDate( transaction.getCreationDate() );
 		transactionData.setCreatedBy( transaction.getCreatedBy() );
 		
-		if( loadTransactionItemList && transaction.getTransactionItemJDOList() != null ) {
+		if( transaction.getTransactionItemJDOList() != null ) {
 			for( TransactionItemJDO transactionItem : transaction.getTransactionItemJDOList() )
 				transactionData.addTransactionItemData( transactionItemJDOToTransactionItemData( transactionItem ) );
 		}

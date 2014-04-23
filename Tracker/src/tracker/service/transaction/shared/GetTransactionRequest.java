@@ -10,22 +10,14 @@ public class GetTransactionRequest extends Request {
 	@RequiredField
 	private String transactionId;
 
-	private boolean loadTransactionItemList = true;
-	
 	
 	public String getTransactionId() { return  this.transactionId; }
-	
-	public boolean shouldLoadTransactionItemList() { return this.loadTransactionItemList; }
 	
 	
 	public void setTransactionId( String transactionId ) {
 		assertNonNull( transactionId );
 		assertNonEmpty( transactionId );
 		this.transactionId = transactionId;
-	}
-	
-	public void setLoadTransactionItemList( boolean loadTransactionItemList ) {
-		this.loadTransactionItemList = loadTransactionItemList;
 	}
 	
 }

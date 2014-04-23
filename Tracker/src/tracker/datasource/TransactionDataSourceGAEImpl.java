@@ -12,16 +12,7 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	
 	@Override
 	public TransactionJDO getTransaction( String transactionId ) {
-        TransactionJDO transactionJDO = super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
-        
-        TransactionItemQuery transactionItemQuery = newTransactionItemQuery();
-        transactionItemQuery.setTransactionId( transactionId );
-        List<TransactionItemJDO> transactionItemJDOList = transactionItemQuery.execute();
-        
-        for( TransactionItemJDO transactionItemJDO : transactionItemJDOList )
-            transactionJDO.addTransactionItemJDO( transactionItemJDO );
-
-        return transactionJDO;
+        return super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
 	}
 
 	@Override
