@@ -15,6 +15,12 @@ public class CreateTransactionItemRequest extends Request {
 	private Date transactionDate;
 	
 	@RequiredField
+	private String transactionItemTypeId;
+	
+	@RequiredField
+	private Double amount;
+	
+	@RequiredField
 	private String description;
 	
 	
@@ -22,6 +28,10 @@ public class CreateTransactionItemRequest extends Request {
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 
+	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
+
+	public double getAmount() { return this.amount; }
+	
 	public String getDescription() { return this.description; }
 	
 	
@@ -34,6 +44,17 @@ public class CreateTransactionItemRequest extends Request {
 	public void setTransactionDate( Date transactionDate ) {
 		assertNonNull( transactionDate );
 		this.transactionDate = transactionDate;
+	}
+	
+	public void setTransactionItemTypeId( String transactionItemTypeId ) {
+		assertNonNull( transactionItemTypeId );
+		assertNonEmpty( transactionItemTypeId );
+		this.transactionItemTypeId = transactionItemTypeId;
+	}
+	
+	public void setAmount( double amount ) {
+		assertNonZero( amount );
+		this.amount = amount;
 	}
 
 	public void setDescription( String description ) {

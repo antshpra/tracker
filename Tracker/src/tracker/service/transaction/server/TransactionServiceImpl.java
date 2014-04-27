@@ -9,18 +9,23 @@ import java.util.logging.Logger;
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionItemQuery;
+import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
+import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.GetTransactionListRequest;
 import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionResponse;
 import tracker.service.transaction.shared.TransactionData;
 import tracker.service.transaction.shared.TransactionItemData;
+import tracker.service.transaction.shared.TransactionItemTypeData;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.ServerException;
@@ -161,7 +166,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 				transactionDataList.add( transactionJDOToTransactionData( transaction ) );
 
 			transactionDataSource.close();
-	} else {
+		} else {
 			logger.log( Level.INFO, "Not enough data or time range. Returning empty transactionDataList." );
 		}
 		
@@ -169,6 +174,30 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return response;		
 	}
 
+	@Override
+	public GetTransactionItemTypeListResponse getTransactionItemTypeList( GetTransactionItemTypeListRequest request ) throws InvalidRequestException, ServerException {
+		
+		RequestValidator.validate( request );
+
+		GetTransactionItemTypeListResponse response = new GetTransactionItemTypeListResponse();
+		List<TransactionItemTypeData> transactionItemTypeDataList = new LinkedList<TransactionItemTypeData>(); 
+
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
+		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
+		
+		logger.log( Level.INFO, transactionItemTypeList.size() + " transaction item types found for query \"" + transactionItemTypeQuery.toString() + "\"");
+		
+		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList )
+			transactionItemTypeDataList.add(transactionItemTypeJDOToTransactionItemData( transactionItemType ) );
+		
+		transactionDataSource.close();
+		
+		response.setTransactionItemTypeDataList( transactionItemTypeDataList );
+		
+		return response;
+	}
+	
 	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction ) {
 		TransactionData transactionData = new TransactionData();
 		transactionData.setId( transaction.getId() );
@@ -194,6 +223,14 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
 		return transactionItemData;
+	}
+
+	private TransactionItemTypeData transactionItemTypeJDOToTransactionItemData( TransactionItemTypeJDO transactionItemType ) {
+		TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
+		transactionItemTypeData.setId( transactionItemType.getId() );
+		transactionItemTypeData.setParentId( transactionItemType.getParentId() );
+		transactionItemTypeData.setTitle( transactionItemType.getTitle() );
+		return transactionItemTypeData;
 	}
 
 }

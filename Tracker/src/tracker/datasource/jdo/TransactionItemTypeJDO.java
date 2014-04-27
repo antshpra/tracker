@@ -43,7 +43,7 @@ public class TransactionItemTypeJDO {
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setInitialAmount( float initialAmount ) {
+	public void setInitialAmount( double initialAmount ) {
 		this.initialAmount = (Long) (long) ( initialAmount * 100 );
 	}
 
