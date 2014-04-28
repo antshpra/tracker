@@ -11,7 +11,11 @@ public class TransactionItemData implements Serializable {
 
 	private String transactionId;
 
+	private TransactionItemTypeData transactionItemType;
+	
 	private Date transactionDate;
+	
+	private double amount;
 	
 	private String description;
 	
@@ -24,7 +28,11 @@ public class TransactionItemData implements Serializable {
 
 	public String getTransactionId() { return this.transactionId; }
 	
+	public TransactionItemTypeData getTransactionItemType() { return this.transactionItemType; }
+	
 	public Date getTransactionDate() { return this.transactionDate; }
+	
+	public double getAmount() { return this.amount; }
 	
 	public String getDescription() { return this.description; }
 	
@@ -37,7 +45,11 @@ public class TransactionItemData implements Serializable {
 	
 	public void setTransactionId( String transactionId ) { this.transactionId = transactionId; }
 
+	public void setTransactionItemType( TransactionItemTypeData transactionItemTypeData ) { this.transactionItemType = transactionItemTypeData; }
+	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
+	
+	public void setAmount( double amount ) { this.amount = amount; }
 	
 	public void setDescription( String description ) { this.description = description; }
 	

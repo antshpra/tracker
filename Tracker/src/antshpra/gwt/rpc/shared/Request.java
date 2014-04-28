@@ -16,6 +16,11 @@ public abstract class Request implements Serializable {
 			throw new IllegalArgumentException();
 	}
 	
+	protected static void assertNonZero( double number ) {
+		if( (long) (number * 100) == 0L )
+			throw new IllegalArgumentException();
+	}
+
 	protected static void assertNonEmpty( String string ) {
 		if( string == null || string.trim().isEmpty() )
 			throw new IllegalArgumentException();

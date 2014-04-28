@@ -15,7 +15,7 @@ public class TransactionItemTypeData implements Serializable {
 	
 	public String getId() { return this.transactionItemTypeId; }
 
-	public String petParentId() { return this.parentId; }
+	public String getParentId() { return this.parentId; }
 	
 	public String getTitle() { return this.title; }
 	

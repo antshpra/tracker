@@ -1,11 +1,8 @@
 package tracker.datasource.jdo;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -30,9 +27,6 @@ public class TransactionJDO {
 	@Persistent( column = "CREATED_BY" )
 	private String createdBy;
 	
-	@NotPersistent
-	private List<TransactionItemJDO> transactionItemJDOList;
-	
 	
 	public String getId() { return KeyFactory.keyToString( this.transactionId ); }
 	
@@ -44,8 +38,6 @@ public class TransactionJDO {
 
 	public String getCreatedBy() { return this.createdBy; }
 	
-	public List<TransactionItemJDO> getTransactionItemJDOList() { return this.transactionItemJDOList; }
-
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	
@@ -55,10 +47,4 @@ public class TransactionJDO {
 	
 	public void setCreatedBy( String createdBy ) { this.createdBy = createdBy; }
 	
-	public void addTransactionItemJDO( TransactionItemJDO transactionItemJDO ) {
-		if( this.transactionItemJDOList == null )
-			this.transactionItemJDOList = new LinkedList<TransactionItemJDO>();
-		this.transactionItemJDOList.add( transactionItemJDO );
-	}
-
 }
