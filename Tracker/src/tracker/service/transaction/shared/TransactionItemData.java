@@ -15,7 +15,7 @@ public class TransactionItemData implements Serializable {
 	
 	private Date transactionDate;
 	
-	private double amount;
+	private long amount;
 	
 	private String description;
 	
@@ -32,7 +32,7 @@ public class TransactionItemData implements Serializable {
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	
-	public double getAmount() { return this.amount; }
+	public double getAmount() { return ( (double) this.amount ) / 100; }
 	
 	public String getDescription() { return this.description; }
 	
@@ -49,7 +49,7 @@ public class TransactionItemData implements Serializable {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	
-	public void setAmount( double amount ) { this.amount = amount; }
+	public void setAmount( double amount ) { this.amount = (long) ( amount * 100 ); }
 	
 	public void setDescription( String description ) { this.description = description; }
 	

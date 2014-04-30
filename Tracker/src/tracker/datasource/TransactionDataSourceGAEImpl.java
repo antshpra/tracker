@@ -3,6 +3,7 @@ package tracker.datasource;
 import java.util.List;
 
 import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
 
@@ -13,6 +14,18 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	@Override
 	public TransactionJDO getTransaction( String transactionId ) {
         return super.getPersistenceManager().getObjectById( TransactionJDO.class, KeyFactory.stringToKey( transactionId ) );
+	}
+
+	@Override
+	public TransactionItemTypeJDO getTransactionItemType( String transactionItemTypeId ) {
+		// TODO: Update this implementation once TransactionItemTypeDB is migrated to DataStore
+		
+		long decryptedTransactionItemTypeId = KeyFactory.stringToKey( transactionItemTypeId ).getId();
+		for( TransactionItemTypeDB transactionItemTypeDB : TransactionItemTypeDB.values() )
+			if( transactionItemTypeDB.getId() == decryptedTransactionItemTypeId )
+				return transactionItemTypeDB.toTransactionItemTypeJDO();
+		
+		return null;
 	}
 
 	@Override

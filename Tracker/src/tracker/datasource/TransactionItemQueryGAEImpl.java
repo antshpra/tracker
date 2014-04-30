@@ -26,6 +26,21 @@ public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 		paramNameValueMap.put( "transactionIdParam", transactionId );
 	}
 	
+	@Override
+	public void setTransactionItemTypeId( String transactionItemTypeId ) {
+		query.setFilter( "transactionItemTypeId == transactionItemTypeIdParam" );
+		query.declareParameters( String.class.getName() + " transactionItemTypeIdParam" );
+		paramNameValueMap.put( "transactionItemTypeIdParam", transactionItemTypeId );
+	}
+
+	@Override
+	public void orderByTransactionDate( boolean cronological ) {
+		if( cronological )
+			query.setOrdering( "transactionDate" );
+		else
+			query.setOrdering( "transactionDate DESC" );
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TransactionItemJDO> execute() {

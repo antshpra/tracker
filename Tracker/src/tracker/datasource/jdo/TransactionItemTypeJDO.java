@@ -29,11 +29,11 @@ public class TransactionItemTypeJDO {
 	
 	public String getTitle() { return this.title; }
 
-	public float getInitialAmount() {
+	public double getInitialAmount() {
 		if( this.initialAmount == null || (long) this.initialAmount == 0L )
-			return 0F;
+			return 0;
 		
-		return ( (float) (long) this.initialAmount ) / 100;
+		return ( (double) (long) this.initialAmount ) / 100;
 	}
 	
 	// TODO: Remove this member once TransactionItemTypeDB is migrated to DataStore

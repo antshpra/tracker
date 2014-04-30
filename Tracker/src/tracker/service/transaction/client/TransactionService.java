@@ -1,6 +1,8 @@
 package tracker.service.transaction.client;
 
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeRequest;
+import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.GetTransactionListRequest;
@@ -24,4 +26,6 @@ public interface TransactionService extends RemoteService {
 
 	GetTransactionItemTypeListResponse getTransactionItemTypeList( GetTransactionItemTypeListRequest request ) throws InvalidRequestException, ServerException;
 
+	GetTotalAmountByTransactionItemTypeResponse getTotalAmountByTransactionItemType( GetTotalAmountByTransactionItemTypeRequest request ) throws InvalidRequestException, ServerException;
+	
 }
