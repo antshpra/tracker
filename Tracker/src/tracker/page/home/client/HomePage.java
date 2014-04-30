@@ -1,6 +1,7 @@
 package tracker.page.home.client;
 
 import tracker.module.transaction.client.EditTransactionModuleImpl;
+import tracker.module.transaction.client.TotalAmountByTransactionItemTypeModuleImpl;
 import tracker.module.transaction.client.TransactionList;
 import tracker.module.transaction.client.TransactionListLoader;
 import tracker.module.transaction.client.resources.TransactionResources;
@@ -14,6 +15,7 @@ public class HomePage implements EntryPoint {
 	public void onModuleLoad() {
 		RootPanel.get().add( new EditTransactionModuleImpl() );
 		RootPanel.get().add( new TransactionListLoader( new TransactionList() ) );
+		RootPanel.get().add( new TotalAmountByTransactionItemTypeModuleImpl() );
 		TransactionResources.INSTANCE.css().ensureInjected();
 	}
 		
