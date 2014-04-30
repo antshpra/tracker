@@ -1,0 +1,7 @@
+<datastore-indexes autoGenerate="false">
+
+    <datastore-index kind="TRANSACTION_ITEM" ancestor="true" source="maunal">
+        <property name="TRANSACTION_DATE" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>
