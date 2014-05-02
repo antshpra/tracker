@@ -9,9 +9,10 @@ import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.TransactionItemData;
 import tracker.service.transaction.shared.TransactionItemTypeData;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class TransactionItemInputViewImpl extends TransactionItemInputView {
@@ -28,7 +29,7 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 	public TransactionItemInputViewImpl() {
 		itemTypeList.addItem( "Loading ..." ); // I18n
 
-		FlowPanel panel = new FlowPanel();
+		Panel panel = new HorizontalPanel();
 		panel.add( dateTimePicker );
 		panel.add( descriptionLabel );
 		panel.add( descriptionInput );

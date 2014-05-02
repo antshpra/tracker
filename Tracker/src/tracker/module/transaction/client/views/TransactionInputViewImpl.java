@@ -4,8 +4,9 @@ import tracker.module.transaction.client.DateTimePicker;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.TransactionData;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class TransactionInputViewImpl extends TransactionInputView {
@@ -15,7 +16,7 @@ public class TransactionInputViewImpl extends TransactionInputView {
 	private TextBox descriptionInput = new TextBox();
 
 	public TransactionInputViewImpl() {
-		FlowPanel panel = new FlowPanel();
+		Panel panel = new HorizontalPanel();
 		panel.add( dateTimePicker );
 		panel.add( descriptionLabel );
 		panel.add( descriptionInput );
