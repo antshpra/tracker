@@ -20,7 +20,6 @@ public class CreateTransactionItemRequest extends Request {
 	@RequiredField
 	private Double amount;
 	
-	@RequiredField
 	private String description;
 	
 	
@@ -58,9 +57,8 @@ public class CreateTransactionItemRequest extends Request {
 	}
 
 	public void setDescription( String description ) {
-		assertNonNull( description );
-		assertNonEmpty( description );
-		this.description = description;
+		if( description != null && description.trim().length() != 0 )
+			this.description = description.trim();
 	}
 	
 }
