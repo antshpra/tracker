@@ -35,16 +35,11 @@ public class TransactionItemViewImpl extends Composite {
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
 		dateUtil.setDate( transactionItemData.getTransactionDate() );
 
-		if( transactionItemData.getDescription() == null ) {
-			descriptionLabel.setText(
-					"Rs. " + transactionItemData.getAmount() +
-					" #" + transactionItemData.getTransactionItemType().getTitle() );
-		} else {
-			descriptionLabel.setText(
-					"Rs. " + transactionItemData.getAmount() +  " for " +
-					transactionItemData.getDescription() + 
-					" #" + transactionItemData.getTransactionItemType().getTitle() );
-		}
+		descriptionLabel.setText(
+				"Rs. " + transactionItemData.getAmount() +
+				( transactionItemData.getDescription() == null ? "" : " for " + transactionItemData.getDescription() ) +
+				" #" + transactionItemData.getTransactionItemType().getTitle() +
+				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") );
 	}
 
 }

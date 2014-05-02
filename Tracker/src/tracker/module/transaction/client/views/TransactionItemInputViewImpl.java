@@ -22,6 +22,8 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 	private Label amountLabel = new Label( "Amount" ); // TODO: I18n
 	private TextBox amountInput = new TextBox();
 	private ListBox itemTypeList = new ListBox();
+	private Label noteLabel = new Label( "Note" ); // TODO: I18n
+	private TextBox noteInput = new TextBox();
 	
 	public TransactionItemInputViewImpl() {
 		itemTypeList.addItem( "Loading ..." ); // I18n
@@ -33,6 +35,8 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 		panel.add( amountLabel );
 		panel.add( amountInput );
 		panel.add( itemTypeList );
+		panel.add( noteLabel );
+		panel.add( noteInput );
 
 		initWidget( panel );
 	}
@@ -50,6 +54,7 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 		createTransactionItemRequest.setTransactionDate( dateTimePicker.getDate() );
 		createTransactionItemRequest.setAmount( Double.parseDouble( amountInput.getText() ) );
 		createTransactionItemRequest.setDescription( descriptionInput.getText() );
+		createTransactionItemRequest.setNote( noteInput.getText() );
 		return createTransactionItemRequest;
 	}
 	

@@ -22,6 +22,8 @@ public class CreateTransactionItemRequest extends Request {
 	
 	private String description;
 	
+	private String note;
+	
 	
 	public String getTransactionId() { return this.transactionId; }
 	
@@ -33,6 +35,8 @@ public class CreateTransactionItemRequest extends Request {
 	
 	public String getDescription() { return this.description; }
 	
+	public String getNote() { return this.note; }
+
 	
 	public void setTransactionId( String transactionId ) {
 		assertNonNull( transactionId );
@@ -59,6 +63,11 @@ public class CreateTransactionItemRequest extends Request {
 	public void setDescription( String description ) {
 		if( description != null && description.trim().length() != 0 )
 			this.description = description.trim();
+	}
+	
+	public void setNote( String note ) {
+		if( note != null && note.trim().length() != 0 )
+			this.note = note.trim();
 	}
 	
 }

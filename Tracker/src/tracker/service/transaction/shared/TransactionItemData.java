@@ -19,6 +19,8 @@ public class TransactionItemData implements Serializable {
 	
 	private String description;
 	
+	private String note;
+
 	private Date creationDate;
 		
 	private String createdBy;
@@ -36,6 +38,8 @@ public class TransactionItemData implements Serializable {
 	
 	public String getDescription() { return this.description; }
 	
+	public String getNote() { return this.note; }
+	
 	public Date getCreationDate() { return this.creationDate; }
 
 	public String getCreatedBy() { return this.createdBy; }
@@ -52,6 +56,8 @@ public class TransactionItemData implements Serializable {
 	public void setAmount( double amount ) { this.amount = (long) ( amount * 100 ); }
 	
 	public void setDescription( String description ) { this.description = description; }
+	
+	public void setNote( String note ) { this.note = note; }
 	
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	

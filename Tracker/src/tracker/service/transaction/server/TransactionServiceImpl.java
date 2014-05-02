@@ -113,6 +113,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
 		transactionItem.setAmount( itemRequest.getAmount() );
 		transactionItem.setDescription( itemRequest.getDescription() );
+		transactionItem.setNote( itemRequest.getNote() );
 		transactionItem.setCreationDate( new Date() );
 		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 		
@@ -136,6 +137,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
 			transactionItem.setAmount( itemRequest.getAmount() );
 			transactionItem.setDescription( itemRequest.getDescription() );
+			transactionItem.setNote( itemRequest.getNote() );
 			transactionItem.setCreationDate( new Date() );
 			transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 			transactionItemList.add( transactionItem );
@@ -264,6 +266,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
 		transactionItemData.setDescription( transactionItem.getDescription() );
+		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
 		return transactionItemData;
