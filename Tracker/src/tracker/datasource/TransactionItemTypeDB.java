@@ -48,12 +48,16 @@ public enum TransactionItemTypeDB {
 	SAVINGS_ACCOUNT_KMB		( 6004, 6000, "Savings Account (KMB)", 200000.00 ),
 	
 	FIXED_DEPOSIT		( 7000, 7000, "Fixed Deposit", 0 ),
-	FIXED_DEPOSIT_ICICI( 7001, 7000, "Fixed Deposit (ICICI)", 0 ),
+	FIXED_DEPOSIT_ICICI	( 7001, 7000, "Fixed Deposit (ICICI)", 0 ),
 	FIXED_DEPOSIT_KMB	( 7002, 7000, "Fixed Deposit (KMB)", 0 ),
 
 	CREDIT_CARD			( 8000, 8000, "Credit Card", 0 ),
 	CREDIT_CARD_HDFC	( 8001, 8000, "Credit Card (HDFC", 0 ),
 	CREDIT_CARD_SC		( 8002, 8000, "Credit Card (SC)", -25832.78 ),
+	
+	POCKET			( 9000, 9000, "Pocket", 0 ),
+	POCKET_CASH		( 9001, 9000, "Cash", 0 ),
+	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
 	;
 	
 	private int id;
