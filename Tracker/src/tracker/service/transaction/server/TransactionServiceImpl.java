@@ -85,7 +85,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transaction.setTransactionDate( request.getTransactionDate() == null ? new Date() : request.getTransactionDate() );
 		transaction.setDescription( request.getDescription() );
 		transaction.setCreationDate( new Date() );
-		transaction.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
+		transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transaction = transactionDataSource.persistTransaction( transaction );
@@ -114,7 +114,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItem.setAmount( itemRequest.getAmount() );
 		transactionItem.setDescription( itemRequest.getDescription() );
 		transactionItem.setCreationDate( new Date() );
-		transactionItem.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
+		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 		
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transactionItem = transactionDataSource.persistTransactionItem( transactionItem );
@@ -137,7 +137,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItem.setAmount( itemRequest.getAmount() );
 			transactionItem.setDescription( itemRequest.getDescription() );
 			transactionItem.setCreationDate( new Date() );
-			transactionItem.setCreatedBy( "prashant@claymus.com" ); // TODO: Fetch and set user id instead of hard coded id
+			transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 			transactionItemList.add( transactionItem );
 		}
 
