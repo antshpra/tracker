@@ -58,6 +58,14 @@ public enum TransactionItemTypeDB {
 	POCKET			( 9000, 9000, "Pocket", 0 ),
 	POCKET_CASH		( 9001, 9000, "Cash", 0 ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", 0 ),
+	
+	SERVICES					( 10000, 10000, "Services", 0 ),
+	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent", 0 ),
+	SERVICES_HOUSE_MAINTENANCE	( 10002, 10000, "House Maintenance", 0 ),
+	SERVICES_HOUSE_ELECTRICITY	( 10003, 10000, "House Electricity", 0 ),
+	SERVICES_INTERNET			( 10004, 10000, "Internet", 0 ),
+	SERVICES_CELL_PHONE			( 10005, 10000, "Cell Phone", 0 ),
 	;
 	
 	private int id;
