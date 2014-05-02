@@ -20,8 +20,6 @@ public class CreateTransactionItemRequest extends Request {
 	@RequiredField
 	private Double amount;
 	
-	private String description;
-	
 	private String note;
 	
 	
@@ -32,8 +30,6 @@ public class CreateTransactionItemRequest extends Request {
 	public Date getTransactionDate() { return this.transactionDate; }
 
 	public double getAmount() { return this.amount; }
-	
-	public String getDescription() { return this.description; }
 	
 	public String getNote() { return this.note; }
 
@@ -60,11 +56,6 @@ public class CreateTransactionItemRequest extends Request {
 		this.amount = amount;
 	}
 
-	public void setDescription( String description ) {
-		if( description != null && description.trim().length() != 0 )
-			this.description = description.trim();
-	}
-	
 	public void setNote( String note ) {
 		if( note != null && note.trim().length() != 0 )
 			this.note = note.trim();

@@ -92,8 +92,12 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionDataSource.close();
 		
 		if( request.getCreateTransactionItemRequestList() != null ) {
-			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() )
+			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() ) {
 				itemRequest.setTransactionId( transaction.getId() );
+				if( itemRequest.getTransactionDate() == null ) {
+					itemRequest.setTransactionDate( request.getTransactionDate() );
+				}
+			}
 			createTransactionItemList( request.getCreateTransactionItemRequestList() );
 		} else {
 			logger.log( Level.INFO, "CreateTransactionItemRequestList is null." );
@@ -112,7 +116,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
 		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
 		transactionItem.setAmount( itemRequest.getAmount() );
-		transactionItem.setDescription( itemRequest.getDescription() );
 		transactionItem.setNote( itemRequest.getNote() );
 		transactionItem.setCreationDate( new Date() );
 		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
@@ -136,7 +139,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
 			transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
 			transactionItem.setAmount( itemRequest.getAmount() );
-			transactionItem.setDescription( itemRequest.getDescription() );
 			transactionItem.setNote( itemRequest.getNote() );
 			transactionItem.setCreationDate( new Date() );
 			transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
@@ -265,7 +267,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 								transactionItem.getTransactionItemTypeId() ) ));
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
-		transactionItemData.setDescription( transactionItem.getDescription() );
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );

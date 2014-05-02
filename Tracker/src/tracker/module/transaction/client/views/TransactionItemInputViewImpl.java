@@ -18,8 +18,6 @@ import com.google.gwt.user.client.ui.TextBox;
 public class TransactionItemInputViewImpl extends TransactionItemInputView {
 
 	private DateTimePicker dateTimePicker = new DateTimePicker();
-	private Label descriptionLabel = new Label( "Description" ); // TODO: I18n
-	private TextBox descriptionInput = new TextBox();
 	private Label amountLabel = new Label( "Amount" ); // TODO: I18n
 	private TextBox amountInput = new TextBox();
 	private ListBox itemTypeList = new ListBox();
@@ -31,8 +29,6 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 
 		Panel panel = new HorizontalPanel();
 		panel.add( dateTimePicker );
-		panel.add( descriptionLabel );
-		panel.add( descriptionInput );
 		panel.add( amountLabel );
 		panel.add( amountInput );
 		panel.add( itemTypeList );
@@ -54,7 +50,6 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 		createTransactionItemRequest.setTransactionItemTypeId( itemTypeList.getValue( itemTypeList.getSelectedIndex() ) );
 		createTransactionItemRequest.setTransactionDate( dateTimePicker.getDate() );
 		createTransactionItemRequest.setAmount( Double.parseDouble( amountInput.getText() ) );
-		createTransactionItemRequest.setDescription( descriptionInput.getText() );
 		createTransactionItemRequest.setNote( noteInput.getText() );
 		return createTransactionItemRequest;
 	}

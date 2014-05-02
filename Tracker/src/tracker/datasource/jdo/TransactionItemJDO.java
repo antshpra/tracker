@@ -29,9 +29,6 @@ public class TransactionItemJDO {
 	@Persistent( column = "AMOUNT" )
 	private Long amount;
 	
-	@Persistent( column = "DESCRIPTION" )
-	private String description;
-	
 	@Persistent( column = "NOTE" )
 	private String note;
 	
@@ -52,8 +49,6 @@ public class TransactionItemJDO {
 	
 	public double getAmount() { return this.amount == null ? 0 : ( (double) this.amount ) / 100; }
 	
-	public String getDescription() { return this.description; }
-	
 	public String getNote() { return this.note; }
 	
 	public Date getCreationDate() { return new Date( this.creationDate.getTime() ); }
@@ -68,8 +63,6 @@ public class TransactionItemJDO {
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 
 	public void setAmount( double amount ) { this.amount = (long) ( amount * 100 ); }
-	
-	public void setDescription( String description ) { this.description = description; }
 	
 	public void setNote( String note ) { this.note = note; }
 	

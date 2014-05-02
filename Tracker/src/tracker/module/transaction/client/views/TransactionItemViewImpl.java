@@ -37,9 +37,8 @@ public class TransactionItemViewImpl extends Composite {
 
 		descriptionLabel.setText(
 				"Rs. " + transactionItemData.getAmount() +
-				( transactionItemData.getDescription() == null ? "" : " for " + transactionItemData.getDescription() ) +
-				" #" + transactionItemData.getTransactionItemType().getTitle() +
-				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") );
+				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") +
+				" #" + transactionItemData.getTransactionItemType().getTitle() );
 	}
 
 }
