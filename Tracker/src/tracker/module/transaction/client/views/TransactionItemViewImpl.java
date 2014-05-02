@@ -1,5 +1,6 @@
-package tracker.module.transaction.client;
+package tracker.module.transaction.client.views;
 
+import tracker.module.transaction.client.DateUtil;
 import tracker.module.transaction.client.resources.TransactionResources;
 import tracker.service.transaction.shared.TransactionItemData;
 
@@ -7,9 +8,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class TransactionItem extends Composite {
+public class TransactionItemViewImpl extends Composite {
 
-	public TransactionItem( TransactionItemData transactionItemData ) {
+	public TransactionItemViewImpl( TransactionItemData transactionItemData ) {
 		Label dateLabel = new Label();
 		Label timeLabel = new Label();
 
@@ -34,7 +35,16 @@ public class TransactionItem extends Composite {
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
 		dateUtil.setDate( transactionItemData.getTransactionDate() );
 
-		descriptionLabel.setText( transactionItemData.getDescription() );
+		if( transactionItemData.getDescription() == null ) {
+			descriptionLabel.setText(
+					"Rs. " + transactionItemData.getAmount() +
+					" #" + transactionItemData.getTransactionItemType().getTitle() );
+		} else {
+			descriptionLabel.setText(
+					"Rs. " + transactionItemData.getAmount() +  " for " +
+					transactionItemData.getDescription() + 
+					" #" + transactionItemData.getTransactionItemType().getTitle() );
+		}
 	}
 
 }

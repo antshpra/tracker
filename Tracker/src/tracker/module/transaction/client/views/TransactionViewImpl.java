@@ -1,7 +1,9 @@
-package tracker.module.transaction.client;
+package tracker.module.transaction.client.views;
 
 import java.util.List;
 
+import tracker.module.transaction.client.DateUtil;
+import tracker.module.transaction.client.TransactionItemList;
 import tracker.module.transaction.client.resources.TransactionResources;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
@@ -25,7 +27,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
-public class Transaction extends Composite implements MouseOverHandler, MouseOutHandler, MouseUpHandler {
+public class TransactionViewImpl extends Composite implements MouseOverHandler, MouseOutHandler, MouseUpHandler {
 
 	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
 
@@ -34,7 +36,7 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 	private FocusPanel transactionDetailPanel = new FocusPanel();
 	private TransactionItemList transactionItemList = new TransactionItemList();
 
-	public Transaction( TransactionData transactionData ) {
+	public TransactionViewImpl( TransactionData transactionData ) {
 		this.transactionId = transactionData.getId();
 		
 		Label dateLabel = new Label();
@@ -108,7 +110,7 @@ public class Transaction extends Composite implements MouseOverHandler, MouseOut
 					Window.alert( "Nothing under this transaction !" ); // TODO: I18n
 				} else {
 					for( TransactionItemData transactionItemData : transactionItemDataList )
-						Transaction.this.transactionItemList.add( transactionItemData );
+						TransactionViewImpl.this.transactionItemList.add( transactionItemData );
 				}
 			}
 			
