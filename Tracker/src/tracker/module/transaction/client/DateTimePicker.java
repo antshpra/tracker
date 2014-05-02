@@ -59,7 +59,7 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 	public void onValueChange( ValueChangeEvent<Date> event )  {
 		if( event.getSource() == datePicker ) {
 			Date date = event.getValue();
-			dateLabel.setText( date.getDate() + "/" + ( date.getMonth() + 1 ) + "/" + date.getYear() ); // TODO: I18n
+			dateLabel.setText( date.getDate() + "/" + ( date.getMonth() + 1 ) + "/" + ( date.getYear() + 1900 ) ); // TODO: I18n
 			datePicker.setVisible( false );
 		}
 	}
