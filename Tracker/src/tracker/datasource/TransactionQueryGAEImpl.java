@@ -21,6 +21,21 @@ public class TransactionQueryGAEImpl implements TransactionQuery {
 	}
 
 	@Override
+	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
+		if( startDate != null ) {
+			query.setFilter( "transactionDate " + ( startDateInclusive ? ">=" : ">" ) + " transactionDate_Start" );
+			query.declareParameters( Date.class.getName() + " transactionDate_Start" );
+			paramNameValueMap.put( "transactionDate_Start", startDate );
+		}
+		
+		if( endDate != null ) {
+			query.setFilter( "transactionDate " + ( endDateInclusive ? "<=" : "<" ) + " transactionDate_End" );
+			query.declareParameters( Date.class.getName() + " transactionDate_End" );
+			paramNameValueMap.put( "transactionDate_End", endDate );
+		}
+	}
+
+	@Override
 	public void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null ) {
 			query.setFilter( "creationDate " + ( startDateInclusive ? ">=" : ">" ) + " creationDate_Start" );
@@ -41,6 +56,14 @@ public class TransactionQueryGAEImpl implements TransactionQuery {
 			query.setOrdering( "creationDate" );
 		else
 			query.setOrdering( "creationDate DESC" );
+	}
+
+	@Override
+	public void orderByTransactionDate( boolean cronological ) {
+		if( cronological )
+			query.setOrdering( "transactionDate" );
+		else
+			query.setOrdering( "transactionDate DESC" );
 	}
 
 	@SuppressWarnings("unchecked")
