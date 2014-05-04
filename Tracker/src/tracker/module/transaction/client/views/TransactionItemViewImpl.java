@@ -4,11 +4,10 @@ import tracker.module.transaction.client.DateUtil;
 import tracker.module.transaction.client.resources.TransactionResources;
 import tracker.service.transaction.shared.TransactionItemData;
 
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class TransactionItemViewImpl extends Composite {
+public class TransactionItemViewImpl extends TransactionItemView {
 
 	public TransactionItemViewImpl( TransactionItemData transactionItemData ) {
 		Label dateLabel = new Label();
@@ -39,6 +38,11 @@ public class TransactionItemViewImpl extends Composite {
 				"Rs. " + transactionItemData.getAmount() +
 				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") +
 				" #" + transactionItemData.getTransactionItemType().getTitle() );
+	}
+
+	@Override
+	public void setTransactionItemData(TransactionItemData transactionItemData) {
+		// TODO Auto-generated method stub
 	}
 
 }

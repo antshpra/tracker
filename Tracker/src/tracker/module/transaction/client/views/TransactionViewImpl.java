@@ -14,20 +14,16 @@ import tracker.service.transaction.shared.TransactionItemData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
-public class TransactionViewImpl extends Composite implements MouseOverHandler, MouseOutHandler, MouseUpHandler {
+public class TransactionViewImpl extends TransactionView {
 
 	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
 
@@ -77,6 +73,11 @@ public class TransactionViewImpl extends Composite implements MouseOverHandler, 
 		dateUtil.setDate( transactionData.getTransactionDate() );
 
 		descriptionLabel.setText( transactionData.getDescription() );
+	}
+	
+	@Override
+	public void setTransactionData( TransactionData transactionData ) {
+		// TODO: Implementation
 	}
 
 	@Override
