@@ -161,34 +161,75 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		
 		RequestValidator.validate( request );
 		
-		Date startDate = request.getStartDate();
-		Date endDate = request.getEndDate();
-		
+		Date transactionDateStart = request.getTransactionDateStart();
+		Date transactionDateEnd = request.getTransactionDateEnd();
+
+		Date creationDateStart = request.getCreationDateStart();
+		Date creationDateEnd = request.getCreationDateEnd();
+
 		GetTransactionListResponse response = new GetTransactionListResponse();
 		List<TransactionData> transactionDataList = new LinkedList<TransactionData>(); 
-
-		if( ( startDate != null && endDate == null )
-				|| ( startDate == null && endDate != null )
-				|| ( startDate != null && endDate != null && !startDate.equals( endDate ) )
-				|| ( startDate != null && endDate != null && startDate.equals( endDate ) && request.isStartDateInclusive() && request.isEndDateInclusive() ) ) {
-
-			TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-			TransactionQuery transactionQuery = transactionDataSource.newTransactionQuery();
-			transactionQuery.setCreationDate( startDate, request.isStartDateInclusive(), endDate, request.isEndDateInclusive() );
-			transactionQuery.orderByCreationDate( request.isChronologicalOrder() );
-			List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize() );
-	
-			logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
+		response.setTransactionDataList( transactionDataList );
+		
+		if( transactionDateStart != null
+				&& transactionDateEnd != null
+				&& transactionDateStart.equals( transactionDateEnd )
+				&& ( !request.isTransactionDateStartInclusive() || !request.isTransactionDateEndInclusive() ) ) {
 			
-			for( TransactionJDO transaction : transactionList )
-				transactionDataList.add( transactionJDOToTransactionData( transaction, null, null ) );
-
-			transactionDataSource.close();
-		} else {
-			logger.log( Level.INFO, "Not enough data or time range. Returning empty transactionDataList." );
+			logger.log( Level.INFO, "Not enough time range for transactionDate. Returning empty transactionDataList." );
+			return response;
 		}
 		
-		response.setTransactionDataList( transactionDataList );
+		if( creationDateStart != null
+				&& creationDateEnd != null
+				&& creationDateStart.equals( creationDateEnd )
+				&& ( !request.isCreationDateStartInclusive() || !request.isCreationDateEndInclusive() ) ) {
+		
+			logger.log( Level.INFO, "Not enough time range for creationDate. Returning empty transactionDataList." );
+			return response;
+		}		
+		
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+		TransactionQuery transactionQuery = transactionDataSource.newTransactionQuery();
+
+		if( transactionDateStart != null || transactionDateEnd != null )
+			transactionQuery.setTransactionDate(
+				transactionDateStart, request.isTransactionDateStartInclusive(),
+				transactionDateEnd, request.isTransactionDateEndInclusive() );
+		
+		if( creationDateStart != null || creationDateEnd != null )
+			transactionQuery.setCreationDate(
+				creationDateStart, request.isCreationDateStartInclusive(),
+				creationDateEnd, request.isCreationDateEndInclusive() );
+
+		if( request.getTransactionDateChronologicalOrder() != null )
+			transactionQuery.orderByTransactionDate( request.getTransactionDateChronologicalOrder() );
+			
+		if( request.getCreationDateChronologicalOrder() != null )
+			transactionQuery.orderByCreationDate( request.getCreationDateChronologicalOrder() );
+		
+		List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize() );
+	
+		logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
+		
+		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
+		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
+		
+		Map<String, TransactionItemTypeJDO> transactionItemTypeIdToTransactionItemTypeMap = new HashMap<>();
+		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList )
+			transactionItemTypeIdToTransactionItemTypeMap.put( transactionItemType.getId(), transactionItemType );
+
+		for( TransactionJDO transaction : transactionList ) {
+			TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
+			transactionItemQuery.setTransactionId( transaction.getId() );
+			transactionItemQuery.orderByTransactionDate( true );
+			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+
+			transactionDataList.add( transactionJDOToTransactionData( transaction, transactionItemList, transactionItemTypeIdToTransactionItemTypeMap ) );
+		}
+		
+		transactionDataSource.close();
+		
 		return response;		
 	}
 

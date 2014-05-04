@@ -76,9 +76,8 @@ public class TransactionListLoader extends Composite {
 		this.label.setVisible( true );
 		
 		GetTransactionListRequest request = new GetTransactionListRequest();
-		request.setEndDate( startDate );
-		request.setEndDateInclusive( false );
-		request.setChronologicalOrder( false );
+		request.setTransactionDateEnd( startDate, false );
+		request.setTransactionDateChronologicalOrder( false );
 		request.setPageSize( pageSize );
 		
 		transactionService.getTransactionList( request, new AsyncCallback<GetTransactionListResponse>() {
@@ -97,9 +96,8 @@ public class TransactionListLoader extends Composite {
 					for( TransactionData transactionData: transactionDataList )
 						TransactionListLoader.this.transactionList.add( transactionData );
 					
-					if( transactionDataList.size() != 0 ) {
-						TransactionListLoader.this.transactionLoadedTillDate = transactionDataList.get( transactionDataList.size() - 1 ).getCreationDate();
-					}
+					if( transactionDataList.size() != 0 )
+						TransactionListLoader.this.transactionLoadedTillDate = transactionDataList.get( transactionDataList.size() - 1 ).getTransactionDate();
 					
 					if( transactionDataList.size() < pageSize ) {
 						TransactionListLoader.this.label.setText( "No more transaction !" );

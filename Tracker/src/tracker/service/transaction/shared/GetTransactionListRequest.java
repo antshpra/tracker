@@ -8,56 +8,90 @@ public class GetTransactionListRequest extends Request {
 	
 	private static final long serialVersionUID = 6764626699617192952L;
 
-	private Date startDate;
+	private Date transactionDateStart;
 
-	private Date endDate;
+	private Date transactionDateEnd;
 
-	private boolean startDateInclusive = true;
+	private boolean transactionDateStartInclusive = true;
+
+	private boolean transactionDateEndInclusive = false;
+
+	private Date creationDateStart;
+
+	private Date creationDateEnd;
+
+	private boolean creationDateStartInclusive = true;
+
+	private boolean creationDateEndInclusive = false;
+
+	private Boolean transactionDateChronologicalOrder;
 	
-	private boolean endDateInclusive = false;
-	
-	private boolean chronologicalOrder = true;
-	
+	private Boolean creationDateChronologicalOrder;
+
 	private int pageSize = 10;
 
 	
-	public Date getStartDate() { return this.startDate; }
+	public Date getTransactionDateStart() { return this.transactionDateStart; }
 
-	public Date getEndDate() { return this.endDate; }
+	public Date getTransactionDateEnd() { return this.transactionDateEnd; }
 
-	public boolean isStartDateInclusive() { return this.startDateInclusive; }
+	public boolean isTransactionDateStartInclusive() { return this.transactionDateStartInclusive; }
 
-	public boolean isEndDateInclusive() { return this.endDateInclusive; }
+	public boolean isTransactionDateEndInclusive() { return this.transactionDateEndInclusive; }
 
-	public boolean isChronologicalOrder() { return chronologicalOrder; }
+	public Date getCreationDateStart() { return this.creationDateStart; }
+
+	public Date getCreationDateEnd() { return this.creationDateEnd; }
+
+	public boolean isCreationDateStartInclusive() { return this.creationDateStartInclusive; }
+
+	public boolean isCreationDateEndInclusive() { return this.creationDateEndInclusive; }
+	
+	public Boolean getTransactionDateChronologicalOrder() { return transactionDateChronologicalOrder; }
+	
+	public Boolean getCreationDateChronologicalOrder() { return creationDateChronologicalOrder; }
 	
 	public int getPageSize() { return this.pageSize; }
 	
 	
-	public void setStartDate( Date startDate ) {
-		assertNonNull( startDate );
-		if( this.endDate != null )
-			assertStartDateIsNotAfterEndDate( startDate, this.endDate );
-		this.startDate = startDate;
+	public void setTransactionDateStart( Date transactionDateStart, boolean inclusive ) {
+		assertNonNull( transactionDateStart );
+		if( this.transactionDateEnd != null )
+			assertStartDateIsNotAfterEndDate( transactionDateStart, this.transactionDateEnd );
+		this.transactionDateStart = transactionDateStart;
+		this.transactionDateStartInclusive = inclusive;
 	}
 	
-	public void setEndDate( Date endDate ) {
-		assertNonNull( endDate );
-		if( this.startDate != null )
-			assertStartDateIsNotAfterEndDate( this.startDate, endDate );
-		this.endDate = endDate;
+	public void setTransactionDateEnd( Date transactionDateEnd, boolean inclusive ) {
+		assertNonNull( transactionDateEnd );
+		if( this.transactionDateStart != null )
+			assertStartDateIsNotAfterEndDate( this.transactionDateStart, transactionDateEnd );
+		this.transactionDateEnd = transactionDateEnd;
+		this.transactionDateEndInclusive = inclusive;
 	}
 
-	public void setStartDateInclusive( boolean startDateInclusive ) {
-		this.startDateInclusive = startDateInclusive;
+	public void setCreationDateStart( Date creationDateStart, boolean inclusive ) {
+		assertNonNull( creationDateStart );
+		if( this.creationDateEnd != null )
+			assertStartDateIsNotAfterEndDate( creationDateStart, this.creationDateEnd );
+		this.creationDateStart = creationDateStart;
+		this.creationDateStartInclusive = inclusive;
+	}
+	
+	public void setCreationDateEnd( Date creationDateEnd, boolean inclusive ) {
+		assertNonNull( creationDateEnd );
+		if( this.creationDateStart != null )
+			assertStartDateIsNotAfterEndDate( this.creationDateStart, creationDateEnd );
+		this.creationDateEnd = creationDateEnd;
+		this.creationDateEndInclusive = inclusive;
 	}
 
-	public void setEndDateInclusive( boolean endDateInclusive ) {
-		this.endDateInclusive = endDateInclusive;
+	public void setTransactionDateChronologicalOrder( boolean chronologicalOrder ) {
+		this.transactionDateChronologicalOrder = chronologicalOrder;
 	}
 
-	public void setChronologicalOrder( boolean chronologicalOrder ) {
-		this.chronologicalOrder = chronologicalOrder;
+	public void setCreationDateChronologicalOrder( boolean chronologicalOrder ) {
+		this.creationDateChronologicalOrder = chronologicalOrder;
 	}
 
 	public void setPageSize( int pageSize ) {

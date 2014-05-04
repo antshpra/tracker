@@ -51,19 +51,19 @@ public class TransactionQueryGAEImpl implements TransactionQuery {
 	}
 
 	@Override
-	public void orderByCreationDate( boolean cronological ) {
-		if( cronological )
-			query.setOrdering( "creationDate" );
-		else
-			query.setOrdering( "creationDate DESC" );
-	}
-
-	@Override
 	public void orderByTransactionDate( boolean cronological ) {
 		if( cronological )
 			query.setOrdering( "transactionDate" );
 		else
 			query.setOrdering( "transactionDate DESC" );
+	}
+
+	@Override
+	public void orderByCreationDate( boolean cronological ) {
+		if( cronological )
+			query.setOrdering( "creationDate" );
+		else
+			query.setOrdering( "creationDate DESC" );
 	}
 
 	@SuppressWarnings("unchecked")
