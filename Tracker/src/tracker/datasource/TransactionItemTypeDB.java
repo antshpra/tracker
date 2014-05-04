@@ -39,8 +39,7 @@ public enum TransactionItemTypeDB {
 	TRIPS_AND_EVENTS_TRAVEL_BUS_AC 			( 5006, 5000, "Bus (AC) Travel", 0 ),
 	TRIPS_AND_EVENTS_TRAVEL_BUS_NON_AC		( 5007, 5000, "Bus (Non AC) Travel", 0 ),
 	TRIPS_AND_EVENTS_TRAVEL_LOCAL_TRANSPORT	( 5008, 5000, "Local Trasport", 0 ),
-	
-	
+		
 	SAVINGS_ACCOUNT			( 6000, 6000, "Savings Account", 0 ),
 	SAVINGS_ACCOUNT_SBBJ	( 6001, 6000, "Savings Account (SBBJ)", 0 ),
 	SAVINGS_ACCOUNT_IDBI	( 6002, 6000, "Savings Account (IDBI)", 10153.82 ),
@@ -56,9 +55,24 @@ public enum TransactionItemTypeDB {
 	CREDIT_CARD_SC		( 8002, 8000, "Credit Card (SC)", -25832.78 ),
 	
 	POCKET			( 9000, 9000, "Pocket", 0 ),
-	POCKET_CASH		( 9001, 9000, "Cash", 0 ),
+	/*
+	 * PENDING EXPENSE REPORTING
+	 * 
+	 * 	04 APR Shuchi		  	  0.52
+	 * 	07 APR Shuchi	 		 20.00
+	 * 	14 APR Manish			 -4.00
+	 * 	16 APR (Untracked)		 60.00
+	 * 	21 APR Polo				  2.00
+	 * 	22 APR Aunty		   1100.00
+	 * 	23 APR Naveen			 16.00
+	 * 	30 MAY (Untracked)		-99.00
+	 * 	01 MAY Prasads Parking	 15.00
+	 * 
+	 *  01 MAY TOTAL		   1110.52
+	 */
+	POCKET_CASH		( 9001, 9000, "Cash", (4106.39 + 321.10) -1110.52 ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
-	POCKET_BILLSUP	( 9003, 9000, "Bills Up", 0 ),
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35689.37 ), // 6565.57 - 41933.84 - 321.10
 	
 	SERVICES					( 10000, 10000, "Services", 0 ),
 	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent", 0 ),
@@ -66,6 +80,18 @@ public enum TransactionItemTypeDB {
 	SERVICES_HOUSE_ELECTRICITY	( 10003, 10000, "House Electricity", 0 ),
 	SERVICES_INTERNET			( 10004, 10000, "Internet", 0 ),
 	SERVICES_CELL_PHONE			( 10005, 10000, "Cell Phone", 0 ),
+
+	AMAZON			( 11000, 11000, "Amazon", 0 ),
+	AMAZON_CASH		( 11001, 11000, "Amazon Salary", 0 ),
+	AMAZON_SODEXO	( 11002, 11000, "Amazon Sodexoes", 0 ),	
+
+	BULK_PURCHASES	( 12000, 12000, "Bulk Purchases", 0 ),
+
+	EVENTS	( 13000, 13000, "Events", 0 ),
+	EVENTS_BIKE_ACCIDENT_04APR14	( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)", 0 ),
+	EVENTS_DELHI_TRIP_18APR14		( 13002, 13000, "Delhi trip for Shuchi's Marriage (18-21 Apr'14)", 0 ),
+	
+	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0 ),
 	;
 	
 	private int id;
