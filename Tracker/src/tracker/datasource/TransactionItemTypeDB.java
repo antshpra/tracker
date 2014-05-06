@@ -63,16 +63,18 @@ public enum TransactionItemTypeDB {
 	 * 	14 APR Manish			 -4.00
 	 * 	16 APR (Untracked)		 60.00
 	 * 	21 APR Polo				  2.00
-	 * 	22 APR Aunty		   1100.00
 	 * 	23 APR Naveen			 16.00
-	 * 	30 MAY (Untracked)		-99.00
+	 * 	30 APR (Untracked)		-99.00
 	 * 	01 MAY Prasads Parking	 15.00
 	 * 
-	 *  01 MAY TOTAL		   1110.52
+	 *  01 MAY TOTAL		     10.52
 	 */
-	POCKET_CASH		( 9001, 9000, "Cash", (4106.39 + 321.10) -1110.52 ),
+	POCKET_CASH		( 9001, 9000, "Cash", (4106.39 + 321.10) -10.52 ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
-	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35689.37 ), // 6565.57 - 41933.84 - 321.10
+	/*
+	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
+	 */
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -36129.37 ), // 6565.57 - 41933.84 - 321.10 - 440
 	
 	SERVICES					( 10000, 10000, "Services", 0 ),
 	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent", 0 ),
