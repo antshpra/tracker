@@ -1,0 +1,4 @@
+<module>
+  <inherits name='tracker.theme.clean.Clean'/>
+  <source path='client'/>
+</module>

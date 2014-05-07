@@ -1,8 +1,8 @@
-package tracker.module.transaction.client.resources;
+package tracker.theme.client;
 
 import com.google.gwt.resources.client.CssResource;
 
-public interface TransactionStyle extends CssResource {
+public interface TransactionModuleStyle extends CssResource {
 
 	String transaction();
 
