@@ -10,6 +10,7 @@ import tracker.module.transaction.client.views.TransactionItemInputViewImpl;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.CreateTransactionResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.TransactionItemTypeData;
@@ -101,12 +102,12 @@ public class EditTransactionModuleImpl extends EditTransactionModule {
 						( (TransactionItemInputView) transactionItemInputViewsIterator.next() )
 								.getCreateTransactionItemRequest() );
 			
-			transactionService.createTransaction( createTransactionRequest, new AsyncCallback<String>() {
+			transactionService.createTransaction( createTransactionRequest, new AsyncCallback<CreateTransactionResponse>() {
 				
 				@Override
-				public void onSuccess(String result) {
+				public void onSuccess(CreateTransactionResponse result) {
 					// TODO Auto-generated method stub
-					Window.alert( "Transaction created with id " + result );
+					Window.alert( "Transaction created with id " + result.getTransactionId() );
 				}
 				
 				@Override

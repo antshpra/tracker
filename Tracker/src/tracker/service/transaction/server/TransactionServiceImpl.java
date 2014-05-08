@@ -21,6 +21,7 @@ import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
+import tracker.service.transaction.shared.CreateTransactionResponse;
 import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeRequest;
 import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
@@ -79,7 +80,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	}
 	
 	@Override
-	public String createTransaction( CreateTransactionRequest request ) throws InvalidRequestException, ServerException {
+	public CreateTransactionResponse createTransaction( CreateTransactionRequest request ) throws InvalidRequestException, ServerException {
 
 		RequestValidator.validate( request );
 
@@ -110,7 +111,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		transactionDataSource.close();
 
-		return transaction.getId();
+		// Creating response
+		CreateTransactionResponse response = new CreateTransactionResponse();
+		response.setTransactionId( transaction.getId() );
+		
+		return response;
 	}
 
 	@Override
