@@ -1,5 +1,6 @@
 package tracker.service.transaction.server;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -51,15 +52,26 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 
+		// Fetching TransactionJDO
 		TransactionJDO transaction = transactionDataSource.getTransaction( request.getTransactionId() );
 		
+		// Fetching TransactionItemJDO list
 		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 		transactionItemQuery.setTransactionId( request.getTransactionId() );
 		transactionItemQuery.orderByTransactionDate( true );
+		logger.log( Level.INFO, "Executing query - \"" + transactionItemQuery + "\"." );
 		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+		logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + request.getTransactionId() );
 
+		// Creating TransactionData
+		TransactionData transactionData = transactionJDOToTransactionData(
+				transaction,
+				transactionItemList,
+				loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
+				
+		// Creating GetTransactionResponse
 		GetTransactionResponse response = new GetTransactionResponse();
-		response.setTransactionData( transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() ) );
+		response.setTransactionData( transactionData );
 		
 		transactionDataSource.close();
 
@@ -75,81 +87,32 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() )
 				RequestValidator.validate( itemRequest );
 
-		TransactionJDO transaction = new TransactionJDO();
-		transaction.setTransactionDate( request.getTransactionDate() == null ? new Date() : request.getTransactionDate() );
-		transaction.setDescription( request.getDescription() );
-		transaction.setCreationDate( new Date() );
-		transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
+		TransactionJDO transaction = createTransactionRequestToTransactionJDO( request );
 
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transaction = transactionDataSource.persistTransaction( transaction );
-		transactionDataSource.close();
 		
 		if( request.getCreateTransactionItemRequestList() != null ) {
+			List<TransactionItemJDO> transactionItemList = new ArrayList<>( request.getCreateTransactionItemRequestList().size() );
 			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() ) {
 				itemRequest.setTransactionId( transaction.getId() );
 				if( itemRequest.getTransactionDate() == null ) {
 					itemRequest.setTransactionDate( request.getTransactionDate() );
 				}
+				
+				TransactionItemJDO transactionItem = createTransactionItemRequestToTransactionItemJDO( itemRequest );
+				transactionItemList.add( transactionItem );
 			}
-			createTransactionItemList( request.getCreateTransactionItemRequestList() );
+			transactionDataSource.persistTransactionItemList( transactionItemList );
 		} else {
 			logger.log( Level.INFO, "CreateTransactionItemRequestList is null." );
 		}
 
+		transactionDataSource.close();
+
 		return transaction.getId();
 	}
 
-	@SuppressWarnings("unused")
-	private String createTransactionItem( CreateTransactionItemRequest itemRequest ) throws InvalidRequestException, ServerException {
-
-		RequestValidator.validate( itemRequest );
-
-		TransactionItemJDO transactionItem = new TransactionItemJDO();
-		transactionItem.setTransactionId( itemRequest.getTransactionId() );
-		transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
-		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
-		transactionItem.setAmount( itemRequest.getAmount() );
-		transactionItem.setNote( itemRequest.getNote() );
-		transactionItem.setCreationDate( new Date() );
-		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-		
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-		transactionItem = transactionDataSource.persistTransactionItem( transactionItem );
-		transactionDataSource.close();
-		
-		return transactionItem.getId();
-	}
-
-	private List<String> createTransactionItemList( List<CreateTransactionItemRequest> itemRequestList ) throws InvalidRequestException, ServerException {
-
-		for( CreateTransactionItemRequest itemRequest : itemRequestList )
-			RequestValidator.validate( itemRequest );
-
-		List<TransactionItemJDO> transactionItemList = new LinkedList<TransactionItemJDO>();
-		for( CreateTransactionItemRequest itemRequest : itemRequestList ) {
-			TransactionItemJDO transactionItem = new TransactionItemJDO();
-			transactionItem.setTransactionId( itemRequest.getTransactionId() );
-			transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
-			transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
-			transactionItem.setAmount( itemRequest.getAmount() );
-			transactionItem.setNote( itemRequest.getNote() );
-			transactionItem.setCreationDate( new Date() );
-			transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-			transactionItemList.add( transactionItem );
-		}
-
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-		transactionItemList = transactionDataSource.persistTransactionItemList( transactionItemList );
-		transactionDataSource.close();
-
-		List<String> transactionItemIdList = new LinkedList<String>();
-		for( TransactionItemJDO transactionItem : transactionItemList )
-			transactionItemIdList.add( transactionItem.getId() );
-		
-		return transactionItemIdList;
-	}
-	
 	@Override
 	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) throws InvalidRequestException, ServerException {
 		
@@ -161,10 +124,12 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		Date creationDateStart = request.getCreationDateStart();
 		Date creationDateEnd = request.getCreationDateEnd();
 
+		// Creating GetTransactionResponse
 		GetTransactionListResponse response = new GetTransactionListResponse();
 		List<TransactionData> transactionDataList = new LinkedList<TransactionData>(); 
 		response.setTransactionDataList( transactionDataList );
 		
+		// Checking for valid transactionDate range 
 		if( transactionDateStart != null
 				&& transactionDateEnd != null
 				&& transactionDateStart.equals( transactionDateEnd )
@@ -174,6 +139,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			return response;
 		}
 		
+		// Checking for valid creationDate range 
 		if( creationDateStart != null
 				&& creationDateEnd != null
 				&& creationDateStart.equals( creationDateEnd )
@@ -184,6 +150,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		}		
 		
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+
+		// Fetching TransactionJDO list
 		TransactionQuery transactionQuery = transactionDataSource.newTransactionQuery();
 
 		if( transactionDateStart != null || transactionDateEnd != null )
@@ -202,17 +170,23 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		if( request.getCreationDateChronologicalOrder() != null )
 			transactionQuery.orderByCreationDate( request.getCreationDateChronologicalOrder() );
 		
+		logger.log( Level.INFO, "Executing query - \"" + transactionQuery + "\"." );
 		List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize() );
-	
-		logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
-		
+		logger.log( Level.INFO, transactionList.size() + " transactions found.");
+
 		for( TransactionJDO transaction : transactionList ) {
+			// Fetching TransactionItemJDO list
+			logger.log( Level.INFO, "Executing query - \"" + transactionQuery + "\"." );
 			TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 			transactionItemQuery.setTransactionId( transaction.getId() );
 			transactionItemQuery.orderByTransactionDate( true );
 			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+			logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + transaction.getId() );
 
-			transactionDataList.add( transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() ) );
+			// Creating TransactionData
+			TransactionData transactionData = transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
+					
+			transactionDataList.add( transactionData );
 		}
 		
 		transactionDataSource.close();
@@ -299,7 +273,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transactionItemTypeIdToTransactionItemTypeDataMap;
 	}
 	
-	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction, List<TransactionItemJDO> transactionItemList, Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
+	private TransactionData transactionJDOToTransactionData(
+			TransactionJDO transaction,
+			List<TransactionItemJDO> transactionItemList, Map<String,
+			TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
+		
 		TransactionData transactionData = new TransactionData();
 		transactionData.setId( transaction.getId() );
 		transactionData.setTransactionDate( transaction.getTransactionDate() );
@@ -308,24 +286,58 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionData.setCreatedBy( transaction.getCreatedBy() );
 		
 		if( transactionItemList != null ) {
-			for( TransactionItemJDO transactionItem : transactionItemList )
-				transactionData.addTransactionItemData( transactionItemJDOToTransactionItemData( transactionItem, transactionItemTypeIdToTransactionItemTypeDataMap ) );
+			for( TransactionItemJDO transactionItem : transactionItemList ) {
+				TransactionItemData transactionItemData = transactionItemJDOToTransactionItemData(
+						transactionItem,
+						transactionItemTypeIdToTransactionItemTypeDataMap );
+				transactionData.addTransactionItemData( transactionItemData );
+			}
 		}
 		
 		return transactionData;
 	}
 
-	private TransactionItemData transactionItemJDOToTransactionItemData( TransactionItemJDO transactionItem, Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
+	private TransactionItemData transactionItemJDOToTransactionItemData(
+			TransactionItemJDO transactionItem,
+			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
+		
 		TransactionItemData transactionItemData = new TransactionItemData();
 		transactionItemData.setId( transactionItem.getId() );
 		transactionItemData.setTransactionId( transactionItem.getTransactionId() );
-		transactionItemData.setTransactionItemType( transactionItemTypeIdToTransactionItemTypeDataMap.get( transactionItem.getTransactionItemTypeId() ) );
+		transactionItemData.setTransactionItemType(
+				transactionItemTypeIdToTransactionItemTypeDataMap.get(
+						transactionItem.getTransactionItemTypeId() ) );
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
+		
 		return transactionItemData;
 	}
+	
+	private TransactionJDO createTransactionRequestToTransactionJDO( CreateTransactionRequest request ) {
+		
+		TransactionJDO transaction = new TransactionJDO();
+		transaction.setTransactionDate( request.getTransactionDate() == null ? new Date() : request.getTransactionDate() );
+		transaction.setDescription( request.getDescription() );
+		transaction.setCreationDate( new Date() );
+		transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
 
+		return transaction;
+	}
+	
+	private TransactionItemJDO createTransactionItemRequestToTransactionItemJDO( CreateTransactionItemRequest itemRequest ) {
+		
+		TransactionItemJDO transactionItem = new TransactionItemJDO();
+		transactionItem.setTransactionId( itemRequest.getTransactionId() );
+		transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
+		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
+		transactionItem.setAmount( itemRequest.getAmount() );
+		transactionItem.setNote( itemRequest.getNote() );
+		transactionItem.setCreationDate( new Date() );
+		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
+
+		return transactionItem;
+	}
 }
