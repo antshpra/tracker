@@ -1,7 +1,8 @@
 package tracker.service.transaction.server;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -57,15 +58,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		transactionItemQuery.orderByTransactionDate( true );
 		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 
-		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
-		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
-		
-		Map<String, TransactionItemTypeJDO> transactionItemTypeIdToTransactionItemTypeMap = new HashMap<>();
-		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList )
-			transactionItemTypeIdToTransactionItemTypeMap.put( transactionItemType.getId(), transactionItemType );
-		
 		GetTransactionResponse response = new GetTransactionResponse();
-		response.setTransactionData( transactionJDOToTransactionData( transaction, transactionItemList, transactionItemTypeIdToTransactionItemTypeMap ) );
+		response.setTransactionData( transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() ) );
 		
 		transactionDataSource.close();
 
@@ -212,20 +206,13 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	
 		logger.log( Level.INFO, transactionList.size() + " transactions found for query \"" + transactionQuery.toString() + "\"");
 		
-		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
-		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
-		
-		Map<String, TransactionItemTypeJDO> transactionItemTypeIdToTransactionItemTypeMap = new HashMap<>();
-		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList )
-			transactionItemTypeIdToTransactionItemTypeMap.put( transactionItemType.getId(), transactionItemType );
-
 		for( TransactionJDO transaction : transactionList ) {
 			TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 			transactionItemQuery.setTransactionId( transaction.getId() );
 			transactionItemQuery.orderByTransactionDate( true );
 			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 
-			transactionDataList.add( transactionJDOToTransactionData( transaction, transactionItemList, transactionItemTypeIdToTransactionItemTypeMap ) );
+			transactionDataList.add( transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() ) );
 		}
 		
 		transactionDataSource.close();
@@ -239,20 +226,17 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		RequestValidator.validate( request );
 
 		GetTransactionItemTypeListResponse response = new GetTransactionItemTypeListResponse();
-		List<TransactionItemTypeData> transactionItemTypeDataList = new LinkedList<TransactionItemTypeData>(); 
 
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
-		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
+		List<TransactionItemTypeData> transactionItemTypeDataParentList = new LinkedList<>();
+		Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap = loadTransactionItemTypeIdToTransactionItemTypeDataMap();
+		Iterator<TransactionItemTypeData> iterator = transactionItemTypeIdToTransactionItemTypeDataMap.values().iterator();
+		while( iterator.hasNext() ) {
+			TransactionItemTypeData transactionItemTypeData = iterator.next();
+			if( transactionItemTypeData.getParent() == null )
+				transactionItemTypeDataParentList.add( transactionItemTypeData );
+		}
 		
-		logger.log( Level.INFO, transactionItemTypeList.size() + " transaction item types found for query \"" + transactionItemTypeQuery.toString() + "\"");
-		
-		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList )
-			transactionItemTypeDataList.add( transactionItemTypeJDOToTransactionItemTypeData( transactionItemType ) );
-		
-		transactionDataSource.close();
-		
-		response.setTransactionItemTypeDataList( transactionItemTypeDataList );
+		response.setTransactionItemTypeDataList( transactionItemTypeDataParentList );
 		
 		return response;
 	}
@@ -282,7 +266,40 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return response;
 	}
 
-	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction, List<TransactionItemJDO> transactionItemList, Map<String, TransactionItemTypeJDO> transactionItemTypeIdToTransactionItemTypeMap ) {
+	private Map<String, TransactionItemTypeData> loadTransactionItemTypeIdToTransactionItemTypeDataMap() {
+		
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+
+		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
+		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
+		
+		// TODO: Cache the map in MemCache
+		Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap = new LinkedHashMap<>( transactionItemTypeList.size() );
+		
+		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList ) {
+			TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
+			transactionItemTypeData.setId( transactionItemType.getId() );
+			transactionItemTypeData.setTitle( transactionItemType.getTitle() );
+			transactionItemTypeIdToTransactionItemTypeDataMap.put( transactionItemType.getId(), transactionItemTypeData );
+		}
+
+		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList ) {
+			String id = transactionItemType.getId();
+			String parentId = transactionItemType.getParentId();
+			if( parentId != null ) {
+				TransactionItemTypeData transactionItemTypeData = transactionItemTypeIdToTransactionItemTypeDataMap.get( id );
+				TransactionItemTypeData parentTransactionItemTypeData = transactionItemTypeIdToTransactionItemTypeDataMap.get( parentId );
+				transactionItemTypeData.setParent( parentTransactionItemTypeData );
+				parentTransactionItemTypeData.addChild( transactionItemTypeData );
+			}
+		}
+		
+		transactionDataSource.close();
+		
+		return transactionItemTypeIdToTransactionItemTypeDataMap;
+	}
+	
+	private TransactionData transactionJDOToTransactionData( TransactionJDO transaction, List<TransactionItemJDO> transactionItemList, Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		TransactionData transactionData = new TransactionData();
 		transactionData.setId( transaction.getId() );
 		transactionData.setTransactionDate( transaction.getTransactionDate() );
@@ -292,34 +309,23 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		
 		if( transactionItemList != null ) {
 			for( TransactionItemJDO transactionItem : transactionItemList )
-				transactionData.addTransactionItemData( transactionItemJDOToTransactionItemData( transactionItem, transactionItemTypeIdToTransactionItemTypeMap ) );
+				transactionData.addTransactionItemData( transactionItemJDOToTransactionItemData( transactionItem, transactionItemTypeIdToTransactionItemTypeDataMap ) );
 		}
 		
 		return transactionData;
 	}
 
-	private TransactionItemData transactionItemJDOToTransactionItemData( TransactionItemJDO transactionItem, Map<String, TransactionItemTypeJDO> transactionItemTypeIdToTransactionItemTypeMap ) {
+	private TransactionItemData transactionItemJDOToTransactionItemData( TransactionItemJDO transactionItem, Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		TransactionItemData transactionItemData = new TransactionItemData();
 		transactionItemData.setId( transactionItem.getId() );
 		transactionItemData.setTransactionId( transactionItem.getTransactionId() );
-		transactionItemData.setTransactionItemType(
-				transactionItemTypeJDOToTransactionItemTypeData(
-						transactionItemTypeIdToTransactionItemTypeMap.get(
-								transactionItem.getTransactionItemTypeId() ) ));
+		transactionItemData.setTransactionItemType( transactionItemTypeIdToTransactionItemTypeDataMap.get( transactionItem.getTransactionItemTypeId() ) );
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
 		return transactionItemData;
-	}
-
-	private TransactionItemTypeData transactionItemTypeJDOToTransactionItemTypeData( TransactionItemTypeJDO transactionItemType ) {
-		TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
-		transactionItemTypeData.setId( transactionItemType.getId() );
-		transactionItemTypeData.setParentId( transactionItemType.getParentId() );
-		transactionItemTypeData.setTitle( transactionItemType.getTitle() );
-		return transactionItemTypeData;
 	}
 
 }

@@ -50,7 +50,7 @@ public class TotalAmountByTransactionItemTypeModuleImpl extends Composite {
 	private void proceed( List<TransactionItemTypeData> transactionItemTypeDataList ) {
 		
 		for( final TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
-			final Label label = new Label( transactionItemTypeData.getTitle() + ": Loading ..." );
+			final Label label = new Label( transactionItemTypeData.getTitle() + " - Loading ..." );
 			panel.add( label );
 			
 			GetTotalAmountByTransactionItemTypeRequest request = new GetTotalAmountByTransactionItemTypeRequest();
@@ -69,8 +69,38 @@ public class TotalAmountByTransactionItemTypeModuleImpl extends Composite {
 				}
 			
 			});
+			
+			proceed( transactionItemTypeData.getTitle() + " : ", transactionItemTypeData.getChildren() );
 		}
 		
+	}
+	
+	private void proceed( final String prefix, List<TransactionItemTypeData> transactionItemTypeDataList ) {
+
+		for( final TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
+			final Label label = new Label( prefix + transactionItemTypeData.getTitle() + " - Loading ..." );
+			panel.add( label );
+			
+			GetTotalAmountByTransactionItemTypeRequest request = new GetTotalAmountByTransactionItemTypeRequest();
+			request.settransactionItemTypeId( transactionItemTypeData.getId() );
+			transactionService.getTotalAmountByTransactionItemType( request, new AsyncCallback<GetTotalAmountByTransactionItemTypeResponse>() {
+
+				@Override
+				public void onFailure( Throwable caught ) {
+					// TODO: Auto-generated method stub
+					Window.alert( caught.getClass().getName() );
+				}
+
+				@Override
+				public void onSuccess( GetTotalAmountByTransactionItemTypeResponse result ) {
+					label.setText( prefix + transactionItemTypeData.getTitle() + " - Rs. " + result.getAmount() );
+				}
+			
+			});
+			
+			proceed( prefix + transactionItemTypeData.getTitle() + " : ", transactionItemTypeData.getChildren() );
+		}
+
 	}
 
 }

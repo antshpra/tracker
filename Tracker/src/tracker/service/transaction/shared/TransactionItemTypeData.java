@@ -1,29 +1,42 @@
 package tracker.service.transaction.shared;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TransactionItemTypeData implements Serializable {
 
 	private static final long serialVersionUID = 4200719521234528721L;
 
-	private String transactionItemTypeId;
-
-	private String parentId;
+	private String id;
 
 	private String title;
 	
+	private TransactionItemTypeData parent;
 	
-	public String getId() { return this.transactionItemTypeId; }
+	private List<TransactionItemTypeData> children;
+	
+	
+	public TransactionItemTypeData() {
+		this.children = new LinkedList<>();
+	}
+	
+	
+	public String getId() { return this.id; }
 
-	public String getParentId() { return this.parentId; }
-	
 	public String getTitle() { return this.title; }
 	
-
-	public void setId( String id ) { this.transactionItemTypeId = id; }
+	public TransactionItemTypeData getParent() { return this.parent; };
 	
-	public void setParentId( String parentId ) { this.parentId = parentId; }
+	public List<TransactionItemTypeData> getChildren() { return this.children; };
+	
 
+	public void setId( String id ) { this.id = id; }
+	
 	public void setTitle( String title ) { this.title = title; }
+	
+	public void setParent( TransactionItemTypeData parent ) { this.parent = parent; }
+	
+	public void addChild( TransactionItemTypeData child ) { this.children.add( child ); }
 	
 }

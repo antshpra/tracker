@@ -1,10 +1,8 @@
 package tracker.module.transaction.client.views;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import tracker.module.transaction.client.DateTimePicker;
+import tracker.module.transaction.client.DateTimePickerOptional;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.TransactionItemData;
 import tracker.service.transaction.shared.TransactionItemTypeData;
@@ -17,7 +15,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class TransactionItemInputViewImpl extends TransactionItemInputView {
 
-	private DateTimePicker dateTimePicker = new DateTimePicker();
+	private DateTimePickerOptional dateTimePicker = new DateTimePickerOptional();
 	private Label amountLabel = new Label( "Amount" ); // TODO: I18n
 	private TextBox amountInput = new TextBox();
 	private ListBox itemTypeList = new ListBox();
@@ -61,34 +59,24 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 	
 	@Override
 	public void setTransactionItemTypeDataList( List<TransactionItemTypeData> transactionItemTypeDataList ) {
-		Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap = new HashMap<>();
-		for( TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList )
-			transactionItemTypeIdToTransactionItemTypeDataMap.put( transactionItemTypeData.getId(), transactionItemTypeData );
-
-		setTransactionItemTypeList( transactionItemTypeDataList, transactionItemTypeIdToTransactionItemTypeDataMap );
-	}
-	
-	private void setTransactionItemTypeList(
-			List<TransactionItemTypeData> transactionItemTypeDataList,
-			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
-		
 		itemTypeList.clear();
 		itemTypeList.addItem( "-- Select Transaction Item Type --" ); // I18n
-
 		for( TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
-			TransactionItemTypeData parentTransactionItemTypeData =
-					transactionItemTypeIdToTransactionItemTypeDataMap.get( transactionItemTypeData.getParentId() );
-			
-			if( parentTransactionItemTypeData != null ) {
-				itemTypeList.addItem( 
-						parentTransactionItemTypeData.getTitle() + " : " + transactionItemTypeData.getTitle(),
-						transactionItemTypeData.getId() );
-			} else {
-				itemTypeList.addItem(
-						transactionItemTypeData.getTitle(),
-						transactionItemTypeData.getId() );
-			}
+			itemTypeList.addItem( transactionItemTypeData.getTitle(), transactionItemTypeData.getId() );
+			setTransactionItemTypeDataList( transactionItemTypeData.getTitle() + " : ", transactionItemTypeData.getChildren() );
 		}
 	}
+	
+	private void setTransactionItemTypeDataList( String prefix, List<TransactionItemTypeData> transactionItemTypeDataList ) {
+		for( TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
+			itemTypeList.addItem(
+					prefix + transactionItemTypeData.getTitle(),
+					transactionItemTypeData.getId() );
+			setTransactionItemTypeDataList(
+					prefix + transactionItemTypeData.getTitle() + " : ",
+					transactionItemTypeData.getChildren() );
+		}
+	}
+	
 
 }
