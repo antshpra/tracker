@@ -47,7 +47,6 @@ public class CreateTransactionItemRequest extends Request {
 	}
 	
 	public void setTransactionDate( Date transactionDate ) {
-		assertNonNull( transactionDate );
 		this.transactionDate = transactionDate;
 	}
 	
