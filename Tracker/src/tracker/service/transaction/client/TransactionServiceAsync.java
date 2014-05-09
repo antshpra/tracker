@@ -2,8 +2,6 @@ package tracker.service.transaction.client;
 
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.CreateTransactionResponse;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeRequest;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.GetTransactionListRequest;
@@ -23,6 +21,4 @@ public interface TransactionServiceAsync {
 
 	void getTransactionItemTypeList( GetTransactionItemTypeListRequest request, AsyncCallback<GetTransactionItemTypeListResponse> callback );
 
-	void getTotalAmountByTransactionItemType( GetTotalAmountByTransactionItemTypeRequest request, AsyncCallback<GetTotalAmountByTransactionItemTypeResponse> callback );
-	
 }

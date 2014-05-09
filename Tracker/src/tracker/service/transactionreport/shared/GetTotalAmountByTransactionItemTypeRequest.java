@@ -1,4 +1,4 @@
-package tracker.service.transaction.shared;
+package tracker.service.transactionreport.shared;
 
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;

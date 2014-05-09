@@ -22,8 +22,6 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.CreateTransactionResponse;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeRequest;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.GetTransactionListRequest;
@@ -220,31 +218,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return response;
 	}
 	
-	@Override
-	public GetTotalAmountByTransactionItemTypeResponse getTotalAmountByTransactionItemType( GetTotalAmountByTransactionItemTypeRequest request ) throws InvalidRequestException, ServerException {
-		
-		RequestValidator.validate( request );
-
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
-		transactionItemQuery.setTransactionItemTypeId( request.getTransactionItemTypeId() );
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
-
-		double amount = transactionDataSource
-				.getTransactionItemType( request.getTransactionItemTypeId() )
-				.getInitialAmount();
-		
-		for( TransactionItemJDO transactionItem : transactionItemList )
-			amount = amount + transactionItem.getAmount();
-		
-		transactionDataSource.close();
-		
-		GetTotalAmountByTransactionItemTypeResponse response = new GetTotalAmountByTransactionItemTypeResponse();
-		response.setAmount( amount );
-		
-		return response;
-	}
-
 	private Map<String, TransactionItemTypeData> loadTransactionItemTypeIdToTransactionItemTypeDataMap() {
 		
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
@@ -314,6 +287,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 						transactionItem.getTransactionItemTypeId() ) );
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
+		logger.log( Level.SEVERE, transactionItem.getAmount() + "");
+		logger.log( Level.SEVERE, transactionItemData.getAmount() + "");
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );

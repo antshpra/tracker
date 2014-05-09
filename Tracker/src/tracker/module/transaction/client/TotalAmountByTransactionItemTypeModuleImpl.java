@@ -4,11 +4,13 @@ import java.util.List;
 
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeRequest;
-import tracker.service.transaction.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.TransactionItemTypeData;
+import tracker.service.transactionreport.client.TransactionReportService;
+import tracker.service.transactionreport.client.TransactionReportServiceAsync;
+import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeRequest;
+import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeResponse;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -21,6 +23,7 @@ import com.google.gwt.user.client.ui.Panel;
 public class TotalAmountByTransactionItemTypeModuleImpl extends Composite {
 
 	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
+	private static final TransactionReportServiceAsync transactionReportService = GWT.create( TransactionReportService.class );
 
 	private Panel panel = new FlowPanel();
 
@@ -55,7 +58,7 @@ public class TotalAmountByTransactionItemTypeModuleImpl extends Composite {
 			
 			GetTotalAmountByTransactionItemTypeRequest request = new GetTotalAmountByTransactionItemTypeRequest();
 			request.settransactionItemTypeId( transactionItemTypeData.getId() );
-			transactionService.getTotalAmountByTransactionItemType( request, new AsyncCallback<GetTotalAmountByTransactionItemTypeResponse>() {
+			transactionReportService.getTotalAmountByTransactionItemType( request, new AsyncCallback<GetTotalAmountByTransactionItemTypeResponse>() {
 
 				@Override
 				public void onFailure( Throwable caught ) {
@@ -83,7 +86,7 @@ public class TotalAmountByTransactionItemTypeModuleImpl extends Composite {
 			
 			GetTotalAmountByTransactionItemTypeRequest request = new GetTotalAmountByTransactionItemTypeRequest();
 			request.settransactionItemTypeId( transactionItemTypeData.getId() );
-			transactionService.getTotalAmountByTransactionItemType( request, new AsyncCallback<GetTotalAmountByTransactionItemTypeResponse>() {
+			transactionReportService.getTotalAmountByTransactionItemType( request, new AsyncCallback<GetTotalAmountByTransactionItemTypeResponse>() {
 
 				@Override
 				public void onFailure( Throwable caught ) {
