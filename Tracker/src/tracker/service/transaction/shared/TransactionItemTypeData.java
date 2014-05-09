@@ -26,6 +26,18 @@ public class TransactionItemTypeData implements Serializable {
 
 	public String getTitle() { return this.title; }
 	
+	public String getQualifiedTitle() {
+		String title = this.title;
+		TransactionItemTypeData parent = this.parent;
+	
+		while( parent != null ) {
+			title = parent.getTitle() + "::" + title;
+			parent = parent.getParent();
+		}
+		
+		return title;
+	}
+
 	public TransactionItemTypeData getParent() { return this.parent; };
 	
 	public List<TransactionItemTypeData> getChildren() { return this.children; };
