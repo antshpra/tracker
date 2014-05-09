@@ -287,8 +287,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 						transactionItem.getTransactionItemTypeId() ) );
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
-		logger.log( Level.SEVERE, transactionItem.getAmount() + "");
-		logger.log( Level.SEVERE, transactionItemData.getAmount() + "");
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
