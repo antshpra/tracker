@@ -49,7 +49,7 @@ public class TransactionItemData implements Serializable {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	
-	public void setAmount( double amount ) { this.amount = (long) ( amount * 100 ); }
+	public void setAmount( double amount ) { this.amount = Math.round( amount * 100 ); }
 	
 	public void setNote( String note ) { this.note = note; }
 	
