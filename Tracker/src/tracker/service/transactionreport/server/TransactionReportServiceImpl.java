@@ -8,8 +8,12 @@ import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.service.transactionreport.client.TransactionReportService;
+import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
+import tracker.service.transactionreport.shared.GetMonthlyReportResponse;
 import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeRequest;
 import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeResponse;
+import tracker.service.transactionreport.shared.GetYearlyReportRequest;
+import tracker.service.transactionreport.shared.GetYearlyReportResponse;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.ServerException;
@@ -46,6 +50,21 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		response.setAmount( amount );
 		
 		return response;
+	}
+
+	@Override
+	public GetMonthlyReportResponse getMonthlyReport(
+			GetMonthlyReportRequest reqest) throws InvalidRequestException,
+			ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GetYearlyReportResponse getYearlyReport(GetYearlyReportRequest reqest)
+			throws InvalidRequestException, ServerException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

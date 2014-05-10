@@ -8,7 +8,7 @@ public class TransactionItemTypeData implements Serializable {
 
 	private static final long serialVersionUID = 4200719521234528721L;
 
-	private String id;
+	private String transactionItemTypeId;
 
 	private String title;
 	
@@ -22,7 +22,7 @@ public class TransactionItemTypeData implements Serializable {
 	}
 	
 	
-	public String getId() { return this.id; }
+	public String getId() { return this.transactionItemTypeId; }
 
 	public String getTitle() { return this.title; }
 	
@@ -43,7 +43,7 @@ public class TransactionItemTypeData implements Serializable {
 	public List<TransactionItemTypeData> getChildren() { return this.children; };
 	
 
-	public void setId( String id ) { this.id = id; }
+	public void setId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
 	
 	public void setTitle( String title ) { this.title = title; }
 	
