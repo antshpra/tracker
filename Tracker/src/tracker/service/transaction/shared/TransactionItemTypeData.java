@@ -11,6 +11,8 @@ public class TransactionItemTypeData implements Serializable {
 	private String transactionItemTypeId;
 
 	private String title;
+
+	private long initialAmount;
 	
 	private TransactionItemTypeData parent;
 	
@@ -38,6 +40,8 @@ public class TransactionItemTypeData implements Serializable {
 		return title;
 	}
 
+	public double getInitialAmount() { return ( (double) this.initialAmount ) / 100; }
+	
 	public TransactionItemTypeData getParent() { return this.parent; };
 	
 	public List<TransactionItemTypeData> getChildren() { return this.children; };
@@ -46,6 +50,8 @@ public class TransactionItemTypeData implements Serializable {
 	public void setId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
 	
 	public void setTitle( String title ) { this.title = title; }
+	
+	public void setInitialAmount( double initialAmount ) { this.initialAmount = Math.round( initialAmount * 100); }
 	
 	public void setParent( TransactionItemTypeData parent ) { this.parent = parent; }
 	

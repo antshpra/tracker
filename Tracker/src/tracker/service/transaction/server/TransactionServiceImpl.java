@@ -232,6 +232,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
 			transactionItemTypeData.setId( transactionItemType.getId() );
 			transactionItemTypeData.setTitle( transactionItemType.getTitle() );
+			transactionItemTypeData.setInitialAmount( transactionItemType.getInitialAmount() );
 			transactionItemTypeIdToTransactionItemTypeDataMap.put( transactionItemType.getId(), transactionItemTypeData );
 		}
 
