@@ -17,6 +17,7 @@ public enum TransactionItemTypeDB {
 	HOUSE_HOLD_SNACKS		( 2002, 2000, "Snacks", 0 ),
 	HOUSE_HOLD_PERSONAL_CARE( 2003, 2000, "Personal Care", 0 ),
 	HOUSE_HOLD_HEALTH_CARE	( 2004, 2000, "Health Care", 0 ),
+	HOUSE_HOLD_KITCHEN		( 2005, 2000, "Kitchen", 0 ),
 	
 	LIFE_STYLE			( 3000, 3000, "Life Style", 0 ),
 	LIFE_STYLE_APPARELS	( 3001, 3000, "Apparels", 0 ),
@@ -65,6 +66,7 @@ public enum TransactionItemTypeDB {
 	 * 	21 APR Polo				  2.00
 	 * 	23 APR Naveen			 16.00
 	 * 	30 APR (Untracked)		-99.00
+	 *  30 APR Booze
 	 * 	01 MAY Prasads Parking	 15.00
 	 * 
 	 *  01 MAY TOTAL		     10.52
@@ -73,8 +75,9 @@ public enum TransactionItemTypeDB {
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
+	 * 	13 MAY Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1228663
 	 */
-	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -36129.37 ), // 6565.57 - 41933.84 - 321.10 - 440
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35975.62 ), // (6565.57 - 41933.84 - 321.10 + 593.75) - 440 -440
 	
 	SERVICES					( 10000, 10000, "Services", 0 ),
 	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent", 0 ),
