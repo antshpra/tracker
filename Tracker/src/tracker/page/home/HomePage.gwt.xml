@@ -10,6 +10,7 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='tracker.module.transaction.TransactionModule'/>
+  <inherits name='tracker.module.transactionreport.TransactionReportModule'/>
   <inherits name='tracker.theme.Theme'/>
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
