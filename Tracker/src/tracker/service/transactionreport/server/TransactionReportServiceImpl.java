@@ -16,8 +16,6 @@ import tracker.service.transaction.shared.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
 import tracker.service.transactionreport.shared.GetMonthlyReportResponse;
-import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeRequest;
-import tracker.service.transactionreport.shared.GetTotalAmountByTransactionItemTypeResponse;
 import tracker.service.transactionreport.shared.GetYearlyReportRequest;
 import tracker.service.transactionreport.shared.GetYearlyReportResponse;
 import tracker.service.transactionreport.shared.TransactionReportData;
@@ -34,30 +32,6 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 	private static final TransactionDataSourceFactory transactionDataSourceFactory = new TransactionDataSourceFactory();
 	
-	@Override
-	public GetTotalAmountByTransactionItemTypeResponse getTotalAmountByTransactionItemType( GetTotalAmountByTransactionItemTypeRequest request ) throws InvalidRequestException, ServerException {
-		
-		RequestValidator.validate( request );
-
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
-		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
-		transactionItemQuery.setTransactionItemTypeId( request.getTransactionItemTypeId() );
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
-
-		double amount = transactionDataSource
-				.getTransactionItemType( request.getTransactionItemTypeId() )
-				.getInitialAmount();
-		
-		for( TransactionItemJDO transactionItem : transactionItemList )
-			amount = amount + transactionItem.getAmount();
-		
-		transactionDataSource.close();
-		
-		GetTotalAmountByTransactionItemTypeResponse response = new GetTotalAmountByTransactionItemTypeResponse();
-		response.setAmount( amount );
-		
-		return response;
-	}
 
 	@Override
 	public GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest request ) throws InvalidRequestException, ServerException {
