@@ -1,5 +1,6 @@
 package tracker.module.transaction.client.views;
 
+import java.util.Date;
 import java.util.List;
 
 import tracker.module.transaction.client.DateUtil;
@@ -31,12 +32,16 @@ public class TransactionViewImpl extends TransactionView {
 	private TransactionModuleStyle style = ThemeFactory.getTheme().getTransactionModuleStyle();
 
 	private String transactionId;
+	private String transactionDesc;
+	private Date transactionDate;
 	
 	private FocusPanel transactionDetailPanel = new FocusPanel();
 	private TransactionItemList transactionItemList = new TransactionItemList();
 
 	public TransactionViewImpl( TransactionData transactionData ) {
 		this.transactionId = transactionData.getId();
+		this.transactionDesc = transactionData.getDescription();
+		this.transactionDate = transactionData.getTransactionDate();
 		
 		Label dateLabel = new Label();
 		Label timeLabel = new Label();
@@ -113,8 +118,13 @@ public class TransactionViewImpl extends TransactionView {
 				if( transactionItemDataList == null ) {
 					Window.alert( "Nothing under this transaction !" ); // TODO: I18n
 				} else {
-					for( TransactionItemData transactionItemData : transactionItemDataList )
+					double amount = 0;
+					for( TransactionItemData transactionItemData : transactionItemDataList ) {
 						TransactionViewImpl.this.transactionItemList.add( transactionItemData );
+						amount = amount + transactionItemData.getAmount();
+					}
+					if( amount != 0 )
+						Window.alert( "Amount = " + amount + " for Tr. " + transactionDesc + " (" + transactionDate + ")" ); // TODO: I18n
 				}
 			}
 			
