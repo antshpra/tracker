@@ -5,14 +5,19 @@ import antshpra.gwt.rpc.shared.RequiredField;
 
 public class GetMonthlyReportRequest extends Request {
 
+	private static final long serialVersionUID = -7943074790482734240L;
+
 	public enum YearType {
 		CALENDAR,
 		FINANCIAL
 	}
+	
+	public enum ReportType {
+		PERODIC,
+		CUMULATIVE
+	}
 
 	
-	private static final long serialVersionUID = -7943074790482734240L;
-
 	@RequiredField
 	public Integer year;
 	
@@ -21,7 +26,10 @@ public class GetMonthlyReportRequest extends Request {
 
 	@RequiredField
 	public String transactionItemTypeId;
-	
+
+	@RequiredField
+	public ReportType reportType;
+
 	
 	public int getYear() { return year; }
 
@@ -29,9 +37,12 @@ public class GetMonthlyReportRequest extends Request {
 
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 	
+	public ReportType getReportType() { return this.reportType; }
+
 	
 	public void setYear( int year  ) {
 		assertNonZero( year );
+		assertNonNegative( year );
 		this.year = year;
 	}
 
@@ -44,6 +55,11 @@ public class GetMonthlyReportRequest extends Request {
 		assertNonNull( transactionItemTypeId );
 		assertNonEmpty( transactionItemTypeId );
 		this.transactionItemTypeId = transactionItemTypeId;
+	}
+	
+	public void setReportType( ReportType reportType ) {
+		assertNonNull( reportType );
+		this.reportType = reportType;
 	}
 	
 }

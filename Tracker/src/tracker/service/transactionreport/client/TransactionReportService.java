@@ -17,8 +17,8 @@ public interface TransactionReportService extends RemoteService {
 
 	GetTotalAmountByTransactionItemTypeResponse getTotalAmountByTransactionItemType( GetTotalAmountByTransactionItemTypeRequest request ) throws InvalidRequestException, ServerException;
 
-	GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest reqest ) throws InvalidRequestException, ServerException;
+	GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest request ) throws InvalidRequestException, ServerException;
 	
-	GetYearlyReportResponse getYearlyReport( GetYearlyReportRequest reqest ) throws InvalidRequestException, ServerException;
+	GetYearlyReportResponse getYearlyReport( GetYearlyReportRequest request ) throws InvalidRequestException, ServerException;
 	
 }

@@ -22,7 +22,7 @@ public class TransactionReportData implements Serializable {
 	}
 	
 	
-	public String getId() { return this.transactionItemTypeId; }
+	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 
 	public String getTitle() { return this.title; }
 
@@ -38,11 +38,15 @@ public class TransactionReportData implements Serializable {
 	public List<TransactionReportData> getChildren() { return this.children; };
 	
 
-	public void setId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
+	public void setTransactionItemTypeId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setAmount( double amount ) { Math.round( amount * 100 ); }
+	public void setAmount( double amount[] ) {
+		this.amount = new long[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		for( int i = 0; i < amount.length; i++ )
+			this.amount[i] = Math.round( amount[i] * 100 );
+	}
 	
 	public void addChild( TransactionReportData child ) { this.children.add( child ); }
 	
