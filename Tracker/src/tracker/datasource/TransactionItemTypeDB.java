@@ -43,9 +43,9 @@ public enum TransactionItemTypeDB {
 		
 	SAVINGS_ACCOUNT			( 6000, 6000, "Savings Account", 0 ),
 	SAVINGS_ACCOUNT_SBBJ	( 6001, 6000, "Savings Account (SBBJ)", 0 ),
-	SAVINGS_ACCOUNT_IDBI	( 6002, 6000, "Savings Account (IDBI)", 10153.82 ),
+	SAVINGS_ACCOUNT_IDBI	( 6002, 6000, "Savings Account (IDBI)", 10238.82 ),
 	SAVINGS_ACCOUNT_ICICI	( 6003, 6000, "Savings Account (ICICI)", 205764.05 ),
-	SAVINGS_ACCOUNT_KMB		( 6004, 6000, "Savings Account (KMB)", 200000.00 ),
+	SAVINGS_ACCOUNT_KMB		( 6004, 6000, "Savings Account (KMB)", 181902.00 ),
 	
 	FIXED_DEPOSIT		( 7000, 7000, "Fixed Deposit", 0 ),
 	FIXED_DEPOSIT_ICICI	( 7001, 7000, "Fixed Deposit (ICICI)", 0 ),
@@ -59,6 +59,7 @@ public enum TransactionItemTypeDB {
 	/*
 	 * PENDING EXPENSE REPORTING
 	 * 
+	 *  -- --- Coins			 40.00
 	 * 	04 APR Shuchi		  	  0.52
 	 * 	07 APR Shuchi	 		 20.00
 	 * 	14 APR Manish			 -4.00
@@ -66,18 +67,26 @@ public enum TransactionItemTypeDB {
 	 * 	21 APR Polo				  2.00
 	 * 	23 APR Naveen			 16.00
 	 * 	30 APR (Untracked)		-99.00
-	 *  30 APR Booze
+	 *  30 APR Booze            740.00
 	 * 	01 MAY Prasads Parking	 15.00
-	 * 
-	 *  01 MAY TOTAL		     10.52
+	 *  -- --- To Mama,for Cab-2400.00
+	 *  -- --- April Rent	   4000.00
+	 *  -- --- April Phone Bill 497.77
+	 *  -- --- May Phone Bill   317.00
+	 *  -- --- SC Cashback		180.15 // Shuchi
+	 *  -- --- Delhi Trip	   6374.24
+	 *  
+	 *  -- --- TOTAL		   9759.68
 	 */
-	POCKET_CASH		( 9001, 9000, "Cash", (4106.39 + 321.10) -10.52 ),
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 9759.68 ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0 ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
 	 * 	13 MAY Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1228663
 	 */
 	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35975.62 ), // (6565.57 - 41933.84 - 321.10 + 593.75) - 440 -440
+	
+	// Initial POCKET_CASH + POCKET_BILLSUP must be equal to  Rs. -20,918.97
 	
 	SERVICES					( 10000, 10000, "Services", 0 ),
 	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent", 0 ),
