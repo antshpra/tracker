@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
+import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
@@ -39,8 +40,8 @@ public class TransactionServiceImplTest {
 		
 		// Transaction Data
 		String transactionDescription = "Test Transaction";
-		String transactionItem1Description = "Test Transaction Item 1";
-		String transactionItem2Description = "Test Transaction Item 2";
+		String transactionItem1Note = "Test Transaction Item 1";
+		String transactionItem2Note = "Test Transaction Item 2";
 		
 		
 		// Creating CreateTransactionRequest object
@@ -50,8 +51,8 @@ public class TransactionServiceImplTest {
 		CreateTransactionItemRequest createTransactionItemRequest_1 = new CreateTransactionItemRequest();
 		CreateTransactionItemRequest createTransactionItemRequest_2 = new CreateTransactionItemRequest();
 
-		createTransactionItemRequest_1.setDescription( transactionItem1Description );
-		createTransactionItemRequest_2.setDescription( transactionItem2Description );
+		createTransactionItemRequest_1.setNote( transactionItem1Note );
+		createTransactionItemRequest_2.setNote( transactionItem2Note );
 		
 		createTransactionRequest.addCreateTransactionItemRequest( createTransactionItemRequest_1 );
 		createTransactionRequest.addCreateTransactionItemRequest( createTransactionItemRequest_2 );
@@ -59,7 +60,7 @@ public class TransactionServiceImplTest {
 		
 		// Invoking createTransaction API
 		TransactionServiceImpl transactionService = new TransactionServiceImpl();
-		String transactionId = transactionService.createTransaction( createTransactionRequest );
+		String transactionId = transactionService.createTransaction( createTransactionRequest ).getTransactionId();
 		
 		
 		// Validating Data
@@ -72,15 +73,18 @@ public class TransactionServiceImplTest {
 		Assert.assertNotNull( transaction );
 		Assert.assertEquals( transactionDescription, transaction.getDescription() );
 		
-		List<TransactionItemJDO> transactionItemList = transaction.getTransactionItemJDOList();
+		
+		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
+		transactionItemQuery.setTransactionId( transactionId );
+		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 		Assert.assertNotNull( transactionItemList );
 		Assert.assertEquals( 2, transactionItemList.size() );
 
 		TransactionItemJDO transactionItem_1 = transactionItemList.get( 0 );
 		TransactionItemJDO transactionItem_2 = transactionItemList.get( 1 );
 
-		Assert.assertEquals( transactionItem1Description, transactionItem_1.getDescription() );
-		Assert.assertEquals( transactionItem2Description, transactionItem_2.getDescription() );
+		Assert.assertEquals( transactionItem1Note, transactionItem_1.getNote() );
+		Assert.assertEquals( transactionItem2Note, transactionItem_2.getNote() );
 
 		
 		// Validating parent-child relationship
