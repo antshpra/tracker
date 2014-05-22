@@ -38,7 +38,7 @@ public class TransactionItemViewImpl extends TransactionItemView {
 		dateUtil.setDate( transactionItemData.getTransactionDate() );
 
 		descriptionLabel.setText(
-				"Rs. " + transactionItemData.getAmount() +
+				transactionItemData.getAmount().toString() +
 				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") +
 				" #" + transactionItemData.getTransactionItemType().getTitle() );
 	}

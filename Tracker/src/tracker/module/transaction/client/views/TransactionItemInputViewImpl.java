@@ -2,6 +2,7 @@ package tracker.module.transaction.client.views;
 
 import java.util.List;
 
+import tracker.commons.shared.Amount;
 import tracker.module.transaction.client.DateTimePickerOptional;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.TransactionItemData;
@@ -47,7 +48,7 @@ public class TransactionItemInputViewImpl extends TransactionItemInputView {
 		CreateTransactionItemRequest createTransactionItemRequest = new CreateTransactionItemRequest();
 		createTransactionItemRequest.setTransactionItemTypeId( itemTypeList.getValue( itemTypeList.getSelectedIndex() ) );
 		createTransactionItemRequest.setTransactionDate( dateTimePicker.getDate() );
-		createTransactionItemRequest.setAmount( Double.parseDouble( amountInput.getText() ) );
+		createTransactionItemRequest.setAmount( new Amount( (long) ( Double.parseDouble( amountInput.getText() ) * 100 ) ) );
 		createTransactionItemRequest.setNote( noteInput.getText() );
 		return createTransactionItemRequest;
 	}

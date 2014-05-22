@@ -4,6 +4,8 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import tracker.commons.shared.Amount;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -29,12 +31,8 @@ public class TransactionItemTypeJDO {
 	
 	public String getTitle() { return this.title; }
 
-	public double getInitialAmount() {
-		if( this.initialAmount == null || (long) this.initialAmount == 0L )
-			return 0;
-		
-		return ( (double) (long) this.initialAmount ) / 100;
-	}
+	public Amount getInitialAmount() { return new Amount( this.initialAmount ); }
+	
 	
 	// TODO: Remove this member once TransactionItemTypeDB is migrated to DataStore
 	public void setId( Key key ) { this.transactionItemTypeId = key; }
@@ -43,8 +41,8 @@ public class TransactionItemTypeJDO {
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setInitialAmount( double initialAmount ) {
-		this.initialAmount = (Long) (long) ( initialAmount * 100 );
+	public void setInitialAmount( Amount initialAmount ) {
+		this.initialAmount = initialAmount.getValue();
 	}
 
 }

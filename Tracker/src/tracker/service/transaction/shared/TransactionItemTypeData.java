@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import tracker.commons.shared.Amount;
+
 public class TransactionItemTypeData implements Serializable {
 
 	private static final long serialVersionUID = 4200719521234528721L;
@@ -12,12 +14,12 @@ public class TransactionItemTypeData implements Serializable {
 
 	private String title;
 
-	private long initialAmount;
+	private Amount initialAmount;
 	
 	private TransactionItemTypeData parent;
 	
 	private List<TransactionItemTypeData> children;
-	
+
 	
 	public TransactionItemTypeData() {
 		this.children = new LinkedList<>();
@@ -40,7 +42,7 @@ public class TransactionItemTypeData implements Serializable {
 		return title;
 	}
 
-	public double getInitialAmount() { return ( (double) this.initialAmount ) / 100; }
+	public Amount getInitialAmount() { return this.initialAmount; }
 	
 	public TransactionItemTypeData getParent() { return this.parent; };
 	
@@ -51,7 +53,7 @@ public class TransactionItemTypeData implements Serializable {
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setInitialAmount( double initialAmount ) { this.initialAmount = Math.round( initialAmount * 100); }
+	public void setInitialAmount( Amount initialAmount ) { this.initialAmount = initialAmount; }
 	
 	public void setParent( TransactionItemTypeData parent ) { this.parent = parent; }
 	

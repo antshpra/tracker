@@ -7,6 +7,8 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import tracker.commons.shared.Amount;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -47,7 +49,7 @@ public class TransactionItemJDO {
 	
 	public Date getTransactionDate() { return new Date( this.transactionDate.getTime() ); }
 	
-	public double getAmount() { return this.amount == null ? 0 : ( (double) this.amount ) / 100; }
+	public Amount getAmount() { return new Amount( this.amount ); }
 	
 	public String getNote() { return this.note; }
 	
@@ -62,7 +64,7 @@ public class TransactionItemJDO {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 
-	public void setAmount( double amount ) { this.amount = Math.round( amount * 100 ); }
+	public void setAmount( Amount amount ) { this.amount = amount.getValue(); }
 	
 	public void setNote( String note ) { this.note = note; }
 	

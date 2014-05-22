@@ -1,5 +1,6 @@
 <module>
   <inherits name='antshpra.gwt.rpc.RPC'/>
+  <inherits name='tracker.commons.Commons'/>
   <source path='client'/>
   <source path='shared'/>
 </module>

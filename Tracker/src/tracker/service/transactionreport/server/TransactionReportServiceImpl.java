@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import tracker.commons.shared.Amount;
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionItemQuery;
@@ -67,12 +68,25 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			transactionItemQuery.setTransactionItemTypeId( transactionItemTypeData.getId() );
 			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 
-			double amount = transactionItemTypeData.getInitialAmount();
+			Amount amount = transactionItemTypeData.getInitialAmount();
 			
 			for( TransactionItemJDO transactionItem : transactionItemList )
-				amount = amount + transactionItem.getAmount();
+				amount = amount.add( transactionItem.getAmount() );
 
-			transactionReportData.setAmount( new double[]{ amount } );
+			transactionReportData.setAmount(
+					new Amount[]{
+							amount,
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ),
+							new Amount( 0 ) } );
 			
 			for( TransactionReportData transactionReportDataChild : loadTransactionReportData( transactionItemTypeData.getChildren(), transactionDataSource ) )
 				transactionReportData.addChild( transactionReportDataChild );

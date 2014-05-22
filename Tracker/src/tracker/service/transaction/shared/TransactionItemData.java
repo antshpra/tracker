@@ -3,6 +3,8 @@ package tracker.service.transaction.shared;
 import java.io.Serializable;
 import java.util.Date;
 
+import tracker.commons.shared.Amount;
+
 public class TransactionItemData implements Serializable {
 
 	private static final long serialVersionUID = -4346143094216780110L;
@@ -15,7 +17,7 @@ public class TransactionItemData implements Serializable {
 	
 	private Date transactionDate;
 	
-	private long amount;
+	private Amount amount;
 	
 	private String note;
 
@@ -32,7 +34,7 @@ public class TransactionItemData implements Serializable {
 	
 	public Date getTransactionDate() { return this.transactionDate; }
 	
-	public double getAmount() { return ( (double) this.amount ) / 100; }
+	public Amount getAmount() { return this.amount; }
 	
 	public String getNote() { return this.note; }
 	
@@ -49,7 +51,7 @@ public class TransactionItemData implements Serializable {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 	
-	public void setAmount( double amount ) { this.amount = Math.round( amount * 100 ); }
+	public void setAmount( Amount amount ) { this.amount = amount; }
 	
 	public void setNote( String note ) { this.note = note; }
 	

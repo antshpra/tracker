@@ -2,6 +2,7 @@ package tracker.service.transaction.shared;
 
 import java.util.Date;
 
+import tracker.commons.shared.Amount;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
 
@@ -18,7 +19,7 @@ public class CreateTransactionItemRequest extends Request {
 	private Date transactionDate;
 	
 	@RequiredField
-	private Double amount;
+	private Amount amount;
 	
 	private String note;
 	
@@ -29,7 +30,7 @@ public class CreateTransactionItemRequest extends Request {
 
 	public Date getTransactionDate() { return this.transactionDate; }
 
-	public double getAmount() { return this.amount; }
+	public Amount getAmount() { return this.amount; }
 	
 	public String getNote() { return this.note; }
 
@@ -50,8 +51,8 @@ public class CreateTransactionItemRequest extends Request {
 		this.transactionDate = transactionDate;
 	}
 	
-	public void setAmount( double amount ) {
-		assertNonZero( amount );
+	public void setAmount( Amount amount ) {
+		assertNonNull( amount );
 		this.amount = amount;
 	}
 

@@ -179,10 +179,11 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 
 		for( TransactionJDO transaction : transactionList ) {
 			// Fetching TransactionItemJDO list
-			logger.log( Level.INFO, "Executing query - \"" + transactionQuery + "\"." );
 			TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 			transactionItemQuery.setTransactionId( transaction.getId() );
 			transactionItemQuery.orderByTransactionDate( true );
+			
+			logger.log( Level.INFO, "Executing query - \"" + transactionItemQuery + "\"." );
 			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 			logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + transaction.getId() );
 

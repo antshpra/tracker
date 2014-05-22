@@ -1,8 +1,9 @@
 package tracker.datasource;
 
-import com.google.appengine.api.datastore.KeyFactory;
-
+import tracker.commons.shared.Amount;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
+
+import com.google.appengine.api.datastore.KeyFactory;
 
 public enum TransactionItemTypeDB {
 
@@ -142,7 +143,7 @@ public enum TransactionItemTypeDB {
 		if( getParentId() != getId() )
 			transactionItemType.setParentId( KeyFactory.createKeyString( TransactionItemTypeJDO.class.getSimpleName(), getParentId() ) );
 		transactionItemType.setTitle( getTitle() );
-		transactionItemType.setInitialAmount( getInitialAmount() );
+		transactionItemType.setInitialAmount( new Amount( Math.round( getInitialAmount() * 100 ) ) );
 		return transactionItemType;
 	}
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import tracker.commons.shared.Amount;
+
 public class TransactionReportData implements Serializable {
 
 	private static final long serialVersionUID = 4200719521234528721L;
@@ -12,7 +14,7 @@ public class TransactionReportData implements Serializable {
 
 	private String title;
 	
-	private long amount[];
+	private Amount amount[];
 	
 	private List<TransactionReportData> children;
 	
@@ -26,12 +28,12 @@ public class TransactionReportData implements Serializable {
 
 	public String getTitle() { return this.title; }
 
-	public double getAmount( int index ) { return ( (double) this.amount[index] ) / 100; }
+	public Amount getAmount( int index ) { return this.amount[index]; }
 	
-	public double getTotalAmount( int index ) {
-		double totalAmount = getAmount( index );
+	public Amount getTotalAmount( int index ) {
+		Amount totalAmount = getAmount( index );
 		for( TransactionReportData transactionReportData : getChildren() )
-			totalAmount = totalAmount + transactionReportData.getTotalAmount( index );
+			totalAmount = totalAmount.add( transactionReportData.getTotalAmount( index ) );
 		return totalAmount;
 	}
 	
@@ -42,11 +44,7 @@ public class TransactionReportData implements Serializable {
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setAmount( double amount[] ) {
-		this.amount = new long[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		for( int i = 0; i < amount.length; i++ )
-			this.amount[i] = Math.round( amount[i] * 100 );
-	}
+	public void setAmount( Amount amount[] ) { this.amount = amount; }
 	
 	public void addChild( TransactionReportData child ) { this.children.add( child ); }
 	

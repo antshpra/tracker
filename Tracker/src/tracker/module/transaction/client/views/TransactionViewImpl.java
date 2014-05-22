@@ -3,6 +3,7 @@ package tracker.module.transaction.client.views;
 import java.util.Date;
 import java.util.List;
 
+import tracker.commons.shared.Amount;
 import tracker.module.transaction.client.DateUtil;
 import tracker.module.transaction.client.TransactionItemList;
 import tracker.service.transaction.client.TransactionService;
@@ -118,13 +119,13 @@ public class TransactionViewImpl extends TransactionView {
 				if( transactionItemDataList == null ) {
 					Window.alert( "Nothing under this transaction !" ); // TODO: I18n
 				} else {
-					double amount = 0;
+					Amount amount = new Amount( 0 );
 					for( TransactionItemData transactionItemData : transactionItemDataList ) {
 						TransactionViewImpl.this.transactionItemList.add( transactionItemData );
-						amount = amount + transactionItemData.getAmount();
+						amount = amount.add( transactionItemData.getAmount() );
 					}
-					if( amount != 0 )
-						Window.alert( "Amount = " + amount + " for Tr. " + transactionDesc + " (" + transactionDate + ")" ); // TODO: I18n
+					if( amount.getValue() != 0 )
+						Window.alert( "Amount = " + amount.getValue() + " for Tr. " + transactionDesc + " (" + transactionDate + ")" );
 				}
 			}
 			
