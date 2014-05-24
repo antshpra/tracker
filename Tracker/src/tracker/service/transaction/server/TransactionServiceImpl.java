@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import tracker.commons.server.JDOToDataConverter;
+import tracker.commons.server.RequestToJDOConverter;
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionItemQuery;
@@ -29,7 +31,6 @@ import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionResponse;
 import tracker.service.transaction.shared.TransactionData;
-import tracker.service.transaction.shared.TransactionItemData;
 import tracker.service.transaction.shared.TransactionItemTypeData;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
@@ -62,7 +63,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + request.getTransactionId() );
 
 		// Creating TransactionData
-		TransactionData transactionData = transactionJDOToTransactionData(
+		TransactionData transactionData = JDOToDataConverter.convert(
 				transaction,
 				transactionItemList,
 				loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
@@ -85,7 +86,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() )
 				RequestValidator.validate( itemRequest );
 
-		TransactionJDO transaction = createTransactionRequestToTransactionJDO( request );
+		TransactionJDO transaction = RequestToJDOConverter.convert( request );
 
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 		transaction = transactionDataSource.persistTransaction( transaction );
@@ -98,7 +99,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 					itemRequest.setTransactionDate( request.getTransactionDate() );
 				}
 				
-				TransactionItemJDO transactionItem = createTransactionItemRequestToTransactionItemJDO( itemRequest );
+				TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
 				transactionItemList.add( transactionItem );
 			}
 			transactionDataSource.persistTransactionItemList( transactionItemList );
@@ -185,7 +186,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + transaction.getId() );
 
 			// Creating TransactionData
-			TransactionData transactionData = transactionJDOToTransactionData( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
+			TransactionData transactionData = JDOToDataConverter.convert( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
 					
 			transactionDataList.add( transactionData );
 		}
@@ -251,71 +252,4 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		return transactionItemTypeIdToTransactionItemTypeDataMap;
 	}
 	
-	private TransactionData transactionJDOToTransactionData(
-			TransactionJDO transaction,
-			List<TransactionItemJDO> transactionItemList, Map<String,
-			TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
-		
-		TransactionData transactionData = new TransactionData();
-		transactionData.setId( transaction.getId() );
-		transactionData.setTransactionDate( transaction.getTransactionDate() );
-		transactionData.setDescription( transaction.getDescription() );
-		transactionData.setCreationDate( transaction.getCreationDate() );
-		transactionData.setCreatedBy( transaction.getCreatedBy() );
-		
-		if( transactionItemList != null ) {
-			for( TransactionItemJDO transactionItem : transactionItemList ) {
-				TransactionItemData transactionItemData = transactionItemJDOToTransactionItemData(
-						transactionItem,
-						transactionItemTypeIdToTransactionItemTypeDataMap );
-				transactionData.addTransactionItemData( transactionItemData );
-			}
-		}
-		
-		return transactionData;
-	}
-
-	private TransactionItemData transactionItemJDOToTransactionItemData(
-			TransactionItemJDO transactionItem,
-			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
-		
-		TransactionItemData transactionItemData = new TransactionItemData();
-		transactionItemData.setId( transactionItem.getId() );
-		transactionItemData.setTransactionId( transactionItem.getTransactionId() );
-		transactionItemData.setTransactionItemType(
-				transactionItemTypeIdToTransactionItemTypeDataMap.get(
-						transactionItem.getTransactionItemTypeId() ) );
-		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
-		transactionItemData.setAmount( transactionItem.getAmount() );
-		transactionItemData.setNote( transactionItem.getNote() );
-		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
-		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
-		
-		return transactionItemData;
-	}
-	
-	private TransactionJDO createTransactionRequestToTransactionJDO( CreateTransactionRequest request ) {
-		
-		TransactionJDO transaction = new TransactionJDO();
-		transaction.setTransactionDate( request.getTransactionDate() == null ? new Date() : request.getTransactionDate() );
-		transaction.setDescription( request.getDescription() );
-		transaction.setCreationDate( new Date() );
-		transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-
-		return transaction;
-	}
-	
-	private TransactionItemJDO createTransactionItemRequestToTransactionItemJDO( CreateTransactionItemRequest itemRequest ) {
-		
-		TransactionItemJDO transactionItem = new TransactionItemJDO();
-		transactionItem.setTransactionId( itemRequest.getTransactionId() );
-		transactionItem.setTransactionItemTypeId( itemRequest.getTransactionItemTypeId() );
-		transactionItem.setTransactionDate( itemRequest.getTransactionDate() == null ? new Date() : itemRequest.getTransactionDate() );
-		transactionItem.setAmount( itemRequest.getAmount() );
-		transactionItem.setNote( itemRequest.getNote() );
-		transactionItem.setCreationDate( new Date() );
-		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-
-		return transactionItem;
-	}
 }
