@@ -11,6 +11,11 @@ public abstract class Request implements Serializable {
 			throw new NullPointerException();
 	}
 	
+	protected static void assertLessThanOrEqual( int numberSmall, int numberBig ) {
+		if( numberSmall > numberBig )
+			throw new IllegalArgumentException();
+	}
+	
 	protected static void assertNonNegative( int number ) {
 		if( number < 0 )
 			throw new IllegalArgumentException();

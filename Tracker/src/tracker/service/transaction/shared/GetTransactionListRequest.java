@@ -95,6 +95,8 @@ public class GetTransactionListRequest extends Request {
 	}
 
 	public void setPageSize( int pageSize ) {
+		assertNonZero( pageSize );
+		assertNonNegative( pageSize );
 		this.pageSize = pageSize;
 	}
 	

@@ -58,7 +58,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 		transactionItemQuery.setTransactionId( request.getTransactionId() );
 		transactionItemQuery.orderByTransactionDate( true );
-		logger.log( Level.INFO, "Executing query - \"" + transactionItemQuery + "\"." );
 		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 		logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + request.getTransactionId() );
 
@@ -173,7 +172,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		if( request.getCreationDateChronologicalOrder() != null )
 			transactionQuery.orderByCreationDate( request.getCreationDateChronologicalOrder() );
 		
-		logger.log( Level.INFO, "Executing query - \"" + transactionQuery + "\"." );
 		List<TransactionJDO> transactionList = transactionQuery.execute( 0, request.getPageSize() );
 		logger.log( Level.INFO, transactionList.size() + " transactions found.");
 
@@ -183,7 +181,6 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItemQuery.setTransactionId( transaction.getId() );
 			transactionItemQuery.orderByTransactionDate( true );
 			
-			logger.log( Level.INFO, "Executing query - \"" + transactionItemQuery + "\"." );
 			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
 			logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + transaction.getId() );
 
@@ -234,6 +231,7 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			transactionItemTypeData.setId( transactionItemType.getId() );
 			transactionItemTypeData.setTitle( transactionItemType.getTitle() );
 			transactionItemTypeData.setInitialAmount( transactionItemType.getInitialAmount() );
+			transactionItemTypeData.setTransactionReportType( transactionItemType.getTransactionReportType() );
 			transactionItemTypeIdToTransactionItemTypeDataMap.put( transactionItemType.getId(), transactionItemTypeData );
 		}
 

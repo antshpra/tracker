@@ -27,9 +27,9 @@ public class Amount implements Serializable {
 	}
 
 	@Override
-    public String toString() {
-    	return "Rs. " + ( (double) this.getValue() ) / 100; // TODO: I18n
-    }
+	public String toString() {
+		return "Rs. " + ( (double) this.getValue() ) / 100; // TODO: I18n
+	}
 
 }
 

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import tracker.commons.shared.Amount;
+import tracker.commons.shared.TransactionReportType;
 
 public class TransactionItemTypeData implements Serializable {
 
@@ -16,6 +17,8 @@ public class TransactionItemTypeData implements Serializable {
 
 	private Amount initialAmount;
 	
+	private TransactionReportType transactionReportType;
+
 	private TransactionItemTypeData parent;
 	
 	private List<TransactionItemTypeData> children;
@@ -44,6 +47,8 @@ public class TransactionItemTypeData implements Serializable {
 
 	public Amount getInitialAmount() { return this.initialAmount; }
 	
+	public TransactionReportType getTransactionReportType() { return this.transactionReportType; }
+
 	public TransactionItemTypeData getParent() { return this.parent; };
 	
 	public List<TransactionItemTypeData> getChildren() { return this.children; };
@@ -55,6 +60,8 @@ public class TransactionItemTypeData implements Serializable {
 	
 	public void setInitialAmount( Amount initialAmount ) { this.initialAmount = initialAmount; }
 	
+	public void setTransactionReportType( TransactionReportType transactionReportType ) { this.transactionReportType = transactionReportType; }
+
 	public void setParent( TransactionItemTypeData parent ) { this.parent = parent; }
 	
 	public void addChild( TransactionItemTypeData child ) { this.children.add( child ); }
