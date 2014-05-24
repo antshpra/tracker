@@ -1,62 +1,48 @@
 package tracker.datasource;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jdo.Query;
+import java.util.Date;
 
 import tracker.datasource.jdo.TransactionItemJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
+import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
-	
-	private final Query query;
-	private final Map<String, Object> paramNameValueMap;
+public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO> implements TransactionItemQuery {
 	
 	public TransactionItemQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		this.query = gaeJDODataSource.newQuery( TransactionItemJDO.class );
-		this.paramNameValueMap = new HashMap<String, Object>();
+		super( TransactionItemJDO.class, gaeJDODataSource );
 	}
 
 	@Override
 	public void setTransactionId( String transactionId ) {
-		query.setFilter( "transactionId == transactionIdParam" );
-		query.declareParameters( String.class.getName() + " transactionIdParam" );
-		paramNameValueMap.put( "transactionIdParam", transactionId );
+		addFilter( "transactionId", transactionId );
 	}
 	
 	@Override
 	public void setTransactionItemTypeId( String transactionItemTypeId ) {
-		query.setFilter( "transactionItemTypeId == transactionItemTypeIdParam" );
-		query.declareParameters( String.class.getName() + " transactionItemTypeIdParam" );
-		paramNameValueMap.put( "transactionItemTypeIdParam", transactionItemTypeId );
+		addFilter( "transactionItemTypeId", transactionItemTypeId );
+	}
+
+	@Override
+	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
+		if( startDate != null )
+			addFilter( "transactionDate", startDate, startDateInclusive ? ">=" : ">" );
+		
+		if( endDate != null )
+			addFilter( "transactionDate", endDate, endDateInclusive ? "<=" : "<" );
 	}
 
 	@Override
 	public void orderByTransactionDate( boolean cronological ) {
-		if( cronological )
-			query.setOrdering( "transactionDate" );
-		else
-			query.setOrdering( "transactionDate DESC" );
+		addOrdering( "transactionDate", cronological );
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<TransactionItemJDO> execute() {
-		return (List<TransactionItemJDO>) query.executeWithMap( this.paramNameValueMap );
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TransactionItemJDO> execute( int rangeFrom, int rangeTo ) {
-		query.setRange( rangeFrom, rangeTo );
-		return (List<TransactionItemJDO>) query.executeWithMap( this.paramNameValueMap );
-	}
-	
-	@Override
-	public String toString() {
-		return query.toString();
+	public void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
+		if( startDate != null )
+			addFilter( "lastUpdationDate", startDate, startDateInclusive ? ">=" : ">" );
+		
+		if( endDate != null )
+			addFilter( "lastUpdationDate", endDate, endDateInclusive ? "<=" : "<" );
 	}
 	
 }

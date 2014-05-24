@@ -1,32 +1,21 @@
 package tracker.datasource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.jdo.Query;
 
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
+import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery {
-
-	private final Query query;
-	private final Map<String, Object> paramNameValueMap;
+public class TransactionItemTypeQueryGAEImpl extends GAEJDOQuery<TransactionItemTypeJDO> implements TransactionItemTypeQuery {
 
 	public TransactionItemTypeQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		this.query = gaeJDODataSource.newQuery( TransactionItemTypeJDO.class );
-		this.paramNameValueMap = new HashMap<String, Object>();
+		super( TransactionItemTypeJDO.class, gaeJDODataSource );
 	}
 	
-	@SuppressWarnings("unchecked")
+	// TODO: Deprecate this implementation once TransactionItemTypeDB is migrated to DataStore
 	@Override
 	public List<TransactionItemTypeJDO> execute() {
-		// TODO: Use following implementation once TransactionItemTypeDB is migrated to DataStore
-		// return (List<TransactionItemTypeJDO>) query.executeWithMap( this.paramNameValueMap );
-		
-		// TODO: Deprecate following implementation once TransactionItemTypeDB is migrated to DataStore
 		TransactionItemTypeDB transactionItemTypeDBValues[] = TransactionItemTypeDB.values();
 		List<TransactionItemTypeJDO> transactionItemTypeJDOList = new ArrayList<>( transactionItemTypeDBValues.length );
 		for( TransactionItemTypeDB transactionItemTypeDBValue : transactionItemTypeDBValues ) {
@@ -35,9 +24,4 @@ public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery
 		return transactionItemTypeJDOList;
 	}
 
-	@Override
-	public String toString() {
-		return query.toString();
-	}
-	
 }

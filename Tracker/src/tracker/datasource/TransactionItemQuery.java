@@ -1,5 +1,6 @@
 package tracker.datasource;
 
+import java.util.Date;
 import java.util.List;
 
 import tracker.datasource.jdo.TransactionItemJDO;
@@ -10,7 +11,11 @@ public interface TransactionItemQuery {
 	
 	void setTransactionItemTypeId( String transactionItemTypeId );
 	
+	void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
+
 	void orderByTransactionDate( boolean cronological );
+
+	void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
 
 	List<TransactionItemJDO> execute();
 

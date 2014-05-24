@@ -1,81 +1,43 @@
 package tracker.datasource;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jdo.Query;
 
 import tracker.datasource.jdo.TransactionJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
+import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionQueryGAEImpl implements TransactionQuery {
-	
-	private final Query query;
-	private final Map<String, Object> paramNameValueMap;
+public class TransactionQueryGAEImpl extends GAEJDOQuery<TransactionJDO> implements TransactionQuery {
 	
 	public TransactionQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		this.query = gaeJDODataSource.newQuery( TransactionJDO.class );
-		this.paramNameValueMap = new HashMap<String, Object>();
+		super( TransactionJDO.class, gaeJDODataSource );
 	}
 
 	@Override
 	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
-		if( startDate != null ) {
-			query.setFilter( "transactionDate " + ( startDateInclusive ? ">=" : ">" ) + " transactionDate_Start" );
-			query.declareParameters( Date.class.getName() + " transactionDate_Start" );
-			paramNameValueMap.put( "transactionDate_Start", startDate );
-		}
+		if( startDate != null )
+			addFilter( "transactionDate", startDate, startDateInclusive ? ">=" : ">" );
 		
-		if( endDate != null ) {
-			query.setFilter( "transactionDate " + ( endDateInclusive ? "<=" : "<" ) + " transactionDate_End" );
-			query.declareParameters( Date.class.getName() + " transactionDate_End" );
-			paramNameValueMap.put( "transactionDate_End", endDate );
-		}
+		if( endDate != null )
+			addFilter( "transactionDate", endDate, endDateInclusive ? "<=" : "<" );
 	}
 
 	@Override
 	public void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
-		if( startDate != null ) {
-			query.setFilter( "creationDate " + ( startDateInclusive ? ">=" : ">" ) + " creationDate_Start" );
-			query.declareParameters( Date.class.getName() + " creationDate_Start" );
-			paramNameValueMap.put( "creationDate_Start", startDate );
-		}
-		
-		if( endDate != null ) {
-			query.setFilter( "creationDate " + ( endDateInclusive ? "<=" : "<" ) + " creationDate_End" );
-			query.declareParameters( Date.class.getName() + " creationDate_End" );
-			paramNameValueMap.put( "creationDate_End", endDate );
-		}
+		if( startDate != null )
+			addFilter( "creationDate", startDate, startDateInclusive ? ">=" : ">" );
+
+		if( endDate != null )
+			addFilter( "creationDate", endDate, endDateInclusive ? "<=" : "<" );
 	}
 
 	@Override
 	public void orderByTransactionDate( boolean cronological ) {
-		if( cronological )
-			query.setOrdering( "transactionDate" );
-		else
-			query.setOrdering( "transactionDate DESC" );
+		addOrdering( "transactionDate", cronological );
 	}
 
 	@Override
 	public void orderByCreationDate( boolean cronological ) {
-		if( cronological )
-			query.setOrdering( "creationDate" );
-		else
-			query.setOrdering( "creationDate DESC" );
+		addOrdering( "creationDate", cronological );
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TransactionJDO> execute( int rangeFrom, int rangeTo ) {
-		query.setRange( rangeFrom, rangeTo );
-		return (List<TransactionJDO>) query.executeWithMap( this.paramNameValueMap );
-	}
-	
-	@Override
-	public String toString() {
-		return query.toString();
-	}
-	
 }
