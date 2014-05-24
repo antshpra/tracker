@@ -7,55 +7,59 @@ public class GetYearlyReportRequest extends Request {
 
 	private static final long serialVersionUID = -4087368586479020540L;
 
-	public enum ReportType {
-		PERODIC,
-		CUMULATIVE
-	}
-	
-
-	@RequiredField
-	public Integer yearFrom;
-	
-	@RequiredField
-	public Integer yearTo;
-
 	@RequiredField
 	public String transactionItemTypeId;
 	
-	@RequiredField
-	public ReportType reportType;
+	public Integer yearFrom;
 	
+	public Integer yearTo;
+
+	private boolean ascendingOrder = true;
+
+	private int pageSize = 5;
+
 	
-	public int getYearFrom() { return yearFrom; }
-
-	public int getYearTo() { return yearTo; }
-
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 	
-	public ReportType getReportType() { return this.reportType; }
-	
-	
-	public void setYearFrom( int yearFrom ) {
-		assertNonZero( yearFrom );
-		assertNonNegative( yearFrom );
-		this.yearFrom = yearFrom;
-	}
+	public Integer getYearFrom() { return this.yearFrom; }
 
-	public void setYearTo( int yearTo ) {
-		assertNonZero( yearTo );
-		assertNonNegative( yearTo );
-		this.yearTo = yearTo;
-	}
+	public Integer getYearTo() { return this.yearTo; }
 
+	public boolean isAscendingOrder() { return this.ascendingOrder; }
+	
+	public int getPageSize() { return this.pageSize; }
+
+	
 	public void setTransactionItemTypeId( String transactionItemTypeId ) {
 		assertNonNull( transactionItemTypeId );
 		assertNonEmpty( transactionItemTypeId );
 		this.transactionItemTypeId = transactionItemTypeId;
 	}
 
-	public void setReportType( ReportType reportType ) {
-		assertNonNull( reportType );
-		this.reportType = reportType;
+	public void setYearFrom( int yearFrom ) {
+		assertNonZero( yearFrom );
+		assertNonNegative( yearFrom );
+		if( this.yearTo != null )
+			assertLessThanOrEqual( yearFrom, this.yearTo );
+		this.yearFrom = yearFrom;
+	}
+
+	public void setYearTo( int yearTo ) {
+		assertNonZero( yearTo );
+		assertNonNegative( yearTo );
+		if( this.yearFrom != null )
+			assertLessThanOrEqual( this.yearFrom, yearTo );
+		this.yearTo = yearTo;
+	}
+
+	public void setAscendingOrder( boolean ascendingOrder ) {
+		this.ascendingOrder = ascendingOrder;
+	}
+	
+	public void setPageSize( int pageSize ) {
+		assertNonZero( pageSize );
+		assertNonNegative( pageSize );
+		this.pageSize = pageSize;
 	}
 	
 }

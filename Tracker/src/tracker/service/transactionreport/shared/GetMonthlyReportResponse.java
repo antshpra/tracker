@@ -1,17 +1,19 @@
 package tracker.service.transactionreport.shared;
 
+import java.util.List;
+
 import antshpra.gwt.rpc.shared.Response;
 
 public class GetMonthlyReportResponse extends Response {
 
 	private static final long serialVersionUID = 1422741293288981428L;
 
-	private TransactionReportData transactionReportData;
+	private List<TransactionReportData> transactionReportDataList;
 	
 	
-	public TransactionReportData getTransactionReportData() { return this.transactionReportData; }
+	public List<TransactionReportData> getTransactionReportDataList() { return this.transactionReportDataList; }
 	
 	
-	public void setTransactionReportData( TransactionReportData transactionReportData ) { this.transactionReportData = transactionReportData; }
+	public void setTransactionReportDataList( List<TransactionReportData> transactionReportDataList ) { this.transactionReportDataList = transactionReportDataList; }
 
 }

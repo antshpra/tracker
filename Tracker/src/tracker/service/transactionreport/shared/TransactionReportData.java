@@ -12,9 +12,11 @@ public class TransactionReportData implements Serializable {
 
 	private String transactionItemTypeId;
 
+	private int index;
+	
 	private String title;
 	
-	private Amount amount[];
+	private Amount amount;
 	
 	private List<TransactionReportData> children;
 	
@@ -26,14 +28,16 @@ public class TransactionReportData implements Serializable {
 	
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 
+	public int getIndex() { return this.index; }
+	
 	public String getTitle() { return this.title; }
 
-	public Amount getAmount( int index ) { return this.amount[index]; }
+	public Amount getAmount() { return this.amount; }
 	
-	public Amount getTotalAmount( int index ) {
-		Amount totalAmount = getAmount( index );
+	public Amount getTotalAmount() {
+		Amount totalAmount = getAmount();
 		for( TransactionReportData transactionReportData : getChildren() )
-			totalAmount = totalAmount.add( transactionReportData.getTotalAmount( index ) );
+			totalAmount = totalAmount.add( transactionReportData.getTotalAmount() );
 		return totalAmount;
 	}
 	
@@ -42,9 +46,11 @@ public class TransactionReportData implements Serializable {
 
 	public void setTransactionItemTypeId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
 	
+	public void setIndex( int index ) { this.index = index; }
+	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setAmount( Amount amount[] ) { this.amount = amount; }
+	public void setAmount( Amount amount ) { this.amount = amount; }
 	
 	public void addChild( TransactionReportData child ) { this.children.add( child ); }
 	
