@@ -5,6 +5,7 @@ import java.util.List;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionJDO;
+import tracker.datasource.jdo.TransactionReportJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -44,6 +45,11 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	}
 	
 	@Override
+	public TransactionReportQuery newTransactionReportQuery() {
+		return new TransactionReportQueryGAEImpl( this );
+	}
+	
+	@Override
 	public TransactionJDO persistTransaction( TransactionJDO transactionJDO ) {
 		return super.getPersistenceManager().makePersistent( transactionJDO );
 	}
@@ -56,6 +62,11 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	@Override
 	public List<TransactionItemJDO> persistTransactionItemList( List<TransactionItemJDO> transactionItemJDOList ) {
 		return (List<TransactionItemJDO>) super.getPersistenceManager().makePersistentAll( transactionItemJDOList );
+	}
+
+	@Override
+	public TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO) {
+		return super.getPersistenceManager().makePersistent( transactionReportJDO );
 	}
 	
 }
