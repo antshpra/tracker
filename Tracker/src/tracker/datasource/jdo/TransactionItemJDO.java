@@ -8,6 +8,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import tracker.commons.shared.Amount;
+import tracker.commons.shared.TransactionState;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -33,12 +34,18 @@ public class TransactionItemJDO {
 	
 	@Persistent( column = "NOTE" )
 	private String note;
+
+	@Persistent( column = "STATE" )
+	private TransactionState transactionState;
 	
 	@Persistent( column = "CREATION_DATE" )
 	private Date creationDate;
 	
 	@Persistent( column = "CREATED_BY" )
 	private String createdBy;
+	
+	@Persistent( column = "LAST_UPDATION_DATE" )
+	private Date lastUpdationDate;
 	
 	
 	public String getId() { return KeyFactory.keyToString( this.transactionItemId ); }
@@ -53,10 +60,14 @@ public class TransactionItemJDO {
 	
 	public String getNote() { return this.note; }
 	
+	public TransactionState getState() { return this.transactionState; }
+	
 	public Date getCreationDate() { return new Date( this.creationDate.getTime() ); }
 
 	public String getCreatedBy() { return this.createdBy; }
 
+	public Date getLastUpdationDate() { return new Date( this.lastUpdationDate.getTime() ); }
+	
 	
 	public void setTransactionId( String transactionId ) { this.transactionId = transactionId; }
 	
@@ -68,8 +79,12 @@ public class TransactionItemJDO {
 	
 	public void setNote( String note ) { this.note = note; }
 	
+	public void setState( TransactionState transactionState ) { this.transactionState = transactionState; }
+	
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	
 	public void setCreatedBy( String createdBy ) { this.createdBy = createdBy; }
+	
+	public void setLastUpdationDate( Date lastUpdationDate ) { this.lastUpdationDate = lastUpdationDate; }
 
 }

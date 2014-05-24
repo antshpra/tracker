@@ -5,13 +5,14 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import tracker.commons.shared.Amount;
+import tracker.commons.shared.TransactionReportType;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable( table = "TRANSACTION_ITEM_TYPE" )
 public class TransactionItemTypeJDO {
-
+	
 	@Persistent( column = "TRANSACTION_ITEM_TYPE_ID", primaryKey = "true", valueStrategy = IdGeneratorStrategy.IDENTITY )
 	private Key transactionItemTypeId;
 
@@ -24,6 +25,9 @@ public class TransactionItemTypeJDO {
 	@Persistent( column = "INITIAL_AMOUNT" )
 	private Long initialAmount;
 	
+	@Persistent( column = "REPORT_TYPE" )
+	private TransactionReportType transactionReportType;
+	
 	
 	public String getId() { return KeyFactory.keyToString( this.transactionItemTypeId ); }
 	
@@ -32,6 +36,8 @@ public class TransactionItemTypeJDO {
 	public String getTitle() { return this.title; }
 
 	public Amount getInitialAmount() { return new Amount( this.initialAmount ); }
+
+	public TransactionReportType getTransactionReportType() { return this.transactionReportType; }
 	
 	
 	// TODO: Remove this member once TransactionItemTypeDB is migrated to DataStore
@@ -41,8 +47,8 @@ public class TransactionItemTypeJDO {
 	
 	public void setTitle( String title ) { this.title = title; }
 	
-	public void setInitialAmount( Amount initialAmount ) {
-		this.initialAmount = initialAmount.getValue();
-	}
+	public void setInitialAmount( Amount initialAmount ) { this.initialAmount = initialAmount.getValue(); }
+	
+	public void setTransactionReportType( TransactionReportType transactionReportType ) { this.transactionReportType = transactionReportType; }
 
 }
