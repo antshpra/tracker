@@ -46,4 +46,10 @@ public class GetMonthlyReportRequest extends Request {
 		this.yearType = yearType;
 	}
 
+	public String toString() {
+		return "transactionItemTypeId = " + this.transactionItemTypeId + ", "
+				+ "year = " + this.year + ", "
+				+ "yearType = " + this.yearType;
+	}
+
 }

@@ -9,8 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface TransactionReportServiceAsync {
 
-	void getMonthlyReport( GetMonthlyReportRequest request, AsyncCallback<GetMonthlyReportResponse> callback );
-	
 	void getYearlyReport( GetYearlyReportRequest request, AsyncCallback<GetYearlyReportResponse> callback );
 
+	void getMonthlyReport( GetMonthlyReportRequest request, AsyncCallback<GetMonthlyReportResponse> callback );
+	
 }

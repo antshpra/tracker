@@ -62,4 +62,12 @@ public class GetYearlyReportRequest extends Request {
 		this.pageSize = pageSize;
 	}
 	
+	public String toString() {
+		return "transactionItemTypeId = " + this.transactionItemTypeId + ", "
+				+ "yearFrom = " + this.yearFrom + ", "
+				+ "yearTo = " + this.yearTo + ", "
+				+ "ascendingOrder = " + this.ascendingOrder + ", "
+				+ "pageSize = " + this.pageSize;
+	}
+	
 }

@@ -13,8 +13,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("../_ah/transactionreport")
 public interface TransactionReportService extends RemoteService {
 
-	GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest request ) throws InvalidRequestException, ServerException;
-	
 	GetYearlyReportResponse getYearlyReport( GetYearlyReportRequest request ) throws InvalidRequestException, ServerException;
+	
+	GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest request ) throws InvalidRequestException, ServerException;
 	
 }
