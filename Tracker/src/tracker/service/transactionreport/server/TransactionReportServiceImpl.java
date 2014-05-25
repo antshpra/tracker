@@ -103,6 +103,8 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		
 		RequestValidator.validate( request );
 
+		logger.log( Level.INFO, request.toString() );
+
 		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
 
 		GetMonthlyReportResponse response = new GetMonthlyReportResponse();

@@ -32,11 +32,6 @@ public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO>
 	}
 
 	@Override
-	public void orderByTransactionDate( boolean cronological ) {
-		addOrdering( "transactionDate", cronological );
-	}
-
-	@Override
 	public void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
 			addFilter( "lastUpdationDate", startDate, startDateInclusive ? ">=" : ">" );
@@ -45,4 +40,15 @@ public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO>
 			addFilter( "lastUpdationDate", endDate, endDateInclusive ? "<=" : "<" );
 	}
 	
+	@Override
+	public void orderByTransactionDate( boolean cronological ) {
+		addOrdering( "transactionDate", cronological );
+	}
+
+	@Override
+	public void orderByLastupdationDate( boolean cronological ) {
+		addOrdering( "lastUpdationDate", cronological );
+	}
+
+
 }

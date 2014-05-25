@@ -13,9 +13,11 @@ public interface TransactionItemQuery {
 	
 	void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
 
+	void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
+
 	void orderByTransactionDate( boolean cronological );
 
-	void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
+	void orderByLastupdationDate( boolean cronological );
 
 	List<TransactionItemJDO> execute();
 
