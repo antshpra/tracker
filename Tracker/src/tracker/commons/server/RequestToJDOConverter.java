@@ -28,7 +28,8 @@ public class RequestToJDOConverter {
 		transactionItem.setNote( itemRequest.getNote() );
 		transactionItem.setCreationDate( new Date() );
 		transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-
+		transactionItem.setLastUpdationDate( new Date() );
+		
 		return transactionItem;
 	}
 	

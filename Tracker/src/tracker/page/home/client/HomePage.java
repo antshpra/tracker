@@ -5,8 +5,8 @@ import java.util.List;
 import tracker.module.transaction.client.EditTransactionModuleImpl;
 import tracker.module.transaction.client.TransactionList;
 import tracker.module.transaction.client.TransactionListLoader;
-import tracker.module.transactionreport.client.MonthlyReportModule;
-import tracker.module.transactionreport.client.MonthlyReportModuleImpl;
+import tracker.module.transactionreport.client.ReportModule;
+import tracker.module.transactionreport.client.ReportModuleImpl;
 import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
@@ -15,6 +15,7 @@ import tracker.service.transaction.shared.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.client.TransactionReportServiceAsync;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
+import tracker.service.transactionreport.shared.GetMonthlyReportRequest.YearType;
 import tracker.service.transactionreport.shared.GetMonthlyReportResponse;
 import tracker.theme.client.ThemeFactory;
 
@@ -34,7 +35,7 @@ public class HomePage implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		final MonthlyReportModule monthlyReportModule = new MonthlyReportModuleImpl();
+		final ReportModule reportModule = new ReportModuleImpl();
 		final ListBox itemTypeList = new ListBox();
 		itemTypeList.addItem( "Loading ..." ); // I18n
 		
@@ -57,7 +58,8 @@ public class HomePage implements EntryPoint {
 			
 			private void setTransactionItemTypeDataList( List<TransactionItemTypeData> transactionItemTypeDataList ) {
 				for( TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
-					itemTypeList.addItem( transactionItemTypeData.getQualifiedTitle(), transactionItemTypeData.getId() );
+					if( transactionItemTypeData.getParent() == null || transactionItemTypeData.getChildren().size() > 0)
+						itemTypeList.addItem( transactionItemTypeData.getQualifiedTitle(), transactionItemTypeData.getId() );
 					setTransactionItemTypeDataList( transactionItemTypeData.getChildren() );
 				}
 			}
@@ -71,6 +73,8 @@ public class HomePage implements EntryPoint {
 				if( itemTypeListSelectedValue != null ) {
 					GetMonthlyReportRequest request = new GetMonthlyReportRequest();
 					request.setTransactionItemTypeId( itemTypeListSelectedValue );
+					request.setYear( 2014 );
+					request.setYearType( YearType.FINANCIAL );
 					transactionReportService.getMonthlyReport(request, new AsyncCallback<GetMonthlyReportResponse>() {
 						
 						@Override
@@ -81,7 +85,7 @@ public class HomePage implements EntryPoint {
 			
 						@Override
 						public void onSuccess( GetMonthlyReportResponse response ) {
-							monthlyReportModule.setTransactionReportData( response.getTransactionReportData() );
+							reportModule.setTransactionReportDataList( response.getTransactionReportDataList() );
 						}
 
 					});
@@ -91,10 +95,11 @@ public class HomePage implements EntryPoint {
 		
 		RootPanel.get().add( new EditTransactionModuleImpl() );
 		RootPanel.get().add( itemTypeList );
-		RootPanel.get().add( monthlyReportModule );
+		RootPanel.get().add( reportModule );
 		RootPanel.get().add( new TransactionListLoader( new TransactionList() ) );
 		
 		ThemeFactory.getTheme().getTransactionModuleStyle().ensureInjected();
+		ThemeFactory.getTheme().getTransactionReportModuleStyle().ensureInjected();
 	}
 		
 }

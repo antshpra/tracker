@@ -172,7 +172,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 				transactionItemTypeData.getTransactionReportType(), 
 				transactionDataSource );
 		
-		TransactionReportData transactionReportData = JDOToDataConverter.convert( transactionReport, month, transactionItemTypeData );
+		TransactionReportData transactionReportData = JDOToDataConverter.convert( transactionReport, month % 12, transactionItemTypeData );
 		
 		for( TransactionItemTypeData transactionItemTypeDataChild : transactionItemTypeData.getChildren() )
 			transactionReportData.addChild( getMonthlyReportData( year, month, transactionItemTypeDataChild, transactionDataSource ) );

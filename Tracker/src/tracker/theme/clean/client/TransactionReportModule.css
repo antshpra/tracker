@@ -1,0 +1,22 @@
+@external .gwt-*;
+
+.trmMonthlyReportView .title {
+	text-align: center;
+}
+
+.trmMonthlyReportView .index {
+	text-align: right;
+}
+
+.trmMonthlyReportView .title, .trmMonthlyReportView .index, .trmMonthlyReportView .value {
+	display: table-cell;
+	width: 100px;
+	
+	padding-left: normal-padding;
+	padding-right: normal-padding;
+	
+	padding-top: thin-padding;
+	padding-bottom: thin-padding;
+
+	border-bottom: secondary-border;
+}

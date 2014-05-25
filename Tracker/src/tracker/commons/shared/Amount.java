@@ -2,6 +2,8 @@ package tracker.commons.shared;
 
 import java.io.Serializable;
 
+import com.google.gwt.i18n.client.NumberFormat;
+
 public class Amount implements Serializable {
 	
 	private static final long serialVersionUID = 1283793419217594014L;
@@ -28,7 +30,9 @@ public class Amount implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Rs. " + ( (double) this.getValue() ) / 100; // TODO: I18n
+		return this.getValue() == 0
+				? "-"
+				: "Rs. " + NumberFormat.getFormat( "#.00" ).format( ( (double) this.getValue() ) / 100 );
 	}
 
 }

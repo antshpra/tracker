@@ -4,4 +4,6 @@ public interface Theme {
 
 	TransactionModuleStyle getTransactionModuleStyle();
 
+	TransactionReportModuleStyle getTransactionReportModuleStyle();
+
 }
