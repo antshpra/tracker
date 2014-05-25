@@ -39,7 +39,7 @@ public class TransactionListLoader extends Composite {
 	public TransactionListLoader( TransactionList transactionList ) {
 		this.transactionList = transactionList;
 		
-		this.anchor = new Anchor( "Load More Transactions" ); // TODO: I18n
+		this.anchor = new Anchor( "Load More Transactions" );
 		this.anchor.addClickHandler( new ClickHandler() {
 			
 			@Override

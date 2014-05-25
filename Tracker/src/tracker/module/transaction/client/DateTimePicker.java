@@ -19,7 +19,7 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 	private DatePicker datePicker = new DatePicker();
 	private ListBox hourList = new ListBox();
 	private ListBox minuteList = new ListBox();
-	private ToggleButton amPmButton = new ToggleButton( "AM", "PM" ); // TODO: I18n
+	private ToggleButton amPmButton = new ToggleButton( "AM", "PM" );
 	
 	public DateTimePicker() {
 		Date date = new Date();
@@ -59,7 +59,7 @@ public class DateTimePicker extends Composite implements ClickHandler, ValueChan
 	public void onValueChange( ValueChangeEvent<Date> event )  {
 		if( event.getSource() == datePicker ) {
 			Date date = event.getValue();
-			dateLabel.setText( date.getDate() + "/" + ( date.getMonth() + 1 ) + "/" + ( date.getYear() + 1900 ) ); // TODO: I18n
+			dateLabel.setText( date.getDate() + "/" + ( date.getMonth() + 1 ) + "/" + ( date.getYear() + 1900 ) );
 			datePicker.setVisible( false );
 		}
 	}

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.TextBox;
 public class TransactionInputViewImpl extends TransactionInputView {
 
 	private DateTimePicker dateTimePicker = new DateTimePicker();
-	private Label descriptionLabel = new Label( "Description" ); // TODO: I18n
+	private Label descriptionLabel = new Label( "Description" );
 	private TextBox descriptionInput = new TextBox();
 
 	public TransactionInputViewImpl() {

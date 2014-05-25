@@ -17,14 +17,14 @@ import com.google.gwt.user.client.ui.TextBox;
 public class TransactionItemInputViewImpl extends TransactionItemInputView {
 
 	private DateTimePickerOptional dateTimePicker = new DateTimePickerOptional();
-	private Label amountLabel = new Label( "Amount" ); // TODO: I18n
+	private Label amountLabel = new Label( "Amount" );
 	private TextBox amountInput = new TextBox();
 	private ListBox itemTypeList = new ListBox();
-	private Label noteLabel = new Label( "Note" ); // TODO: I18n
+	private Label noteLabel = new Label( "Note" );
 	private TextBox noteInput = new TextBox();
 	
 	public TransactionItemInputViewImpl() {
-		itemTypeList.addItem( "Loading ..." ); // I18n
+		itemTypeList.addItem( "Loading ..." );
 
 		Panel panel = new HorizontalPanel();
 		panel.add( dateTimePicker );

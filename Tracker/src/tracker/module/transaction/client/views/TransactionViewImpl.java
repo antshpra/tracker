@@ -117,7 +117,7 @@ public class TransactionViewImpl extends TransactionView {
 			public void onSuccess( GetTransactionResponse response ) {
 				List<TransactionItemData> transactionItemDataList = response.getTransactionData().getTransactionItemDataList();
 				if( transactionItemDataList == null ) {
-					Window.alert( "Nothing under this transaction !" ); // TODO: I18n
+					Window.alert( "Nothing under this transaction !" );
 				} else {
 					Amount amount = new Amount( 0 );
 					for( TransactionItemData transactionItemData : transactionItemDataList ) {

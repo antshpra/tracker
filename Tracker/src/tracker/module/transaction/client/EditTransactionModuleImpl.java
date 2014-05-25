@@ -34,8 +34,8 @@ public class EditTransactionModuleImpl extends EditTransactionModule {
 	private TransactionInputView transactionInputView = new TransactionInputViewImpl(); 
 	private Panel transactionItemInputViewsPanel = new FlowPanel();
 	
-	private Anchor addTransactionItemAnchor = new Anchor( "Add Item" ); // TODO: I18n
-	private Button saveTransactionButton = new Button( "Save Transaction" ); // TODO: I18n
+	private Anchor addTransactionItemAnchor = new Anchor( "Add Item" );
+	private Button saveTransactionButton = new Button( "Save Transaction" );
 
 	public EditTransactionModuleImpl() {
 		addTransactionItemAnchor.addClickHandler( this );

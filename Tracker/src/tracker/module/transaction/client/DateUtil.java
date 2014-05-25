@@ -13,20 +13,20 @@ public class DateUtil {
 	private static final long MILLISECONDS_IN_A_HOUR   = 60 * MILLISECONDS_IN_A_MINUTE;
 	private static final long MILLISECONDS_IN_A_DAY	   = 24 * MILLISECONDS_IN_A_HOUR;
 	
-	private static final long TZ_IST_MILLISECONDS = (long) (5.5 * 60 * 60 * 1000); // TODO: I18n
+	private static final long TZ_IST_MILLISECONDS = (long) (5.5 * 60 * 60 * 1000);
 	
 	
-	private static final String DAY_COMING = "Coming "; // TODO: I18n
+	private static final String DAY_COMING = "Coming ";
 	
-	private static final String DAY_TOMORROW  = "Tomorrow"; // TODO: I18n
-	private static final String DAY_TODAY 	  = "Today"; // TODO: I18n
-	private static final String DAY_YESTERDAY = "Yesterday"; // TODO: I18n
+	private static final String DAY_TOMORROW  = "Tomorrow";
+	private static final String DAY_TODAY 	  = "Today";
+	private static final String DAY_YESTERDAY = "Yesterday";
 	
-	private static final String TIME_FEW_MOMENTS_AGO	   = "Few Moments Ago"; // TODO: I18n
-	private static final String TIME_FEW_MINUTES_AGO	   = "Few Minutes Ago"; // TODO: I18n
-	private static final String TIME_lESS_THAN_AN_HOUR_AGO = "Less Than an Hour Ago"; // TODO: I18n
-	private static final String TIME_ABOUT_AN_HOUR_AGO	   = "Abour an Hour Ago"; // TODO: I18n
-	private static final String TIME_FEW_HOURS_AGO		   = "Few Hours Ago"; // TODO: I18n
+	private static final String TIME_FEW_MOMENTS_AGO	   = "Few Moments Ago";
+	private static final String TIME_FEW_MINUTES_AGO	   = "Few Minutes Ago";
+	private static final String TIME_lESS_THAN_AN_HOUR_AGO = "Less Than an Hour Ago";
+	private static final String TIME_ABOUT_AN_HOUR_AGO	   = "Abour an Hour Ago";
+	private static final String TIME_FEW_HOURS_AGO		   = "Few Hours Ago";
 	
 	
 	private static final int TIMER_SCHEDULE_REPEATING_PERIOD_MILLIS = 60000;
@@ -65,7 +65,7 @@ public class DateUtil {
 			this.timeLabel.setText( getTime( date ) );
 	}
 	
-	private String getDay( Date date ) { // TODO: I18n & Test Cases
+	private String getDay( Date date ) {
 		
 		long date_tz_day = ( date.getTime() + TZ_IST_MILLISECONDS ) / MILLISECONDS_IN_A_DAY;
 		long today_tz_day = ( new Date().getTime() + TZ_IST_MILLISECONDS ) / MILLISECONDS_IN_A_DAY;
@@ -99,7 +99,7 @@ public class DateUtil {
 		
 	}
 	
-	private String getTime( Date date ) { // TODO: I18n & Test Cases
+	private String getTime( Date date ) {
 		
 		long date_tz_min = date.getTime() / MILLISECONDS_IN_A_MINUTE;
 		long now_tz_min = new Date().getTime() / MILLISECONDS_IN_A_MINUTE;
