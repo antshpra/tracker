@@ -25,7 +25,7 @@ public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO>
 
 	@Override
 	public void setTransactionItemTypeIdList( List<String> transactionItemTypeIdList ) {
-		addFilter( "transactionItemTypeId", transactionItemTypeIdList, Operator.CONTAINS );
+		addFilter( "transactionItemTypeId", transactionItemTypeIdList );
 	}
 
 	@Override

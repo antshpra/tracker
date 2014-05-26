@@ -1,6 +1,6 @@
 package tracker.module.transaction.client;
 
-import tracker.module.transaction.client.views.TransactionItemViewImpl;
+import tracker.module.transaction.client.views.TransactionItemViewImplDeprecated;
 import tracker.service.transaction.shared.TransactionItemData;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -16,7 +16,7 @@ public class TransactionItemList extends Composite {
 	}
 	
 	public void add( TransactionItemData transactionItemData ) {
-		this.panel.add( new  TransactionItemViewImpl( transactionItemData ) );
+		this.panel.add( new  TransactionItemViewImplDeprecated( transactionItemData ) );
 	}
 
 }

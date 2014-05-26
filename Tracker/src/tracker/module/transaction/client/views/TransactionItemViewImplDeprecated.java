@@ -7,24 +7,12 @@ import tracker.theme.client.TransactionModuleStyle;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 
-public class TransactionItemViewImpl extends TransactionItemView {
+public class TransactionItemViewImplDeprecated extends TransactionItemView {
 
 	private TransactionModuleStyle style = ThemeFactory.getTheme().getTransactionModuleStyle();
 	
-	private Panel panel = new FlowPanel();
-
-	
-	public TransactionItemViewImpl() {
-		initWidget( panel );
-	}
-
-	
-	@Override
-	public void setTransactionItemData( TransactionItemData transactionItemData ) {
-		panel.clear();
-		
+	public TransactionItemViewImplDeprecated( TransactionItemData transactionItemData ) {
 		Label dateLabel = new Label();
 		Label timeLabel = new Label();
 
@@ -39,9 +27,11 @@ public class TransactionItemViewImpl extends TransactionItemView {
 		detailPanel.add( descriptionLabel );
 		detailPanel.addStyleName( style.detail() );
 		
+		FlowPanel panel = new FlowPanel();
 		panel.add( dateTimePanel );
 		panel.add( detailPanel );
 
+		initWidget( panel );
 		setStyleName( style.transactionItem() );
 		
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
@@ -49,9 +39,13 @@ public class TransactionItemViewImpl extends TransactionItemView {
 
 		descriptionLabel.setText(
 				transactionItemData.getAmount().toString() +
-				" " + transactionItemData.getTransactionData().getDescription() +
-				( transactionItemData.getNote() == null ? "" : ", " + transactionItemData.getNote() ) +
+				( transactionItemData.getNote() == null ? "" : " [" + transactionItemData.getNote() + "]") +
 				" #" + transactionItemData.getTransactionItemType().getTitle() );
+	}
+
+	@Override
+	public void setTransactionItemData(TransactionItemData transactionItemData) {
+		// TODO Auto-generated method stub
 	}
 
 }

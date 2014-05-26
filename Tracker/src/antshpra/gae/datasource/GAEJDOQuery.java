@@ -1,5 +1,6 @@
 package antshpra.gae.datasource;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +40,10 @@ public class GAEJDOQuery <T> {
 		addFilter( param, value, Operator.EQUALS );
 	}
 	
+	public void addFilter( String param, Collection<?> value) {
+		addFilter( param, value, Operator.CONTAINS );
+	}
+	
 	public void addFilter( String param, Object value, Operator operator ) {
 		String paramKey = param + "Param";
 		for( int i = 0; ; i++ ) {
@@ -64,7 +69,7 @@ public class GAEJDOQuery <T> {
 				filters.add( param + " >= " + paramKey );
 				break;
 			case CONTAINS:
-				filters.add( param + " contains( " + paramKey + " )");
+				filters.add( paramKey + ".contains( " + param + " )");
 				break;
 			default:
 				throw new UnsupportedOperationException( "Operator '" + operator + "' is not yet supported." );

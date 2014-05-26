@@ -1,11 +1,16 @@
 <datastore-indexes autoGenerate="false">
 
-	<datastore-index kind="TRANSACTION_ITEM" ancestor="true" source="maunal">
+	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="maunal">
+		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="TRANSACTION_DATE" direction="asc"/>
 	</datastore-index>
 
-	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="maunal">
+	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="manual">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
+		<property name="TRANSACTION_DATE" direction="desc"/>
+	</datastore-index>
+
+	<datastore-index kind="TRANSACTION_ITEM" ancestor="true" source="maunal">
 		<property name="TRANSACTION_DATE" direction="asc"/>
 	</datastore-index>
 
@@ -13,7 +18,7 @@
 		<property name="TRANSACTION_DATE" direction="asc"/>
 		<property name="LAST_UPDATION_DATE" direction="desc"/>
 	</datastore-index>
-
+	
 	<datastore-index kind="TRANSACTION_REPORT" ancestor="false" source="manual">
 		<property name="INDEX" direction="asc"/>
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
