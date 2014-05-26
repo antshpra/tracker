@@ -10,6 +10,15 @@ import javax.jdo.Query;
 
 public class GAEJDOQuery <T> {
 
+	public enum Operator {
+		EQUALS,
+		LESS_THAN,
+		LESST_THAN_OR_EQUAL,
+		GREATER_THAN,
+		GREATER_THAN_OR_EQUAL,
+		CONTAINS
+	}
+	
 	private static final Logger logger = Logger.getLogger( GAEJDOQuery.class.getName() );
 
 	private final Query query;
@@ -27,10 +36,10 @@ public class GAEJDOQuery <T> {
 	}
 
 	public void addFilter( String param, Object value) {
-		addFilter( param, value, "==" );
+		addFilter( param, value, Operator.EQUALS );
 	}
 	
-	public void addFilter( String param, Object value, String operator ) {
+	public void addFilter( String param, Object value, Operator operator ) {
 		String paramKey = param + "Param";
 		for( int i = 0; ; i++ ) {
 			if( paramNameValueMap.get( paramKey ) == null )
@@ -38,7 +47,29 @@ public class GAEJDOQuery <T> {
 			paramKey = param + "Param_" + i;
 		}
 		
-		filters.add( param + " " + operator + " " + paramKey );
+		switch( operator ) {
+			case EQUALS:
+				filters.add( param + " == " + paramKey );
+				break;
+			case LESS_THAN:
+				filters.add( param + " < " + paramKey );
+				break;
+			case LESST_THAN_OR_EQUAL:
+				filters.add( param + " <= " + paramKey );
+				break;
+			case GREATER_THAN:
+				filters.add( param + " > " + paramKey );
+				break;
+			case GREATER_THAN_OR_EQUAL:
+				filters.add( param + " >= " + paramKey );
+				break;
+			case CONTAINS:
+				filters.add( param + " contains( " + paramKey + " )");
+				break;
+			default:
+				throw new UnsupportedOperationException( "Operator '" + operator + "' is not yet supported." );
+		}
+		
 		parameteres.add( value.getClass().getName() + " " + paramKey );
 		paramNameValueMap.put( paramKey, value );
 	}

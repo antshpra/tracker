@@ -15,19 +15,19 @@ public class TransactionQueryGAEImpl extends GAEJDOQuery<TransactionJDO> impleme
 	@Override
 	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "transactionDate", startDate, startDateInclusive ? ">=" : ">" );
+			addFilter( "transactionDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "transactionDate", endDate, endDateInclusive ? "<=" : "<" );
+			addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
 	public void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "creationDate", startDate, startDateInclusive ? ">=" : ">" );
+			addFilter( "creationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 
 		if( endDate != null )
-			addFilter( "creationDate", endDate, endDateInclusive ? "<=" : "<" );
+			addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override

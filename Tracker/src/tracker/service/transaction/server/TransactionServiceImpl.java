@@ -24,6 +24,8 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.shared.CreateTransactionItemRequest;
 import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.CreateTransactionResponse;
+import tracker.service.transaction.shared.GetTransactionItemListRequest;
+import tracker.service.transaction.shared.GetTransactionItemListResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
 import tracker.service.transaction.shared.GetTransactionListRequest;
@@ -31,6 +33,7 @@ import tracker.service.transaction.shared.GetTransactionListResponse;
 import tracker.service.transaction.shared.GetTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionResponse;
 import tracker.service.transaction.shared.TransactionData;
+import tracker.service.transaction.shared.TransactionItemData;
 import tracker.service.transaction.shared.TransactionItemTypeData;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
@@ -42,7 +45,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class TransactionServiceImpl extends RemoteServiceServlet implements TransactionService {
 
 	private static final Logger logger = Logger.getLogger( TransactionServiceImpl.class.getName() );
-
 	private static final TransactionDataSourceFactory transactionDataSourceFactory = new TransactionDataSourceFactory();
 	
 	@Override
@@ -189,6 +191,89 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 			TransactionData transactionData = JDOToDataConverter.convert( transaction, transactionItemList, loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
 					
 			transactionDataList.add( transactionData );
+		}
+		
+		transactionDataSource.close();
+		
+		return response;		
+	}
+
+	@Override
+	public GetTransactionItemListResponse getTransactionItemList( GetTransactionItemListRequest request ) throws InvalidRequestException, ServerException {
+		
+		RequestValidator.validate( request );
+		
+		Date transactionDateStart = request.getTransactionDateStart();
+		Date transactionDateEnd = request.getTransactionDateEnd();
+
+		Date creationDateStart = request.getCreationDateStart();
+		Date creationDateEnd = request.getCreationDateEnd();
+
+		// Creating GetTransactionItemResponse
+		GetTransactionItemListResponse response = new GetTransactionItemListResponse();
+		List<TransactionItemData> transactionItemDataList = new LinkedList<TransactionItemData>(); 
+		response.setTransactionItemDataList( transactionItemDataList );
+		
+		// Checking for valid transactionDate range 
+		if( transactionDateStart != null
+				&& transactionDateEnd != null
+				&& transactionDateStart.equals( transactionDateEnd )
+				&& ( !request.isTransactionDateStartInclusive() || !request.isTransactionDateEndInclusive() ) ) {
+			
+			logger.log( Level.INFO, "Not enough time range for transactionDate. Returning empty transactionDataList." );
+			return response;
+		}
+		
+		// Checking for valid creationDate range 
+		if( creationDateStart != null
+				&& creationDateEnd != null
+				&& creationDateStart.equals( creationDateEnd )
+				&& ( !request.isCreationDateStartInclusive() || !request.isCreationDateEndInclusive() ) ) {
+		
+			logger.log( Level.INFO, "Not enough time range for creationDate. Returning empty transactionDataList." );
+			return response;
+		}		
+		
+		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+
+		// Fetching TransactionItemJDO list
+		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
+
+		if( request.getTransactionItemTypeId() != null ) {
+			TransactionItemTypeData transactionItemTypeData = loadTransactionItemTypeIdToTransactionItemTypeDataMap().get( request.getTransactionItemTypeId() );
+			transactionItemQuery.setTransactionItemTypeIdList( transactionItemTypeData.getIdList() );
+		}
+		
+		if( transactionDateStart != null || transactionDateEnd != null )
+			transactionItemQuery.setTransactionDate(
+				transactionDateStart, request.isTransactionDateStartInclusive(),
+				transactionDateEnd, request.isTransactionDateEndInclusive() );
+		
+		if( creationDateStart != null || creationDateEnd != null )
+			transactionItemQuery.setCreationDate(
+				creationDateStart, request.isCreationDateStartInclusive(),
+				creationDateEnd, request.isCreationDateEndInclusive() );
+
+		if( request.getTransactionDateChronologicalOrder() != null )
+			transactionItemQuery.orderByTransactionDate( request.getTransactionDateChronologicalOrder() );
+			
+		if( request.getCreationDateChronologicalOrder() != null )
+			transactionItemQuery.orderByCreationDate( request.getCreationDateChronologicalOrder() );
+		
+		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute( 0, request.getPageSize() );
+		logger.log( Level.INFO, transactionItemList.size() + " transaction items found.");
+
+		for( TransactionItemJDO transactionItem : transactionItemList ) {
+			// Fetching TransactionJDO
+			TransactionJDO transaction = transactionDataSource.getTransaction( transactionItem.getTransactionId() );
+
+			// Creating TransactionData
+			TransactionData transactionData = JDOToDataConverter.convert( transaction, null, null );
+			
+			// Creating TransactionItemData
+			TransactionItemData transactionItemData = JDOToDataConverter.convert( transactionItem, transactionData, loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
+					
+			transactionItemDataList.add( transactionItemData );
 		}
 		
 		transactionDataSource.close();

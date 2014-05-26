@@ -29,6 +29,7 @@ public class JDOToDataConverter {
 			for( TransactionItemJDO transactionItem : transactionItemList ) {
 				TransactionItemData transactionItemData = convert(
 						transactionItem,
+						transactionData,
 						transactionItemTypeIdToTransactionItemTypeDataMap );
 				transactionData.addTransactionItemData( transactionItemData );
 			}
@@ -39,6 +40,7 @@ public class JDOToDataConverter {
 
 	public static TransactionItemData convert(
 			TransactionItemJDO transactionItem,
+			TransactionData transactionData,
 			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		
 		TransactionItemData transactionItemData = new TransactionItemData();
@@ -52,6 +54,7 @@ public class JDOToDataConverter {
 		transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
+		transactionItemData.setTransactionData( transactionData );
 		
 		return transactionItemData;
 	}

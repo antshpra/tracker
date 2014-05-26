@@ -11,11 +11,17 @@ public interface TransactionItemQuery {
 	
 	void setTransactionItemTypeId( String transactionItemTypeId );
 	
+	void setTransactionItemTypeIdList( List<String> transactionItemTypeIdList );
+	
 	void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
+
+	void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
 
 	void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );
 
 	void orderByTransactionDate( boolean cronological );
+
+	void orderByCreationDate( boolean cronological );
 
 	void orderByLastupdationDate( boolean cronological );
 

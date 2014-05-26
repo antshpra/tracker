@@ -22,6 +22,11 @@ public class TransactionData implements Serializable {
 	private List<TransactionItemData> transactionItemDataList;
 
 	
+	public TransactionData() {
+		this.transactionItemDataList = new LinkedList<TransactionItemData>();
+	}
+	
+	
 	public String getId() { return this.transactionId; }
 	
 	public Date getTransactionDate() { return this.transactionDate; }
@@ -45,10 +50,6 @@ public class TransactionData implements Serializable {
 	
 	public void setCreatedBy( String createdBy ) { this.createdBy = createdBy; }
 
-	public void addTransactionItemData( TransactionItemData transactionItemData ) {
-		if( this.transactionItemDataList == null )
-			this.transactionItemDataList = new LinkedList<TransactionItemData>();
-		this.transactionItemDataList.add( transactionItemData );
-	}
+	public void addTransactionItemData( TransactionItemData transactionItemData ) { this.transactionItemDataList.add( transactionItemData ); }
 
 }

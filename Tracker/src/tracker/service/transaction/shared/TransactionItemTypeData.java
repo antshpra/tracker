@@ -31,6 +31,14 @@ public class TransactionItemTypeData implements Serializable {
 	
 	public String getId() { return this.transactionItemTypeId; }
 
+	public List<String> getIdList() {
+		List<String> transactionItemTypeIdList = new LinkedList<>();
+		transactionItemTypeIdList.add( this.transactionItemTypeId );
+		for( TransactionItemTypeData child : this.children )
+			transactionItemTypeIdList.addAll( child.getIdList() );
+		return transactionItemTypeIdList;
+	}
+	
 	public String getTitle() { return this.title; }
 	
 	public String getQualifiedTitle() {

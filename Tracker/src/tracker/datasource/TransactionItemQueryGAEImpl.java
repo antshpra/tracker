@@ -1,6 +1,7 @@
 package tracker.datasource;
 
 import java.util.Date;
+import java.util.List;
 
 import tracker.datasource.jdo.TransactionItemJDO;
 import antshpra.gae.datasource.GAEJDODataSource;
@@ -23,21 +24,35 @@ public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO>
 	}
 
 	@Override
+	public void setTransactionItemTypeIdList( List<String> transactionItemTypeIdList ) {
+		addFilter( "transactionItemTypeId", transactionItemTypeIdList, Operator.CONTAINS );
+	}
+
+	@Override
 	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "transactionDate", startDate, startDateInclusive ? ">=" : ">" );
+			addFilter( "transactionDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "transactionDate", endDate, endDateInclusive ? "<=" : "<" );
+			addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+	}
+
+	@Override
+	public void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
+		if( startDate != null )
+			addFilter( "creationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
+		
+		if( endDate != null )
+			addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
 	public void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "lastUpdationDate", startDate, startDateInclusive ? ">=" : ">" );
+			addFilter( "lastUpdationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "lastUpdationDate", endDate, endDateInclusive ? "<=" : "<" );
+			addFilter( "lastUpdationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 	
 	@Override
@@ -46,9 +61,13 @@ public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO>
 	}
 
 	@Override
+	public void orderByCreationDate( boolean cronological ) {
+		addOrdering( "creationDate", cronological );
+	}
+
+	@Override
 	public void orderByLastupdationDate( boolean cronological ) {
 		addOrdering( "lastUpdationDate", cronological );
 	}
-
 
 }

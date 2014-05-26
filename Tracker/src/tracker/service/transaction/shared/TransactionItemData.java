@@ -25,6 +25,8 @@ public class TransactionItemData implements Serializable {
 		
 	private String createdBy;
 
+	private TransactionData transactionData;
+	
 	
 	public String getId() { return this.transactionItemId; }
 
@@ -42,6 +44,8 @@ public class TransactionItemData implements Serializable {
 
 	public String getCreatedBy() { return this.createdBy; }
 
+	public TransactionData getTransactionData() { return this.transactionData; }
+
 
 	public void setId( String id ) { this.transactionItemId = id; }
 	
@@ -58,5 +62,7 @@ public class TransactionItemData implements Serializable {
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	
 	public void setCreatedBy( String createdBy ) { this.createdBy = createdBy; }
+	
+	public void setTransactionData( TransactionData transactionData ) { this.transactionData = transactionData; }
 
 }

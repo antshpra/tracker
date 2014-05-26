@@ -54,7 +54,7 @@ public enum TransactionItemTypeDB {
 	FIXED_DEPOSIT_KMB	( 7002, 7000, "Fixed Deposit (KMB)",   0, TransactionReportType.CUMULATIVE ),
 
 	CREDIT_CARD			( 8000, 8000, "Credit Card",              0, TransactionReportType.CUMULATIVE ),
-	CREDIT_CARD_HDFC	( 8001, 8000, "Credit Card (HDFC",        0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_HDFC	( 8001, 8000, "Credit Card (HDFC)",        0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_SC		( 8002, 8000, "Credit Card (SC)", -25832.78, TransactionReportType.CUMULATIVE ),
 	
 	POCKET			( 9000, 9000, "Pocket", 0, TransactionReportType.CUMULATIVE ),
@@ -77,10 +77,11 @@ public enum TransactionItemTypeDB {
 	 *  -- --- May Phone Bill   317.00
 	 *  -- --- SC Cashback		180.15 // Shuchi
 	 *  -- --- Delhi Trip	   6374.24
+	 *  25 May Bike Air	          2.00
 	 *  
-	 *  -- --- TOTAL		   9754.68
+	 *  -- --- TOTAL		   9756.68
 	 */
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 9754.68, TransactionReportType.CUMULATIVE ),
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 9756.68, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
