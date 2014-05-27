@@ -1,6 +1,3 @@
-html body {
-    margin: 0px;
-}
 
 @def primary-border 1px solid #CCC;
 @def secondary-border 1px solid #DDD;
@@ -12,4 +9,30 @@ html body {
 @def primary-background #DDD;
 @def secondary-background #EEE;
 @def highlighted-background cyan;
+
+html body {
+    margin: 0px;
+}
+
+@external .gwt-*, .pra*, .timePicker;
+
+.praDateTimePicker {
+	display: table;
+}
+
+.praDateTimePicker .gwt-DatePicker {
+	border-bottom: 0px;
+}
+
+.praDateTimePicker .timePicker {
+	text-align: center;
+	padding-top: thin-padding;
+	padding-bottom: thin-padding;
+	border: 1px solid #ccc;
+	border-top: 0px;
+}
+
+.praDateTimePicker .timePicker .gwt-Label {
+	display: inline;
+}
 
