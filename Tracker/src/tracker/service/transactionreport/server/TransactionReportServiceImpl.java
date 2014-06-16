@@ -114,19 +114,22 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		TransactionItemTypeData transactionItemTypeData = loadTransactionItemTypeIdToTransactionItemTypeDataMap().get( request.getTransactionItemTypeId() );
 
 		for( int i = 0; i < 12; i++ ) {
+			int year;
 			int month;
 			if( request.getYearType() == YearType.CALENDAR ) {
+				year = request.getYear();
 				month = i;
 			} else if( request.getYearType() == YearType.FINANCIAL ) {
-				month = i + 3;
+				year = (i + 3) < 12 ? request.getYear() : request.getYear() + 1;
+				month = (i + 3) % 12;
 			} else {
 				throw new UnsupportedOperationException( "YearType '" + request.getYearType() + "' is not yet supported." );
 			}
 
-			logger.log( Level.INFO, "Getting report data for Year " + request.getYear() + ", Month " + month );
+			logger.log( Level.INFO, "Getting report data for Year " + year + ", Month " + month );
 			
 			TransactionReportData transactionReportData = getMonthlyReportData(
-					request.getYear(), month,
+					year, month,
 					transactionItemTypeData,
 					transactionDataSource );
 			
