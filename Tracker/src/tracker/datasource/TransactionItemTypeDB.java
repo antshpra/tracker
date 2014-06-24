@@ -104,12 +104,20 @@ public enum TransactionItemTypeDB {
 
 	BULK_PURCHASES	( 12000, 12000, "Bulk Purchases", 0, TransactionReportType.PERODIC ),
 
-	EVENTS							( 13000, 13000, "Events",										   0, TransactionReportType.PERODIC ),
-	EVENTS_BIKE_ACCIDENT_04APR14	( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)",   0, TransactionReportType.PERODIC ),
-	EVENTS_DELHI_TRIP_18APR14		( 13002, 13000, "Delhi trip for Shuchi's Marriage (18-21 Apr'14)", 0, TransactionReportType.PERODIC ),
+	EVENTS								( 13000, 13000, "Events",													   0, TransactionReportType.PERODIC ),
+	EVENTS_BIKE_ACCIDENT_04APR14		( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)",			   0, TransactionReportType.PERODIC ),
+	EVENTS_DELHI_TRIP_18APR14			( 13002, 13000, "Delhi trip for Shuchi's Marriage (18-21 Apr'14) (Cancelled)", 0, TransactionReportType.PERODIC ),
+	EVENTS_BANGLORE_TRIP_06JUN14		( 13003, 13000, "Banglore Trip (07-09 Jun'14)",								   0, TransactionReportType.PERODIC ),
+	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip (25 Jul - 03 Aug'14)",				   0, TransactionReportType.PERODIC ),
 	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
-	;
+
+	HOME_SEND	( 15000, 15000, "Home Send", 0, TransactionReportType.PERODIC ),
+
+	PHYZOK		( 16000, 16000, "Phyzok", 0, TransactionReportType.PERODIC ),
+
+	CLAYMUS		( 17000, 17000, "Claymus", 0, TransactionReportType.PERODIC ),
+;
 	
 	private int id;
 	private int parentId;

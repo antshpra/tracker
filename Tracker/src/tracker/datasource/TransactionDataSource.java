@@ -25,10 +25,12 @@ public interface TransactionDataSource {
 	
 	TransactionItemJDO persistTransactionItem( TransactionItemJDO transactionItemJDO );
 	
-	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
-
 	List<TransactionItemJDO> persistTransactionItemList( List<TransactionItemJDO> transactionItemJDOList );
 	
+	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
+
+	List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList );
+
 	void close();
 	
 }

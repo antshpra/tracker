@@ -1,5 +1,6 @@
 package tracker.service.transactionreport.shared;
 
+import tracker.commons.shared.YearType;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
 
@@ -7,11 +8,6 @@ public class GetMonthlyReportRequest extends Request {
 
 	private static final long serialVersionUID = -7943074790482734240L;
 
-	public enum YearType {
-		CALENDAR,
-		FINANCIAL
-	}
-	
 	@RequiredField
 	public String transactionItemTypeId;
 

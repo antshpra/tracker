@@ -3,6 +3,7 @@ package tracker.commons.server;
 import java.util.List;
 import java.util.Map;
 
+import tracker.commons.shared.TransactionReportType;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
@@ -61,15 +62,16 @@ public class JDOToDataConverter {
 	
 	public static TransactionReportData convert(
 			TransactionReportJDO transactionReportJDO,
-			int index,
 			TransactionItemTypeData transactionItemTypeData ) {
 		
 		TransactionReportData transactionReportData = new TransactionReportData();
 		transactionReportData.setTransactionItemTypeId( transactionItemTypeData.getId() );
-		transactionReportData.setIndex( index );
+		transactionReportData.setIndex( transactionReportJDO.getIndex() );
 		transactionReportData.setTitle( transactionItemTypeData.getTitle() );
-		transactionReportData.setAmount( transactionReportJDO.getAmount() );
-
+		if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.CUMULATIVE )
+			transactionReportData.setAmount( transactionReportJDO.getAmount().add( transactionItemTypeData.getInitialAmount() ) );
+		else 
+			transactionReportData.setAmount( transactionReportJDO.getAmount() );
 		return transactionReportData;
 	}
 	

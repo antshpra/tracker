@@ -1,5 +1,6 @@
 package tracker.module.transactionreport.client.views;
 
+import tracker.commons.shared.TransactionReportUtil;
 import tracker.service.transactionreport.shared.TransactionReportData;
 import tracker.theme.client.ThemeFactory;
 import tracker.theme.client.TransactionReportModuleStyle;
@@ -33,7 +34,7 @@ public class MonthlyReportViewImpl extends MonthlyReportView {
 		valuePanel.clear();
 		
 		Label titleLabel = new Label();
-		Label valueLabel = new Label( getMonth( transactionReportData.getIndex() ) );
+		Label valueLabel = new Label( getMonth( TransactionReportUtil.getTransactionReportMonth( transactionReportData.getIndex() ) ) );
 		titleLabel.addStyleName( style.title() );
 		valueLabel.addStyleName( style.index() );
 		titlePanel.add( titleLabel );

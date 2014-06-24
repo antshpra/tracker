@@ -65,8 +65,13 @@ public class TransactionDataSourceGAEImpl extends GAEJDODataSource implements Tr
 	}
 
 	@Override
-	public TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO) {
+	public TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO ) {
 		return super.getPersistenceManager().makePersistent( transactionReportJDO );
 	}
 	
+	@Override
+	public List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList ) {
+		return (List<TransactionReportJDO>) super.getPersistenceManager().makePersistentAll( transactionReportJDOList );
+	}
+
 }

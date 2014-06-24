@@ -12,7 +12,7 @@ public class TransactionReportData implements Serializable {
 
 	private String transactionItemTypeId;
 
-	private int index;
+	private String index;
 	
 	private String title;
 	
@@ -28,7 +28,7 @@ public class TransactionReportData implements Serializable {
 	
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 
-	public int getIndex() { return this.index; }
+	public String getIndex() { return this.index; }
 	
 	public String getTitle() { return this.title; }
 
@@ -46,7 +46,7 @@ public class TransactionReportData implements Serializable {
 
 	public void setTransactionItemTypeId( String transactionItemTypeId ) { this.transactionItemTypeId = transactionItemTypeId; }
 	
-	public void setIndex( int index ) { this.index = index; }
+	public void setIndex( String index ) { this.index = index; }
 	
 	public void setTitle( String title ) { this.title = title; }
 	

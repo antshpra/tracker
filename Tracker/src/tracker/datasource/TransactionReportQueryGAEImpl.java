@@ -17,6 +17,15 @@ public class TransactionReportQueryGAEImpl extends GAEJDOQuery<TransactionReport
 	}
 
 	@Override
+	public void setIndexRange( String startIndex, boolean startIndexInclusive, String endIndex, boolean endIndexInclusive ) {
+		if( startIndex != null )
+			addFilter( "index", startIndex, startIndexInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
+		
+		if( endIndex != null )
+			addFilter( "index", endIndex, endIndexInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+	}
+
+	@Override
 	public void setTransactionItemTypeId( String transactionItemTypeId ) {
 		addFilter( "transactionItemTypeId", transactionItemTypeId );
 	}
@@ -26,6 +35,11 @@ public class TransactionReportQueryGAEImpl extends GAEJDOQuery<TransactionReport
 		addFilter( "type", type );
 	}
 
+	@Override
+	public void orderByIndex( boolean ascending ) {
+		addOrdering( "index", ascending );
+	}
+	
 	@Override
 	public void orderByLastUpdationDate( boolean cronological ) {
 		addOrdering( "lastUpdationDate", cronological );

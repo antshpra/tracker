@@ -1,5 +1,6 @@
 package tracker.service.transactionreport.shared;
 
+import tracker.commons.shared.YearType;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
 
@@ -14,6 +15,9 @@ public class GetYearlyReportRequest extends Request {
 	
 	public Integer yearTo;
 
+	@RequiredField
+	public YearType yearType;
+
 	private boolean ascendingOrder = true;
 
 	private int pageSize = 5;
@@ -24,6 +28,8 @@ public class GetYearlyReportRequest extends Request {
 	public Integer getYearFrom() { return this.yearFrom; }
 
 	public Integer getYearTo() { return this.yearTo; }
+
+	public YearType getYearType() { return this.yearType; }
 
 	public boolean isAscendingOrder() { return this.ascendingOrder; }
 	
@@ -50,6 +56,11 @@ public class GetYearlyReportRequest extends Request {
 		if( this.yearFrom != null )
 			assertLessThanOrEqual( this.yearFrom, yearTo );
 		this.yearTo = yearTo;
+	}
+
+	public void setYearType( YearType yearType  ) {
+		assertNonNull( yearType );
+		this.yearType = yearType;
 	}
 
 	public void setAscendingOrder( boolean ascendingOrder ) {

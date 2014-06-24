@@ -1,4 +1,5 @@
 <module>
+  <inherits name='antshpra.gwt.ui.Antshpra'/>
   <inherits name='tracker.service.transaction.TransactionService'/>
   <source path='client'/>
 </module>
