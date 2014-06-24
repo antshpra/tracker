@@ -8,7 +8,7 @@ import tracker.commons.shared.TransactionReportUtil;
 public class TransactionReportUtilTest {
 
 	@Test
-	public void getTransactionReportIndexTest() {
+	public void testGetTransactionReportIndex() {
 		Assert.assertEquals( "YEAR_2014", TransactionReportUtil.getTransactionReportIndex( 2014 ) );
 		
 		Assert.assertEquals( "MONTH_2013_11", TransactionReportUtil.getTransactionReportIndex( 2014, -1 ) );
@@ -17,13 +17,13 @@ public class TransactionReportUtilTest {
 	}
 
 	@Test
-	public void getTransactionReportYearTest() {
+	public void testGetTransactionReportYear() {
 		Assert.assertEquals( 2014, TransactionReportUtil.getTransactionReportYear( "YEAR_2014" ) );
 		Assert.assertEquals( 2014, TransactionReportUtil.getTransactionReportYear( "MONTH_2014_00" ) );
 	}
     
 	@Test
-	public void getTransactionReportMonthTest() {
+	public void testGetTransactionReportMonth() {
 		Assert.assertEquals( 0, TransactionReportUtil.getTransactionReportMonth( "MONTH_2014_00" ) );
 		Assert.assertEquals( 5, TransactionReportUtil.getTransactionReportMonth( "MONTH_2014_05" ) );
 		Assert.assertEquals( 11, TransactionReportUtil.getTransactionReportMonth( "MONTH_2014_11" ) );

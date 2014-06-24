@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import tracker.commons.shared.Amount;
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.TransactionItemQuery;
@@ -40,6 +41,10 @@ public class TransactionServiceImplTest {
 		
 		// Transaction Data
 		String transactionDescription = "Test Transaction";
+		String transactionItem1TypeId = "transactionItemTypeId";
+		String transactionItem2TypeId = "transactionItemTypeId";
+		Amount transactionItem1Amount = new Amount( 1 );
+		Amount transactionItem2Amount = new Amount( 2 );
 		String transactionItem1Note = "Test Transaction Item 1";
 		String transactionItem2Note = "Test Transaction Item 2";
 		
@@ -51,6 +56,12 @@ public class TransactionServiceImplTest {
 		CreateTransactionItemRequest createTransactionItemRequest_1 = new CreateTransactionItemRequest();
 		CreateTransactionItemRequest createTransactionItemRequest_2 = new CreateTransactionItemRequest();
 
+		createTransactionItemRequest_1.setTransactionItemTypeId( transactionItem1TypeId );
+		createTransactionItemRequest_2.setTransactionItemTypeId( transactionItem2TypeId );
+
+		createTransactionItemRequest_1.setAmount( transactionItem1Amount );
+		createTransactionItemRequest_2.setAmount( transactionItem2Amount );
+		
 		createTransactionItemRequest_1.setNote( transactionItem1Note );
 		createTransactionItemRequest_2.setNote( transactionItem2Note );
 		

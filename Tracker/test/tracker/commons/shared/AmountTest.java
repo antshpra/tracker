@@ -6,7 +6,7 @@ import org.junit.Test;
 public class AmountTest {
 
 	@Test
-	public void addTest() {
+	public void testAdd() {
 		long amount_1_value = 100L;
 		long amount_2_value = 200L;
 		

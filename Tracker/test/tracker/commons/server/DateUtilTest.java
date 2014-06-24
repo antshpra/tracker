@@ -11,7 +11,7 @@ import org.junit.Test;
 public class DateUtilTest {
 
 	@Test
-	public void getDateForTest_1() {
+	public void testGetDateFor_1() {
 		DateFormat dateFormat = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss z" );
 
 		Date date = DateUtil.getDateFor( 2014, 00, 01 );
@@ -28,7 +28,7 @@ public class DateUtilTest {
 	}
 	
 	@Test
-	public void getDateForTest_2() throws ParseException {
+	public void testGetDateFor_2() throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss z" );
 
 		Date date = DateUtil.getDateFor( 2014, 00, 01 );
@@ -42,7 +42,7 @@ public class DateUtilTest {
 	}
 	
 	@Test
-	public void getYearTest() throws ParseException {
+	public void testGetYear() throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss z" );
 		
 		Date date = formatter.parse( "01-01-2014 00:00:00 IST" );
@@ -55,7 +55,7 @@ public class DateUtilTest {
 	}
 	
 	@Test
-	public void getMonthTest() throws ParseException {
+	public void testGetMonth() throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss z" );
 		
 		Date date = formatter.parse( "01-01-2014 00:00:00 IST" );
