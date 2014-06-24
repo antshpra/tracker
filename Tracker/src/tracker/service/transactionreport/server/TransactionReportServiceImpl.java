@@ -350,7 +350,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		
 		} else if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.CUMULATIVE ) { 
 			
-			String transactionReportIndex; 
+			String transactionReportIndex;
 			if( yearType == YearType.CALENDAR ) {
 				transactionReportIndex = TransactionReportUtil.getTransactionReportIndex( year, 11 );
 			} else if( yearType == YearType.FINANCIAL ) {
@@ -389,31 +389,55 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			TransactionItemTypeData transactionItemTypeData,
 			TransactionDataSource transactionDataSource ) {
 
-		if( transactionItemTypeData.getTransactionReportType() != TransactionReportType.PERODIC 
-				&& transactionItemTypeData.getTransactionReportType() != TransactionReportType.CUMULATIVE )
-			throw new UnsupportedOperationException( "TransactionReportType '" + transactionItemTypeData.getTransactionReportType() + "' is not yet supported." );
-		
-		int reportMonth;
+		String transactionReportIndex;
 		if( yearType == YearType.CALENDAR ) {
-			reportMonth = month;
+			transactionReportIndex = TransactionReportUtil.getTransactionReportIndex( year, month );
 		} else if( yearType == YearType.FINANCIAL ) {
-			reportMonth = month + 3;
+			transactionReportIndex = TransactionReportUtil.getTransactionReportIndex( year, month + 3 );
 		} else {
 			throw new UnsupportedOperationException( "YearType '" + yearType + "' is not yet supported." );
 		}
 		
-		TransactionReportJDO transactionReport = getTransactionReport(
-				TransactionReportUtil.getTransactionReportIndex( year, reportMonth ),
-				transactionItemTypeData.getId(),
-				transactionItemTypeData.getTransactionReportType(),
-				transactionDataSource );
-		
-		if( transactionReport == null )
-			transactionReport = createTransactionReport(
-					TransactionReportUtil.getTransactionReportIndex( year, reportMonth ),
+		TransactionReportJDO transactionReport;
+		if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.PERODIC ) {
+			
+			transactionReport = getTransactionReport(
+					transactionReportIndex,
 					transactionItemTypeData.getId(),
 					transactionItemTypeData.getTransactionReportType(),
 					transactionDataSource );
+			
+			if( transactionReport == null )
+				transactionReport = createTransactionReport(
+						transactionReportIndex,
+						transactionItemTypeData.getId(),
+						transactionItemTypeData.getTransactionReportType(),
+						transactionDataSource );
+			
+		} else if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.CUMULATIVE ) { 
+
+			transactionReport = createTransactionReport(
+					transactionReportIndex,
+					transactionItemTypeData.getId(),
+					transactionItemTypeData.getTransactionReportType(),
+					transactionDataSource );
+			
+			TransactionReportQuery transactionReportQuery = transactionDataSource.newTransactionReportQuery();
+			transactionReportQuery.setIndexRange( MONTH_MIN_INDEX, true, transactionReportIndex, true );
+			transactionReportQuery.setTransactionItemTypeId( transactionItemTypeData.getId() );
+			transactionReportQuery.setReportType( transactionItemTypeData.getTransactionReportType() );
+			transactionReportQuery.orderByIndex( false );
+			transactionReportQuery.orderByLastUpdationDate( false );
+			List<TransactionReportJDO> transactionReportList = transactionReportQuery.execute( 0, 1 );
+
+			if( transactionReportList.size() != 0 )
+				transactionReport.setAmount( transactionReportList.get( 0 ).getAmount() );
+
+		} else {
+			
+			throw new UnsupportedOperationException( "TransactionReportType '" + transactionItemTypeData.getTransactionReportType() + "' is not yet supported." );
+
+		}
 
 		TransactionReportData transactionReportData = JDOToDataConverter.convert( transactionReport, transactionItemTypeData );
 		
