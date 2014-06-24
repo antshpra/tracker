@@ -350,23 +350,25 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		
 		} else if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.CUMULATIVE ) { 
 			
-			int month;
+			String transactionReportIndex; 
 			if( yearType == YearType.CALENDAR ) {
-				month = 11;
+				transactionReportIndex = TransactionReportUtil.getTransactionReportIndex( year, 11 );
 			} else if( yearType == YearType.FINANCIAL ) {
-				month = 14;
+				transactionReportIndex = TransactionReportUtil.getTransactionReportIndex( year, 14 );
 			} else {
 				throw new UnsupportedOperationException( "YearType '" + yearType + "' is not yet supported." );
 			}
 			
-			TransactionReportJDO monthlyTransactionReport = getTransactionReport(
-					TransactionReportUtil.getTransactionReportIndex( year, month ),
-					transactionItemTypeData.getId(),
-					transactionItemTypeData.getTransactionReportType(),
-					transactionDataSource );
+			TransactionReportQuery transactionReportQuery = transactionDataSource.newTransactionReportQuery();
+			transactionReportQuery.setIndexRange( MONTH_MIN_INDEX, true, transactionReportIndex, true );
+			transactionReportQuery.setTransactionItemTypeId( transactionItemTypeData.getId() );
+			transactionReportQuery.setReportType( transactionItemTypeData.getTransactionReportType() );
+			transactionReportQuery.orderByIndex( false );
+			transactionReportQuery.orderByLastUpdationDate( false );
+			List<TransactionReportJDO> transactionReportList = transactionReportQuery.execute( 0, 1 );
 
-			if( monthlyTransactionReport != null )
-				transactionReport.setAmount( monthlyTransactionReport.getAmount() );
+			if( transactionReportList.size() != 0 )
+				transactionReport.setAmount( transactionReportList.get( 0 ).getAmount() );
 			
 		} else {
 			
