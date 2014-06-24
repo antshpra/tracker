@@ -162,7 +162,8 @@ public class TransactionReportServiceImplTest {
 				transactionItemTypeId,
 				TransactionReportType.CUMULATIVE,
 				transactionDataSource );
-		Assert.assertNull( transactionReport );
+		Assert.assertNotNull( transactionReport );
+		Assert.assertEquals( 22, transactionReport.getAmount().getValue() );
 		
 		transactionDataSource.close();
 	}

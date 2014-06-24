@@ -24,13 +24,6 @@
 	
 	
 	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
-	<datastore-index kind="TRANSACTION_REPORT" ancestor="false" source="manual">
-		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
-		<property name="TYPE" direction="asc"/>
-		<property name="INDEX" direction="asc"/>
-	</datastore-index>
-
-	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
 	<datastore-index kind="TRANSACTION_REPORT" ancestor="false">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="TYPE" direction="asc"/>

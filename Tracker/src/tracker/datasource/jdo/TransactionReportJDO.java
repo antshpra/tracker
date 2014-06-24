@@ -33,6 +33,22 @@ public class TransactionReportJDO {
 	private Date lastUpdationDate;
 		
 	
+	public TransactionReportJDO() {}
+	
+	public TransactionReportJDO(
+			String transactionReportIndex,
+			String transactionItemTypeId,
+			TransactionReportType transactionReportType,
+			Amount amount ) {
+		
+		this.index = transactionReportIndex;
+		this.transactionItemTypeId = transactionItemTypeId;
+		this.type = transactionReportType;
+		this.amount = amount.getValue();
+		this.lastUpdationDate = new Date( 0 );
+	}
+	
+	
 	public String getIndex() { return this.index; }
 	
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
