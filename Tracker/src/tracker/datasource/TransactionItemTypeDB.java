@@ -77,11 +77,20 @@ public enum TransactionItemTypeDB {
 	 *  -- --- May Phone Bill   317.00
 	 *  -- --- SC Cashback		180.15 // Shuchi
 	 *  -- --- Delhi Trip	   6374.24
+	 *                                 = 9754.68
 	 *  25 May Bike Air	          2.00
-	 *  
-	 *  -- --- TOTAL		   9756.68
+	 *  31 May Bike Air           2.00
+	 *  31 May Spencer's        158.00
+	 *                                 = 9916.68
+	 *  06 Jun Bang, Day 0       80.00
+	 *  07 Jun Bang, Day 1      230.00
+	 *  08 Jun Bang, Day 2      811.00
+	 *  09 Jun Bang, Day 3      210.00
+	 *  10 Jun Bang, Day 4       75.00
+	 *                                 = 11322.68
+	 *  -- --- TOTAL		  11322.68
 	 */
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 9756.68, TransactionReportType.CUMULATIVE ),
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 11322.68, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
