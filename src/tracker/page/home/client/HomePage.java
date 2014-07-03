@@ -2,6 +2,7 @@ package tracker.page.home.client;
 
 import java.util.List;
 
+import tracker.commons.shared.YearType;
 import tracker.module.transaction.client.EditTransactionModuleImpl;
 import tracker.module.transaction.client.TransactionItemListModule;
 import tracker.module.transaction.client.TransactionList;
@@ -16,7 +17,6 @@ import tracker.service.transaction.shared.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.client.TransactionReportServiceAsync;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
-import tracker.service.transactionreport.shared.GetMonthlyReportRequest.YearType;
 import tracker.service.transactionreport.shared.GetMonthlyReportResponse;
 import tracker.theme.client.ThemeFactory;
 
