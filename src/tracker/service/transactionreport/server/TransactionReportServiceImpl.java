@@ -171,7 +171,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		
 		// We have to update reports for all additions/updations in TransactionItems happened since last update in TransactionReports
 		Date startDate = transactionReportList.size() == 0 ? null : transactionReportList.get( 0 ).getLastUpdationDate();
-		Date endDate = new Date( new Date().getTime() - 10000 );
+		Date endDate = new Date( new Date().getTime() - 500 );
 		
 		// Fetching list of TransactionItems created/updated since last update in TransactionReports
 		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
