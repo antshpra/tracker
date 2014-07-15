@@ -118,6 +118,7 @@ public enum TransactionItemTypeDB {
 	EVENTS_DELHI_TRIP_18APR14			( 13002, 13000, "Delhi trip for Shuchi's Marriage (18-21 Apr'14) (Cancelled)", 0, TransactionReportType.PERODIC ),
 	EVENTS_BANGLORE_TRIP_06JUN14		( 13003, 13000, "Banglore Trip (07-09 Jun'14)",								   0, TransactionReportType.PERODIC ),
 	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip (25 Jul - 03 Aug'14)",				   0, TransactionReportType.PERODIC ),
+	EVENTS_BANGLORE_TRIP_10JUL14		( 13005, 13000, "Banglore Trip (11-13 Jul'14)",								   0, TransactionReportType.PERODIC ),
 	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
@@ -126,7 +127,9 @@ public enum TransactionItemTypeDB {
 	PHYZOK		( 16000, 16000, "Phyzok", 0, TransactionReportType.PERODIC ),
 
 	CLAYMUS		( 17000, 17000, "Claymus", 0, TransactionReportType.PERODIC ),
-;
+	
+	PRATILIPI	( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
+	;
 	
 	private int id;
 	private int parentId;
