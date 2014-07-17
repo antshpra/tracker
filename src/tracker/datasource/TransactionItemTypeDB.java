@@ -61,7 +61,6 @@ public enum TransactionItemTypeDB {
 	/*
 	 * PENDING EXPENSE REPORTING
 	 * 
-	 *  -- --- Coins			 35.00
 	 * 	04 APR Shuchi		  	  0.52
 	 * 	07 APR Shuchi	 		 20.00
 	 * 	14 APR Manish			 -4.00
@@ -73,24 +72,27 @@ public enum TransactionItemTypeDB {
 	 * 	01 MAY Prasads Parking	 15.00
 	 *  -- --- To Mama,for Cab-2400.00
 	 *  -- --- April Rent	   4000.00
-	 *  -- --- April Phone Bill 497.77
-	 *  -- --- May Phone Bill   317.00
+	 *  -- --- April Phone Bill 497.77 ( 314.77 + 183.00 ) SC Points
+	 *  -- --- May Phone Bill   317.00 ( 317.00 + 61.65) SC Points
 	 *  -- --- SC Cashback		180.15 // Shuchi
 	 *  -- --- Delhi Trip	   6374.24
-	 *                                 = 9754.68
+	 *                                 = 9719.68
 	 *  25 May Bike Air	          2.00
 	 *  31 May Bike Air           2.00
-	 *  31 May Spencer's        158.00
-	 *                                 = 9916.68
+	 *                                 = 9723.68
 	 *  06 Jun Bang, Day 0       80.00
 	 *  07 Jun Bang, Day 1      230.00
 	 *  08 Jun Bang, Day 2      811.00
 	 *  09 Jun Bang, Day 3      210.00
 	 *  10 Jun Bang, Day 4       75.00
-	 *                                 = 11322.68
-	 *  -- --- TOTAL		  11322.68
+	 *                                 = 11129.68
+	 *  20 Jun Bike Air           2.00
+	 *  -- --- TOTAL		  11131.68
 	 */
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 11322.68, TransactionReportType.CUMULATIVE ),
+	
+	//  -- --- June Phone Bill  343.60 ( 343.60 ) SC Points
+	//  -- --- July Phone Bill  364.72 ( 94.75 + 269.97 ) SC Points + SC Card
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 11131.68, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
@@ -119,6 +121,7 @@ public enum TransactionItemTypeDB {
 	EVENTS_BANGLORE_TRIP_06JUN14		( 13003, 13000, "Banglore Trip (07-09 Jun'14)",								   0, TransactionReportType.PERODIC ),
 	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip (25 Jul - 03 Aug'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_BANGLORE_TRIP_10JUL14		( 13005, 13000, "Banglore Trip (11-13 Jul'14)",								   0, TransactionReportType.PERODIC ),
+	EVENTS_BHONGIR_FORT_BIKE_TRIP_21JUN14(13006, 13000, "Bike Trip to Bhongir Fort (21 Jun'14)",					   0, TransactionReportType.PERODIC ),
 	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
