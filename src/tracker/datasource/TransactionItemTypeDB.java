@@ -33,16 +33,6 @@ public enum TransactionItemTypeDB {
 	BIKE_REPAIR		( 4003, 4000, "Repair",      0, TransactionReportType.PERODIC ),
 	BIKE_ACCESSORIES( 4004, 4000, "Accessories", 0, TransactionReportType.PERODIC ),
 	
-	TRIPS_AND_EVENTS 						( 5000, 5000, "Trips & Events",         0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_EATABLES 				( 5001, 5000, "Eatables",               0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_GIFTS		 			( 5002, 5000, "Gifts",                  0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_AIR 			( 5003, 5000, "Air Travel",             0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_TRAIN_SLEEPER 	( 5004, 5000, "Train (sleeper) Travel", 0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_TRAIN_3AC 		( 5005, 5000, "Train (3rd AC) Travel",  0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_BUS_AC 			( 5006, 5000, "Bus (AC) Travel",        0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_BUS_NON_AC		( 5007, 5000, "Bus (Non AC) Travel",    0, TransactionReportType.PERODIC ),
-	TRIPS_AND_EVENTS_TRAVEL_LOCAL_TRANSPORT	( 5008, 5000, "Local Trasport",         0, TransactionReportType.PERODIC ),
-		
 	SAVINGS_ACCOUNT			( 6000, 6000, "Savings Account",                 0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_SBBJ	( 6001, 6000, "Savings Account (SBBJ)",          0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_IDBI	( 6002, 6000, "Savings Account (IDBI)",   10238.82, TransactionReportType.CUMULATIVE ),
@@ -122,7 +112,9 @@ public enum TransactionItemTypeDB {
 	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip (25 Jul - 03 Aug'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_BANGLORE_TRIP_10JUL14		( 13005, 13000, "Banglore Trip (11-13 Jul'14)",								   0, TransactionReportType.PERODIC ),
 	EVENTS_BHONGIR_FORT_BIKE_TRIP_21JUN14(13006, 13000, "Bike Trip to Bhongir Fort (21 Jun'14)",					   0, TransactionReportType.PERODIC ),
-	
+	EVENTS_RELIEVING_AT_AMAZON_23JUL14  ( 13007, 13000, "Relieving at Amazon (23 Jul'14)",					           0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_TEETH_TREATMENT_04JUL14  ( 13008, 13000, "Mom's teeth treatment (04 Jul'14)",					       0, TransactionReportType.PERODIC ),
+
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
 	HOME_SEND	( 15000, 15000, "Home Send", 0, TransactionReportType.PERODIC ),
@@ -132,6 +124,18 @@ public enum TransactionItemTypeDB {
 	CLAYMUS		( 17000, 17000, "Claymus", 0, TransactionReportType.PERODIC ),
 	
 	PRATILIPI	( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
+	
+	SAVINGS_ACCOUNT_INTEREST	   ( 19000, 19000, "Savings Account Interest",         0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_INTEREST_SBBJ  ( 19001, 19000, "Savings Account Interest (SBBJ)",  0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_INTEREST_IDBI  ( 19002, 19000, "Savings Account Interest (IDBI)",  0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_INTEREST_ICICI ( 19003, 19000, "Savings Account Interest (ICICI)", 0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_INTEREST_KMB   ( 19004, 19000, "Savings Account Interest (KMB)",   0, TransactionReportType.CUMULATIVE ),
+
+	SAVINGS_ACCOUNT_DEDUCTIONS	     ( 20000, 20000, "Savings Account Deductions",         0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_DEDUCTIONS_SBBJ  ( 20001, 20000, "Savings Account Deductions (SBBJ)",  0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_DEDUCTIONS_IDBI  ( 20002, 20000, "Savings Account Deductions (IDBI)",  0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_DEDUCTIONS_ICICI ( 20003, 20000, "Savings Account Deductions (ICICI)", 0, TransactionReportType.CUMULATIVE ),
+	SAVINGS_ACCOUNT_DEDUCTIONS_KMB   ( 20004, 20000, "Savings Account Deductions (KMB)",   0, TransactionReportType.CUMULATIVE ),
 	;
 	
 	private int id;
