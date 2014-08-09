@@ -7,7 +7,7 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.GetTransactionListRequest;
 import tracker.service.transaction.shared.GetTransactionListResponse;
-import tracker.service.transaction.shared.TransactionData;
+import tracker.service.transaction.shared.data.TransactionData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

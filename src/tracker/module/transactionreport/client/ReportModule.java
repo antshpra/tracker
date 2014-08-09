@@ -2,7 +2,7 @@ package tracker.module.transactionreport.client;
 
 import java.util.List;
 
-import tracker.service.transactionreport.shared.TransactionReportData;
+import tracker.service.transactionreport.shared.data.TransactionReportData;
 
 import com.google.gwt.user.client.ui.Composite;
 

@@ -10,8 +10,8 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.GetTransactionRequest;
 import tracker.service.transaction.shared.GetTransactionResponse;
-import tracker.service.transaction.shared.TransactionData;
-import tracker.service.transaction.shared.TransactionItemData;
+import tracker.service.transaction.shared.data.TransactionData;
+import tracker.service.transaction.shared.data.TransactionItemData;
 import tracker.theme.client.ThemeFactory;
 import tracker.theme.client.TransactionModuleStyle;
 

@@ -13,7 +13,7 @@ import tracker.service.transaction.client.TransactionService;
 import tracker.service.transaction.client.TransactionServiceAsync;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
-import tracker.service.transaction.shared.TransactionItemTypeData;
+import tracker.service.transaction.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.client.TransactionReportServiceAsync;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;

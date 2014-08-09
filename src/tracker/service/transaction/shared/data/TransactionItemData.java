@@ -1,4 +1,4 @@
-package tracker.service.transaction.shared;
+package tracker.service.transaction.shared.data;
 
 import java.io.Serializable;
 import java.util.Date;

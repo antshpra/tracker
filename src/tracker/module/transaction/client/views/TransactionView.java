@@ -1,6 +1,6 @@
 package tracker.module.transaction.client.views;
 
-import tracker.service.transaction.shared.TransactionData;
+import tracker.service.transaction.shared.data.TransactionData;
 
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverHandler;

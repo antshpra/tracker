@@ -1,4 +1,4 @@
-package tracker.service.transactionreport.shared;
+package tracker.service.transactionreport.shared.data;
 
 import java.io.Serializable;
 import java.util.LinkedList;

@@ -13,7 +13,7 @@ import tracker.service.transaction.shared.CreateTransactionRequest;
 import tracker.service.transaction.shared.CreateTransactionResponse;
 import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
 import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
-import tracker.service.transaction.shared.TransactionItemTypeData;
+import tracker.service.transaction.shared.data.TransactionItemTypeData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

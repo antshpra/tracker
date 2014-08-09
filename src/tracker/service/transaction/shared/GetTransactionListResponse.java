@@ -2,6 +2,7 @@ package tracker.service.transaction.shared;
 
 import java.util.List;
 
+import tracker.service.transaction.shared.data.TransactionData;
 import antshpra.gwt.rpc.shared.Response;
 
 public class GetTransactionListResponse extends Response {

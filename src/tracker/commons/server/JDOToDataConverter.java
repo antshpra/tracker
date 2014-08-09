@@ -7,10 +7,10 @@ import tracker.commons.shared.TransactionReportType;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
-import tracker.service.transaction.shared.TransactionData;
-import tracker.service.transaction.shared.TransactionItemData;
-import tracker.service.transaction.shared.TransactionItemTypeData;
-import tracker.service.transactionreport.shared.TransactionReportData;
+import tracker.service.transaction.shared.data.TransactionData;
+import tracker.service.transaction.shared.data.TransactionItemData;
+import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.transactionreport.shared.data.TransactionReportData;
 
 public class JDOToDataConverter {
 	

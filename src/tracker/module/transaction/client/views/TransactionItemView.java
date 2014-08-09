@@ -1,6 +1,6 @@
 package tracker.module.transaction.client.views;
 
-import tracker.service.transaction.shared.TransactionItemData;
+import tracker.service.transaction.shared.data.TransactionItemData;
 
 import com.google.gwt.user.client.ui.Composite;
 

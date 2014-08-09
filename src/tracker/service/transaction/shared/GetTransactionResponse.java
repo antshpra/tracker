@@ -1,5 +1,6 @@
 package tracker.service.transaction.shared;
 
+import tracker.service.transaction.shared.data.TransactionData;
 import antshpra.gwt.rpc.shared.Response;
 
 public class GetTransactionResponse extends Response {

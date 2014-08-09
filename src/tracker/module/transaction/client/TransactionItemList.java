@@ -1,7 +1,7 @@
 package tracker.module.transaction.client;
 
 import tracker.module.transaction.client.views.TransactionItemViewImplDeprecated;
-import tracker.service.transaction.shared.TransactionItemData;
+import tracker.service.transaction.shared.data.TransactionItemData;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;

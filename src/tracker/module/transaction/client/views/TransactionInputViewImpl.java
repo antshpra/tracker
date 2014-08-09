@@ -2,7 +2,7 @@ package tracker.module.transaction.client.views;
 
 import tracker.module.transaction.client.DateTimePicker;
 import tracker.service.transaction.shared.CreateTransactionRequest;
-import tracker.service.transaction.shared.TransactionData;
+import tracker.service.transaction.shared.data.TransactionData;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

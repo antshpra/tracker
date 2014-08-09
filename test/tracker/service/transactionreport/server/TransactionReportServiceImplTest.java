@@ -15,8 +15,8 @@ import tracker.commons.shared.YearType;
 import tracker.datasource.TransactionDataSource;
 import tracker.datasource.TransactionDataSourceFactory;
 import tracker.datasource.jdo.TransactionReportJDO;
-import tracker.service.transaction.shared.TransactionItemTypeData;
-import tracker.service.transactionreport.shared.TransactionReportData;
+import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.transactionreport.shared.data.TransactionReportData;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
