@@ -30,7 +30,18 @@
     <welcome-file>Home.html</welcome-file>
   </welcome-file-list>
 
-  <!--  Security and Authentication -->
+
+  <servlet>
+    <servlet-name>TrackerMain</servlet-name>
+    <servlet-class>tracker.servlet.TrackerMain</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>TrackerMain</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>admin</web-resource-name>
