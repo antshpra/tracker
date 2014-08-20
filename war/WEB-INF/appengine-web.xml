@@ -4,12 +4,14 @@
   <application>track-it-up</application>
   <version>august</version>
 
-  <automatic-scaling>
-    <max-idle-instances>1</max-idle-instances>
-    <min-pending-latency>15.0s</min-pending-latency>
-  </automatic-scaling>
-
   <threadsafe>true</threadsafe>
+  <sessions-enabled>false</sessions-enabled>
+
+  <instance-class>F1</instance-class>
+
+  <automatic-scaling>
+    <max-pending-latency>10ms</max-pending-latency>
+  </automatic-scaling>
 
   <static-files>
     <include path="**" />
@@ -19,6 +21,7 @@
   </static-files>
 
   <system-properties>
+    <!-- Configure java.util.logging -->
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
   </system-properties>
 
