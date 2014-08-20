@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.claymus.ClaymusHelper;
 import com.claymus.data.transfer.WebsiteWidget;
-import com.claymus.module.websitewidget.navigation.Navigation;
-import com.claymus.module.websitewidget.navigation.NavigationFactory;
-import com.claymus.module.websitewidget.user.UserInfoFactory;
+import com.claymus.module.websitewidget.header.HeaderWidget;
+import com.claymus.module.websitewidget.header.HeaderWidgetFactory;
 import com.claymus.servlet.ClaymusMain;
 
 @SuppressWarnings("serial")
@@ -20,15 +20,25 @@ public class TrackerMain extends ClaymusMain {
 		List<WebsiteWidget> websiteWidgetList
 				= super.getWebsiteWidgetList( request );
 
-		Navigation navigation = NavigationFactory.newNavigation();
-		navigation.setLinks( new String[][] {
-				{ "Home", "/" }
-		} );
-	
-		websiteWidgetList.add( UserInfoFactory.newUserInfo() );
-		websiteWidgetList.add( navigation );
+		HeaderWidget headerWidget = HeaderWidgetFactory.newHeaderWidget();
+		headerWidget.setBrand( "Track It Up !" );
+		if( ClaymusHelper.isUserAdmin() )
+			headerWidget.setRightNavItems( new String[][] {
+					{ "Log Out", ClaymusHelper.createLogoutURL() }
+			});
+		else
+			headerWidget.setRightNavItems( new String[][] {
+					{ "Log In", ClaymusHelper.createLoginURL() }
+			});
+		headerWidget.setPosition( "HEADER" );
+		websiteWidgetList.add( headerWidget );
 
 		return websiteWidgetList;
+	}
+
+	@Override
+	protected String getTemplateName() {
+		return "tracker/servlet/TrackerTemplate.ftl";
 	}
 
 }
