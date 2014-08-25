@@ -5,8 +5,6 @@ import antshpra.gwt.rpc.shared.RequiredField;
 
 public class GetTransactionRequest extends Request {
 
-	private static final long serialVersionUID = -9191816072515304760L;
-
 	@RequiredField
 	private String transactionId;
 

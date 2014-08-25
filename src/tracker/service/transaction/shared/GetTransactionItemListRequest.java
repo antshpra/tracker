@@ -6,8 +6,6 @@ import antshpra.gwt.rpc.shared.Request;
 
 public class GetTransactionItemListRequest extends Request {
 	
-	private static final long serialVersionUID = -6966240957805317727L;
-
 	private String transactionItemTypeId;
 	
 	private Date transactionDateStart;

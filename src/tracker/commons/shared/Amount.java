@@ -1,12 +1,9 @@
 package tracker.commons.shared;
 
-import java.io.Serializable;
-
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Amount implements Serializable {
-	
-	private static final long serialVersionUID = 1283793419217594014L;
+public class Amount implements IsSerializable {
 	
 	private long value;
 	

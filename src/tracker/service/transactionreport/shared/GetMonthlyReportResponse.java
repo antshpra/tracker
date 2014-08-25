@@ -7,8 +7,6 @@ import antshpra.gwt.rpc.shared.Response;
 
 public class GetMonthlyReportResponse extends Response {
 
-	private static final long serialVersionUID = 1422741293288981428L;
-
 	private List<TransactionReportData> transactionReportDataList;
 	
 	

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 
+import tracker.module.pagecontent.transactionlist.TransactionListContentFactory;
+
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
 import com.claymus.data.transfer.WebsiteWidget;
@@ -19,6 +21,10 @@ import com.claymus.servlet.ClaymusMain;
 
 @SuppressWarnings("serial")
 public class TrackerMain extends ClaymusMain {
+	
+	static {
+		PAGE_CONTENT_REGISTRY.register( TransactionListContentFactory.class );
+	}
 	
 	@Override
 	protected String getTemplateName() {
@@ -37,6 +43,9 @@ public class TrackerMain extends ClaymusMain {
 			pageContentList.add(
 					generateHtmlContentFromFile(
 							"WEB-INF/classes/tracker/page/home/HomePage.ftl" ) );
+		else if( requestUri.equals( "/transactions" ) )
+			pageContentList.add(
+					TransactionListContentFactory.newTransactionListContent() );
 
 		return pageContentList;
 	}

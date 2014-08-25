@@ -1,6 +1,5 @@
 package antshpra.gwt.rpc.shared;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings("serial")
-public abstract class Response implements Serializable { }
+public abstract class Response implements IsSerializable { }

@@ -6,8 +6,6 @@ import antshpra.gwt.rpc.shared.RequiredField;
 
 public class GetYearlyReportRequest extends Request {
 
-	private static final long serialVersionUID = -4087368586479020540L;
-
 	@RequiredField
 	public String transactionItemTypeId;
 	

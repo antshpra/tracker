@@ -1,10 +1,10 @@
 package antshpra.gwt.rpc.shared;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings("serial")
-public abstract class Request implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public abstract class Request implements IsSerializable {
 
 	protected static void assertNonNull( Object object ) {
 		if( object == null )

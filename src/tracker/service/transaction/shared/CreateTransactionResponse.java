@@ -4,8 +4,6 @@ import antshpra.gwt.rpc.shared.Response;
 
 public class CreateTransactionResponse extends Response {
 
-	private static final long serialVersionUID = 6007868757106377727L;
-
 	private String transactionId;
 
 	

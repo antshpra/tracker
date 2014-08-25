@@ -1,8 +1,10 @@
 /.google_apis
+/.settings/com.google.gwt.eclipse.core.prefs
 /test-classes
 /gwt-unitCache
 /war/WEB-INF/appengine-generated
 /war/WEB-INF/classes
 /war/WEB-INF/deploy
 /war/WEB-INF/lib
+/war/pagecontent.transactionlist
 /war/page_home

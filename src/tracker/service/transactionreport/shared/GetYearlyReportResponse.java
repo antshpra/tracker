@@ -7,8 +7,6 @@ import antshpra.gwt.rpc.shared.Response;
 
 public class GetYearlyReportResponse extends Response {
 	
-	private static final long serialVersionUID = 1222227202755133541L;
-
 	private List<TransactionReportData> transactionReportDataList;
 	
 	

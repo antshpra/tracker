@@ -5,8 +5,6 @@ import java.util.List;
 import tracker.commons.shared.YearType;
 import tracker.module.transaction.client.EditTransactionModuleImpl;
 import tracker.module.transaction.client.TransactionItemListModule;
-import tracker.module.transaction.client.TransactionList;
-import tracker.module.transaction.client.TransactionListLoader;
 import tracker.module.transactionreport.client.ReportModule;
 import tracker.module.transactionreport.client.ReportModuleImpl;
 import tracker.service.transaction.client.TransactionService;
@@ -102,7 +100,6 @@ public class HomePage implements EntryPoint {
 		RootPanel.get().add( itemTypeList );
 		RootPanel.get().add( reportModule );
 		RootPanel.get().add( transactionItemListModule );
-		RootPanel.get().add( new TransactionListLoader( new TransactionList() ) );
 		
 		ThemeFactory.getTheme().getTransactionModuleStyle().ensureInjected();
 		ThemeFactory.getTheme().getTransactionReportModuleStyle().ensureInjected();

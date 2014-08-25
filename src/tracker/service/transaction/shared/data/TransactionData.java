@@ -1,13 +1,12 @@
 package tracker.service.transaction.shared.data;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TransactionData implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-	private static final long serialVersionUID = 8877764477932050297L;
+public class TransactionData implements IsSerializable {
 
 	private String transactionId;
 

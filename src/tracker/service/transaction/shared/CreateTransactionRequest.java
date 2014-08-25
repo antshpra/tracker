@@ -9,8 +9,6 @@ import antshpra.gwt.rpc.shared.RequiredField;
 
 public class CreateTransactionRequest extends Request {
 
-	private static final long serialVersionUID = 1477427628459751953L;
-
 	private Date transactionDate;
 
 	@RequiredField
