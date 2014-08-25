@@ -3,6 +3,7 @@ package tracker.module.transaction.client.views;
 import java.util.Date;
 import java.util.List;
 
+import tracker.commons.client.TransactionView;
 import tracker.commons.shared.Amount;
 import tracker.module.transaction.client.DateUtil;
 import tracker.module.transaction.client.TransactionItemList;
@@ -17,8 +18,11 @@ import tracker.theme.client.TransactionModuleStyle;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -26,7 +30,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 
-public class TransactionViewImpl extends TransactionView {
+public class TransactionViewImpl extends TransactionView
+		implements MouseOverHandler, MouseOutHandler, MouseUpHandler {
 
 	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
 

@@ -1,6 +1,7 @@
 package tracker.module.transaction.client;
 
-import tracker.module.transaction.client.views.TransactionViewImpl;
+import tracker.commons.client.TransactionView;
+import tracker.commons.client.TransactionViewImpl;
 import tracker.service.transaction.shared.data.TransactionData;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -16,7 +17,9 @@ public class TransactionList extends Composite {
 	}
 	
 	public void add( TransactionData transactionData ) {
-		this.panel.add( new  TransactionViewImpl( transactionData ) );
+		TransactionView transactionView = new TransactionViewImpl();
+		transactionView.setTransactionData( transactionData );
+		this.panel.add( transactionView );
 	}
 
 }

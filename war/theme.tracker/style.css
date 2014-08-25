@@ -1,0 +1,21 @@
+.tracker-TransactionView {
+	margin: 5px;
+}
+
+.tracker-TransactionView .row {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.tracker-TransactionView small {
+	margin-left: 5px;
+}
+
+.tracker-TransactionView .gwt-Anchor {
+	text-decoration: none;
+}
+
+.tracker-TransactionView .gwt-Label {
+	display: inline;
+	margin-left: 5px;
+}

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 
-import com.claymus.ClaymusHelper;
+import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
 import com.claymus.data.transfer.WebsiteWidget;
 import com.claymus.module.pagecontent.html.HtmlContent;
@@ -47,15 +47,17 @@ public class TrackerMain extends ClaymusMain {
 		List<WebsiteWidget> websiteWidgetList
 				= super.getWebsiteWidgetList( request );
 
+		ClaymusHelper claymusHelper = new ClaymusHelper( request );
+		
 		HeaderWidget headerWidget = HeaderWidgetFactory.newHeaderWidget();
 		headerWidget.setBrand( "Track It Up !" );
-		if( ClaymusHelper.isUserAdmin() )
+		if( claymusHelper.isUserAdmin() )
 			headerWidget.setRightNavItems( new String[][] {
-					{ "Log Out", ClaymusHelper.createLogoutURL() }
+					{ "Log Out", claymusHelper.createLogoutURL() }
 			});
 		else
 			headerWidget.setRightNavItems( new String[][] {
-					{ "Log In", ClaymusHelper.createLoginURL() }
+					{ "Log In", claymusHelper.createLoginURL() }
 			});
 		headerWidget.setPosition( "HEADER" );
 		websiteWidgetList.add( headerWidget );
