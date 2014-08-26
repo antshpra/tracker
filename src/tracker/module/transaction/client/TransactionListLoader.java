@@ -28,7 +28,7 @@ public class TransactionListLoader extends Composite {
 	private TransactionList transactionList;
 	private Panel subPanel = new FlowPanel();
 
-	private int pageSize = 10;
+	private int pageSize = 100;
 	private int firstPageSize = 15;
 
 	private Anchor anchor;
@@ -78,6 +78,7 @@ public class TransactionListLoader extends Composite {
 		GetTransactionListRequest request = new GetTransactionListRequest();
 		request.setTransactionDateEnd( startDate, false );
 		request.setTransactionDateChronologicalOrder( false );
+		request.setCreationDateChronologicalOrder( false );
 		request.setPageSize( pageSize );
 		
 		transactionService.getTransactionList( request, new AsyncCallback<GetTransactionListResponse>() {

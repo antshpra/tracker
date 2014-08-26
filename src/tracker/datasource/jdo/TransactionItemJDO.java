@@ -30,7 +30,7 @@ public class TransactionItemJDO {
 	private Date transactionDate;
 	
 	@Persistent( column = "HAS_TRANSACTION_DATE" )
-	private boolean hasTransactionDate;
+	private Boolean hasTransactionDate;
 	
 	@Persistent( column = "AMOUNT" )
 	private Long amount;
@@ -40,6 +40,9 @@ public class TransactionItemJDO {
 
 	@Persistent( column = "STATE" )
 	private TransactionState transactionState;
+	
+	@Persistent( column = "ORDER" )
+	private Long order;
 	
 	@Persistent( column = "CREATION_DATE" )
 	private Date creationDate;
@@ -67,6 +70,10 @@ public class TransactionItemJDO {
 	
 	public TransactionState getState() { return this.transactionState; }
 	
+	public Long getOrder() {
+		return order;
+	}
+	
 	public Date getCreationDate() { return new Date( this.creationDate.getTime() ); }
 
 	public String getCreatedBy() { return this.createdBy; }
@@ -87,6 +94,10 @@ public class TransactionItemJDO {
 	public void setNote( String note ) { this.note = note; }
 	
 	public void setState( TransactionState transactionState ) { this.transactionState = transactionState; }
+	
+	public void setOrder( Long order ) {
+		this.order = order;
+	}
 	
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	

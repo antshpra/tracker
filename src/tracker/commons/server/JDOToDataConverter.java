@@ -50,9 +50,16 @@ public class JDOToDataConverter {
 		transactionItemData.setTransactionItemType(
 				transactionItemTypeIdToTransactionItemTypeDataMap.get(
 						transactionItem.getTransactionItemTypeId() ) );
-		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
+		if( transactionItem.hasTransactionDate() == null
+				|| transactionItem.hasTransactionDate() )
+			transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
-		transactionItemData.setNote( transactionItem.getNote() );
+		if( transactionItem.getOrder() != null )
+			transactionItemData.setNote(
+					transactionItem.getOrder() + ". "
+					+ ( transactionItem.getNote() == null ? "" : transactionItem.getNote() ) );
+		else
+			transactionItemData.setNote( transactionItem.getNote() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
 		transactionItemData.setTransactionData( transactionData );

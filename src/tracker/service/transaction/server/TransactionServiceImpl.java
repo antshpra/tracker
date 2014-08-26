@@ -96,16 +96,19 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 		
 		if( request.getCreateTransactionItemRequestList() != null ) {
 			List<TransactionItemJDO> transactionItemList = new ArrayList<>( request.getCreateTransactionItemRequestList().size() );
+			long order = 0;
 			for( CreateTransactionItemRequest itemRequest : request.getCreateTransactionItemRequestList() ) {
 				itemRequest.setTransactionId( transaction.getId() );
 				if( itemRequest.getTransactionDate() == null ) {
 					itemRequest.setTransactionDate( request.getTransactionDate() );
 					TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
 					transactionItem.setHasTransactionDate( false );
+					transactionItem.setOrder( order++ );
 					transactionItemList.add( transactionItem );
 				} else {
 					TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
 					transactionItem.setHasTransactionDate( true );
+					transactionItem.setOrder( order++ );
 					transactionItemList.add( transactionItem );
 				}
 				

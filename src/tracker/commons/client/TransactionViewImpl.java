@@ -108,9 +108,11 @@ public class TransactionViewImpl extends TransactionView {
 			itemNoteLabel.setText(
 					transactionItemData.getNote() == null ?
 							"" : transactionItemData.getNote() );
-			itemDateElement.setInnerText(
-					dateTimeFormat.format(
-							transactionItemData.getTransactionDate() ) );
+			
+			if( transactionItemData.getTransactionDate() != null )
+				itemDateElement.setInnerText(
+						dateTimeFormat.format(
+								transactionItemData.getTransactionDate() ) );
 		}
 
 		// TODO: remove this whenever possible

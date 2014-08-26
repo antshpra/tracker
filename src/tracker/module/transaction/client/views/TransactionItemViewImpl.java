@@ -45,7 +45,10 @@ public class TransactionItemViewImpl extends TransactionItemView {
 		setStyleName( style.transactionItem() );
 		
 		DateUtil dateUtil = new DateUtil( dateLabel, timeLabel );
-		dateUtil.setDate( transactionItemData.getTransactionDate() );
+		dateUtil.setDate(
+				transactionItemData.getTransactionDate() == null ?
+						transactionItemData.getTransactionData().getTransactionDate() :
+						transactionItemData.getTransactionDate() );
 
 		descriptionLabel.setText(
 				transactionItemData.getAmount().toString() +
