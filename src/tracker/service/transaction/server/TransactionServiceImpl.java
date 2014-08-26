@@ -80,7 +80,8 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 	}
 	
 	@Override
-	public CreateTransactionResponse createTransaction( CreateTransactionRequest request ) throws InvalidRequestException, ServerException {
+	public CreateTransactionResponse createTransaction( CreateTransactionRequest request )
+			throws InvalidRequestException, ServerException {
 
 		RequestValidator.validate( request );
 
@@ -99,10 +100,15 @@ public class TransactionServiceImpl extends RemoteServiceServlet implements Tran
 				itemRequest.setTransactionId( transaction.getId() );
 				if( itemRequest.getTransactionDate() == null ) {
 					itemRequest.setTransactionDate( request.getTransactionDate() );
+					TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
+					transactionItem.setHasTransactionDate( false );
+					transactionItemList.add( transactionItem );
+				} else {
+					TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
+					transactionItem.setHasTransactionDate( true );
+					transactionItemList.add( transactionItem );
 				}
 				
-				TransactionItemJDO transactionItem = RequestToJDOConverter.convert( itemRequest );
-				transactionItemList.add( transactionItem );
 			}
 			transactionDataSource.persistTransactionItemList( transactionItemList );
 		} else {

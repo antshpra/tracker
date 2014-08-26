@@ -7,4 +7,5 @@
 /war/WEB-INF/deploy
 /war/WEB-INF/lib
 /war/pagecontent.transactionlist
+/war/pagecontent.transactioninput
 /war/page_home

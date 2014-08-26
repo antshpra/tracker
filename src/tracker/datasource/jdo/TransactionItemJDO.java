@@ -29,6 +29,9 @@ public class TransactionItemJDO {
 	@Persistent( column = "TRANSACTION_DATE" )
 	private Date transactionDate;
 	
+	@Persistent( column = "HAS_TRANSACTION_DATE" )
+	private boolean hasTransactionDate;
+	
 	@Persistent( column = "AMOUNT" )
 	private Long amount;
 	
@@ -55,6 +58,8 @@ public class TransactionItemJDO {
 	public String getTransactionItemTypeId() { return this.transactionItemTypeId; }
 	
 	public Date getTransactionDate() { return new Date( this.transactionDate.getTime() ); }
+
+	public Boolean hasTransactionDate() { return hasTransactionDate; }
 	
 	public Amount getAmount() { return new Amount( this.amount ); }
 	
@@ -75,6 +80,8 @@ public class TransactionItemJDO {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 
+	public void setHasTransactionDate( Boolean hasTransactionDate ) { this.hasTransactionDate = hasTransactionDate; }
+	
 	public void setAmount( Amount amount ) { this.amount = amount.getValue(); }
 	
 	public void setNote( String note ) { this.note = note; }
