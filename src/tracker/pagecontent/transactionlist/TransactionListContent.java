@@ -1,4 +1,4 @@
-package tracker.module.pagecontent.transactionlist;
+package tracker.pagecontent.transactionlist;
 
 import com.claymus.data.transfer.PageContent;
 

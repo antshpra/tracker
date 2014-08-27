@@ -1,4 +1,4 @@
-package tracker.module.pagecontent.transactionlist;
+package tracker.pagecontent.transactionlist;
 
 import com.claymus.module.pagecontent.PageContentProcessor;
 
@@ -7,7 +7,7 @@ public class TransactionListContentProcessor
 
 	@Override
 	protected String getTemplateName() {
-		return "tracker/module/pagecontent/transactionlist/TransactionListContent.ftl";
+		return "tracker/pagecontent/transactionlist/TransactionListContent.ftl";
 	}
 	
 }

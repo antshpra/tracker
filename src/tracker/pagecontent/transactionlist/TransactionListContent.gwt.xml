@@ -9,7 +9,7 @@
   <inherits name='tracker.module.transaction.TransactionModule'/>
   <inherits name='tracker.service.transaction.TransactionService'/>
 
-  <entry-point class='tracker.module.pagecontent.transactionlist.client.TransactionListContent'/>
+  <entry-point class='tracker.pagecontent.transactionlist.client.TransactionListContent'/>
 
   <source path='client'/>
   <source path='shared'/>

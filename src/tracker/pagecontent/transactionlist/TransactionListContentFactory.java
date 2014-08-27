@@ -1,6 +1,6 @@
-package tracker.module.pagecontent.transactionlist;
+package tracker.pagecontent.transactionlist;
 
-import tracker.module.pagecontent.transactionlist.gae.TransactionListContentEntity;
+import tracker.pagecontent.transactionlist.gae.TransactionListContentEntity;
 
 import com.claymus.module.pagecontent.PageContentFactory;
 
