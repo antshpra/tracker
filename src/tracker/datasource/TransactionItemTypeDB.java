@@ -116,6 +116,7 @@ public enum TransactionItemTypeDB {
 	EVENTS_MOM_TEETH_TREATMENT_04JUL14  ( 13008, 13000, "Mom's teeth treatment (04 Jul'14)",					       0, TransactionReportType.PERODIC ),
 	EVENTS_BANGLORE_TRIP_19JUL14		( 13009, 13000, "Banglore Trip for Pratilipi (20-21 Jul'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_RAEBARELI_TRIP_27NOV14		( 13010, 13000, "Raebareli Trip for Gyan's Wedding (27 Nov-04 Dec'14)",		   0, TransactionReportType.PERODIC ),
+	EVENTS_MOVING_TO_BANGLORE_04AUG14	( 13011, 13000, "Moving to Banglore for Pratilipi (04-05 Aug'14)",			   0, TransactionReportType.PERODIC ),
 
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
@@ -139,7 +140,8 @@ public enum TransactionItemTypeDB {
 	SAVINGS_ACCOUNT_DEDUCTIONS_ICICI ( 20003, 20000, "Savings Account Deductions (ICICI)", 0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_DEDUCTIONS_KMB   ( 20004, 20000, "Savings Account Deductions (KMB)",   0, TransactionReportType.CUMULATIVE ),
 	
-	LOAN_AND_DEPOSITS	( 21000, 21000, "Loan and Deposits", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
 	;
 	
 	private int id;
