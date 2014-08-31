@@ -5,15 +5,17 @@ import java.util.Date;
 import tracker.service.transaction.shared.data.TransactionData;
 
 import com.claymus.commons.client.ui.formfield.DateInputFormField;
-import com.claymus.commons.client.ui.formfield.TextBoxFormField;
+import com.claymus.commons.client.ui.formfield.TextInputFormField;
 import com.claymus.commons.client.ui.formfield.TimeInputOptionalFormField;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
 public class TransactionInputViewImpl extends TransactionInputView {
 
-	private final Panel panel = new FlowPanel();
+	private final FlowPanel panel = new FlowPanel();
 
 	private final Panel rowTransaction = new FlowPanel();
 	private final Panel rowButtons = new FlowPanel();
@@ -26,12 +28,13 @@ public class TransactionInputViewImpl extends TransactionInputView {
 	private final Panel nestedColDate = new FlowPanel();
 	private final Panel nestedColTime = new FlowPanel();
 	
-	private final TextBoxFormField descriptionInput = new TextBoxFormField();
+	private final TextInputFormField descriptionInput = new TextInputFormField();
 	private final DateInputFormField dateInput = new DateInputFormField();
 	private final TimeInputOptionalFormField timeInput = new TimeInputOptionalFormField();
 
 	private final Button addItemButton = new Button( "Add Item" );
 	private final Button saveButton = new Button( "Save" );
+	
 	
 	public TransactionInputViewImpl() {
 
@@ -40,6 +43,7 @@ public class TransactionInputViewImpl extends TransactionInputView {
 		dateInput.setRequired( true );
 		dateInput.setDate( new Date() );
 		timeInput.setTime( new Date() );
+		
 		
 		// Composing the widget
 		panel.add( rowTransaction );
@@ -75,16 +79,30 @@ public class TransactionInputViewImpl extends TransactionInputView {
 		nestedRowDateTime.setStyleName( "row" );
 		nestedColDate.setStyleName( "col-xs-6" );
 		nestedColTime.setStyleName( "col-xs-6" );
-		addItemButton.setStyleName( "btn btn-default" );
-		saveButton.setStyleName( "btn btn-default" );
+		addItemButton.setStyleName( "btn btn-primary" );
+		saveButton.setStyleName( "btn btn-primary" );
+		
 		
 		initWidget( panel );
 	}
 
 	@Override
+	public void addTransactionItemInputView(
+			TransactionItemInputView transactionItemInputView ) {
+		panel.insert( transactionItemInputView, panel.getWidgetIndex( rowButtons ) );
+	}
+	
+	@Override
+	public HandlerRegistration addAddItemButtonClickHandler(
+			ClickHandler clickHandler ) {
+		return addItemButton.addClickHandler( clickHandler );
+	}
+	
+	@Override
 	public boolean validateInputs() {
-		// TODO: Implementation
-		return true;
+		return descriptionInput.validate()
+				&& dateInput.validate()
+				&& timeInput.validate();
 	}
 	
 	@Override
