@@ -6,7 +6,6 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.claymus.commons.Claymus'/>
   <inherits name='tracker.commons.Tracker'/>
-  <inherits name='tracker.module.transaction.TransactionModule'/>
   <inherits name='tracker.service.transaction.TransactionService'/>
 
   <entry-point class='tracker.pagecontent.transactionlist.client.TransactionListContent'/>
