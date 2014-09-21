@@ -4,73 +4,41 @@ import tracker.commons.shared.Amount;
 import tracker.service.transaction.shared.data.TransactionData;
 import tracker.service.transaction.shared.data.TransactionItemData;
 
+import com.claymus.commons.client.ui.Accordion;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.HeadingElement;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class TransactionViewImpl extends TransactionView {
+public class TransactionViewAccordionImpl extends TransactionView {
 
-	private Panel panel = new FlowPanel();
-	
-	private final Panel headingPanel = new SimplePanel();
-	private final Panel collapsePanel = new SimplePanel();
-	
-	private final Anchor titleAnchor = new Anchor();
-	private final HeadingElement titleElement = Document.get().createHElement( 4 );
-	
-	private final Panel bodyPanel = new FlowPanel();
+	private Accordion accordion = new Accordion();
 
 	private final DateTimeFormat dateTimeFormat =
 			DateTimeFormat.getFormat( "hh:mm aaa EEE d MMM yyyy" );
 	
 	
-	public TransactionViewImpl() {
+	public TransactionViewAccordionImpl() {
 		
-		panel.add( headingPanel );
-		panel.add( collapsePanel );
-	
-		headingPanel.add( titleAnchor );
-		titleAnchor.getElement().appendChild( titleElement );
+		accordion.getElement().setAttribute( "style", "margin-top: 5px; margin-bottom: 5px;" );
 		
-		collapsePanel.add( bodyPanel );
-
-
-		panel.setStyleName( "tracker-TransactionView" );
-		panel.addStyleName( "panel panel-default" );
-		
-		headingPanel.setStyleName( "panel-heading" );
-		collapsePanel.setStyleName( "panel-collapse collapse" );
-		
-		titleAnchor.getElement().setAttribute( "data-toggle", "collapse" );
-		titleElement.setAttribute( "class", "panel-title" );
-		
-		bodyPanel.setStyleName( "panel-body" );
-
-		
-		initWidget( panel );
+		initWidget( accordion );
 	}
 	
 	@Override
 	public void setTransactionData( TransactionData transactionData ) {
 		
-		titleAnchor.setHref( "#Tr-" + transactionData.getId() );
-		titleElement.setInnerHTML(
+		accordion.setTitle(
 				transactionData.getDescription()
-				+ "<small>"
+				+ "<small style='margin-left:5px;'>"
 				+ dateTimeFormat.format( transactionData.getTransactionDate() )
 				+ "</small>");
 		
-		collapsePanel.getElement()
-				.setAttribute( "id", "Tr-" + transactionData.getId() );
-
-		bodyPanel.clear();
+		accordion.clear();
 		
 		Amount amount = new Amount( 0 );
 		for( TransactionItemData transactionItemData
@@ -88,7 +56,7 @@ public class TransactionViewImpl extends TransactionView {
 			Label itemNoteLabel = new Label();
 			Element itemDateElement = Document.get().createElement( "small" );
 			
-			bodyPanel.add( row );
+			accordion.add( row );
 			row.add( amountCol );
 			row.add( descCol );
 			amountCol.add( amountLabel );
@@ -101,7 +69,9 @@ public class TransactionViewImpl extends TransactionView {
 			descCol.setStyleName( "col-xs-10" );
 			amountLabel.setStyleName( "text-right" );
 			itemTypeLabel.setStyleName( "label label-default" );
-
+			itemNoteLabel.getElement().setAttribute( "style", "display:inline; margin-left:5px;");
+			itemDateElement.setAttribute( "style", "margin-left:5px;");
+			
 			amountLabel.setText( transactionItemData.getAmount().toString() );
 			itemTypeLabel.setText(
 					transactionItemData.getTransactionItemType().getTitle() );

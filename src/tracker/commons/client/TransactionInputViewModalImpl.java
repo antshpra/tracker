@@ -43,7 +43,6 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 		
 		
 		initWidget( modal );
-		modal.show();
 	}
 
 	@Override
@@ -71,6 +70,14 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 	
 	}
 
+	@Override
+	public void setVisible( boolean visible ) {
+		if( visible )
+			modal.show();
+		else
+			modal.hide();
+	}
+	
 	@Override
 	public HandlerRegistration addSaveButtonClickHandler(
 			ClickHandler clickHandler ) {
