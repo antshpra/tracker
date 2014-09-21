@@ -117,6 +117,8 @@ public enum TransactionItemTypeDB {
 	EVENTS_BANGLORE_TRIP_19JUL14		( 13009, 13000, "Banglore Trip for Pratilipi (20-21 Jul'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_RAEBARELI_TRIP_27NOV14		( 13010, 13000, "Raebareli Trip for Gyan's Wedding (27 Nov-04 Dec'14)",		   0, TransactionReportType.PERODIC ),
 	EVENTS_MOVING_TO_BANGLORE_04AUG14	( 13011, 13000, "Moving to Banglore for Pratilipi (04-05 Aug'14)",			   0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_DAD_HYD_TRIP_29JAN15		( 13012, 13000, "Mom Dad's trip to Hyderabad (29 Jan'15-11 Feb'15)",		   0, TransactionReportType.PERODIC ),
+	EVENTS_BHOPAL_HYD_TRIP_29JAN15		( 13013, 13000, "Bhopal - Hyderabad Trip (27 Sep'15-01 Oct'15)",			   0, TransactionReportType.PERODIC ),
 
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
@@ -142,6 +144,15 @@ public enum TransactionItemTypeDB {
 	
 	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 0, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
+
+	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",        0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_CASHBACK_HDFC	( 22001, 22000, "Credit Card Cashback (HDFC)", 0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_CASHBACK_SC		( 22002, 22000, "Credit Card Cashback (SC)",   0, TransactionReportType.CUMULATIVE ),
+	
+	CREDIT_CARD_POINTS			( 23000, 23000, "Credit Card Points",        0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_POINTS_HDFC		( 23001, 23000, "Credit Card Points (HDFC)", 0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_POINTS_SC		( 23002, 23000, "Credit Card Points (SC)",   0, TransactionReportType.CUMULATIVE ),
+	
 	;
 	
 	private int id;
