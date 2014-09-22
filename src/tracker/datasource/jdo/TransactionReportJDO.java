@@ -6,9 +6,9 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import tracker.commons.shared.Amount;
 import tracker.commons.shared.TransactionReportType;
 
+import com.claymus.commons.client.Amount;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable( table = "TRANSACTION_REPORT" )

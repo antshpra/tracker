@@ -9,15 +9,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import tracker.commons.shared.Amount;
 import tracker.commons.shared.TransactionReportType;
 import tracker.commons.shared.YearType;
-import tracker.datasource.TransactionDataSource;
-import tracker.datasource.TransactionDataSourceFactory;
+import tracker.data.access.DataAccessor;
+import tracker.data.access.DataAccessorFactory;
 import tracker.datasource.jdo.TransactionReportJDO;
-import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 
+import com.claymus.commons.client.Amount;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -44,7 +44,7 @@ public class TransactionReportServiceImplTest {
         
         transactionItemTypeData.addChild( transactionItemTypeChildData );
         
-        TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource();
+        DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor();
         
 		createTransactionReport( "MONTH_2014_01", transactionItemTypeId, TransactionReportType.PERODIC, 11, "01-01-2014 00:00:00 IST", transactionDataSource );
 		createTransactionReport( "MONTH_2014_02", transactionItemTypeId, TransactionReportType.PERODIC, 12, "01-01-2014 00:00:00 IST", transactionDataSource );
@@ -65,7 +65,7 @@ public class TransactionReportServiceImplTest {
 	@Test
 	public void testGetYearlyReportData_Perodic() {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
-		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource(); 
+		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 
 		transactionItemTypeData.setTransactionReportType( TransactionReportType.PERODIC );
         transactionItemTypeChildData.setTransactionReportType( TransactionReportType.PERODIC );
@@ -85,7 +85,7 @@ public class TransactionReportServiceImplTest {
 	@Test
 	public void testGetYearlyReportData_Cumulative() {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
-		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource(); 
+		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 
 		transactionItemTypeData.setTransactionReportType( TransactionReportType.CUMULATIVE );
 		transactionItemTypeChildData.setTransactionReportType( TransactionReportType.CUMULATIVE );
@@ -106,7 +106,7 @@ public class TransactionReportServiceImplTest {
 	@Test
 	public void testGetMonthlyReportData_Perodic() {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
-		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource(); 
+		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 
 		transactionItemTypeData.setTransactionReportType( TransactionReportType.PERODIC );
         transactionItemTypeChildData.setTransactionReportType( TransactionReportType.PERODIC );
@@ -126,7 +126,7 @@ public class TransactionReportServiceImplTest {
 	@Test
 	public void testGetMonthlyReportData_Cumulative() {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
-		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource(); 
+		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 
 		transactionItemTypeData.setTransactionReportType( TransactionReportType.CUMULATIVE );
 		transactionItemTypeChildData.setTransactionReportType( TransactionReportType.CUMULATIVE );
@@ -147,7 +147,7 @@ public class TransactionReportServiceImplTest {
 	@Test
 	public void testGetTransactionReport() {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
-		TransactionDataSource transactionDataSource = new TransactionDataSourceFactory().getTransactionDataSource(); 
+		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 		
 		TransactionReportJDO transactionReport = transactionReportService.getTransactionReport(
 				"MONTH_2014_02",
@@ -175,7 +175,7 @@ public class TransactionReportServiceImplTest {
 			TransactionReportType transactionReportType,
 			long amount,
 			String lastUpdationDateStr,
-			TransactionDataSource transactionDataSource ) throws ParseException {
+			DataAccessor transactionDataSource ) throws ParseException {
 		
 		TransactionReportJDO transactionReport = new TransactionReportJDO();
 		transactionReport.setIndex( transactionReportIndex );

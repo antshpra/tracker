@@ -1,7 +1,7 @@
 package tracker.module.transaction.client.views;
 
 import tracker.module.transaction.client.DateUtil;
-import tracker.service.transaction.shared.data.TransactionItemData;
+import tracker.service.shared.data.TransactionItemData;
 import tracker.theme.client.ThemeFactory;
 import tracker.theme.client.TransactionModuleStyle;
 

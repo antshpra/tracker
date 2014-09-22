@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 
-import tracker.module.pagecontent.transactionlist.TransactionListContentFactory;
+import tracker.pagecontent.transactionlist.TransactionListContentFactory;
 
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
@@ -51,7 +51,7 @@ public class TrackerMain extends ClaymusMain {
 	}
 	
 	@Override
-	protected List<WebsiteWidget> getWebsiteWidgetList( HttpServletRequest request ) {
+	protected List<WebsiteWidget> getWebsiteWidgetList( HttpServletRequest request ) throws IOException {
 		
 		List<WebsiteWidget> websiteWidgetList
 				= super.getWebsiteWidgetList( request );
@@ -62,10 +62,12 @@ public class TrackerMain extends ClaymusMain {
 		headerWidget.setBrand( "Track It Up !" );
 		if( claymusHelper.isUserAdmin() )
 			headerWidget.setRightNavItems( new String[][] {
+					{ "Transactions", "/transactions" },
 					{ "Log Out", claymusHelper.createLogoutURL() }
 			});
 		else
 			headerWidget.setRightNavItems( new String[][] {
+					{ "Transactions", "/transactions" },
 					{ "Log In", claymusHelper.createLoginURL() }
 			});
 		headerWidget.setPosition( "HEADER" );

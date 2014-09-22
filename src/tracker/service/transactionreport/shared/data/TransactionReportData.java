@@ -3,8 +3,7 @@ package tracker.service.transactionreport.shared.data;
 import java.util.LinkedList;
 import java.util.List;
 
-import tracker.commons.shared.Amount;
-
+import com.claymus.commons.client.Amount;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class TransactionReportData implements IsSerializable {

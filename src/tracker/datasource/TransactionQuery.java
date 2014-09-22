@@ -3,7 +3,7 @@ package tracker.datasource;
 import java.util.Date;
 import java.util.List;
 
-import tracker.datasource.jdo.TransactionJDO;
+import tracker.data.access.gae.TransactionEntity;
 
 public interface TransactionQuery {
 
@@ -15,7 +15,7 @@ public interface TransactionQuery {
 
 	void orderByCreationDate( boolean cronological );
 		
-	List<TransactionJDO> execute( int rangeFrom, int rangeTo );
+	List<TransactionEntity> execute( int rangeFrom, int rangeTo );
 
 	String toString();
 	

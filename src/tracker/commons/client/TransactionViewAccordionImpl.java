@@ -1,9 +1,9 @@
 package tracker.commons.client;
 
-import tracker.commons.shared.Amount;
-import tracker.service.transaction.shared.data.TransactionData;
-import tracker.service.transaction.shared.data.TransactionItemData;
+import tracker.service.shared.data.TransactionData;
+import tracker.service.shared.data.TransactionItemData;
 
+import com.claymus.commons.client.Amount;
 import com.claymus.commons.client.ui.Accordion;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

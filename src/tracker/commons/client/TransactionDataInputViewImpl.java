@@ -2,7 +2,7 @@ package tracker.commons.client;
 
 import java.util.Date;
 
-import tracker.service.transaction.shared.data.TransactionData;
+import tracker.service.shared.data.TransactionData;
 
 import com.claymus.commons.client.ui.formfield.DateInputFormField;
 import com.claymus.commons.client.ui.formfield.TextInputFormField;
@@ -52,12 +52,12 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 		// Setting required style classes
 		rowTransaction.setStyleName( "row" );
 		
-		colDescription.setStyleName( "col-md-7" );
-		colDateTime.setStyleName( "col-md-5" );
+		colDescription.setStyleName( "col-md-6" );
+		colDateTime.setStyleName( "col-md-6" );
 
 		nestedRowDateTime.setStyleName( "row" );
-		nestedColDate.setStyleName( "col-xs-6" );
-		nestedColTime.setStyleName( "col-xs-6" );
+		nestedColDate.setStyleName( "col-xs-7" );
+		nestedColTime.setStyleName( "col-xs-5" );
 		
 		
 		initWidget( rowTransaction );
@@ -65,21 +65,33 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 
 
 	@Override
+	public void setEnabled( boolean enabled ) {
+		descriptionInput.setEnabled( enabled );
+		dateInput.setEnabled( enabled );
+		timeInput.setEnabled( enabled );
+	}
+
+	@Override
 	public boolean validateInputs() {
-		return descriptionInput.validate()
-				&& dateInput.validate()
-				&& timeInput.validate();
+		boolean validated = true;
+		validated = descriptionInput.validate() && validated;
+		validated = dateInput.validate() && validated;
+		validated = timeInput.validate() && validated;
+		return validated;
 	}
 	
 	@Override
 	public TransactionData getTransactionData() {
-		// TODO: Implementation
-		return null;
+		TransactionData trData = new TransactionData();
+		trData.setDescription( descriptionInput.getText() );
+		trData.setTransactionDate( timeInput.getTime( dateInput.getDate() ) );
+		return trData;
 	}
 	
 	@Override
-	public void setTransactionData( TransactionData transactionData ) {
-		// TODO: Implementation
+	public void setTransactionData( TransactionData trData ) {
+		descriptionInput.setText( trData.getDescription() );
+		dateInput.setDate( trData.getTransactionDate() );
 	}
 	
 }

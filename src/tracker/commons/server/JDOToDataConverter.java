@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 import tracker.commons.shared.TransactionReportType;
+import tracker.data.access.gae.TransactionEntity;
 import tracker.datasource.jdo.TransactionItemJDO;
-import tracker.datasource.jdo.TransactionJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
-import tracker.service.transaction.shared.data.TransactionData;
-import tracker.service.transaction.shared.data.TransactionItemData;
-import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.shared.data.TransactionData;
+import tracker.service.shared.data.TransactionItemData;
+import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 
 public class JDOToDataConverter {
 	
 	public static TransactionData convert(
-			TransactionJDO transaction,
+			TransactionEntity transaction,
 			List<TransactionItemJDO> transactionItemList,
 			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		
@@ -50,9 +50,7 @@ public class JDOToDataConverter {
 		transactionItemData.setTransactionItemType(
 				transactionItemTypeIdToTransactionItemTypeDataMap.get(
 						transactionItem.getTransactionItemTypeId() ) );
-		if( transactionItem.hasTransactionDate() == null
-				|| transactionItem.hasTransactionDate() )
-			transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
+		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
 		transactionItemData.setAmount( transactionItem.getAmount() );
 		if( transactionItem.getOrder() != null )
 			transactionItemData.setNote(

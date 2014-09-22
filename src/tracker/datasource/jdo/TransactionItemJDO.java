@@ -7,9 +7,9 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
-import tracker.commons.shared.Amount;
 import tracker.commons.shared.TransactionState;
 
+import com.claymus.commons.client.Amount;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -28,9 +28,6 @@ public class TransactionItemJDO {
 	
 	@Persistent( column = "TRANSACTION_DATE" )
 	private Date transactionDate;
-	
-	@Persistent( column = "HAS_TRANSACTION_DATE" )
-	private Boolean hasTransactionDate;
 	
 	@Persistent( column = "AMOUNT" )
 	private Long amount;
@@ -62,8 +59,6 @@ public class TransactionItemJDO {
 	
 	public Date getTransactionDate() { return new Date( this.transactionDate.getTime() ); }
 
-	public Boolean hasTransactionDate() { return hasTransactionDate; }
-	
 	public Amount getAmount() { return new Amount( this.amount ); }
 	
 	public String getNote() { return this.note; }
@@ -72,6 +67,10 @@ public class TransactionItemJDO {
 	
 	public Long getOrder() {
 		return order;
+	}
+	
+	public void setOrder( Long order ) {
+		this.order = order;
 	}
 	
 	public Date getCreationDate() { return new Date( this.creationDate.getTime() ); }
@@ -87,17 +86,11 @@ public class TransactionItemJDO {
 	
 	public void setTransactionDate( Date transactionDate ) { this.transactionDate = transactionDate; }
 
-	public void setHasTransactionDate( Boolean hasTransactionDate ) { this.hasTransactionDate = hasTransactionDate; }
-	
 	public void setAmount( Amount amount ) { this.amount = amount.getValue(); }
 	
 	public void setNote( String note ) { this.note = note; }
 	
 	public void setState( TransactionState transactionState ) { this.transactionState = transactionState; }
-	
-	public void setOrder( Long order ) {
-		this.order = order;
-	}
 	
 	public void setCreationDate( Date creationDate ) { this.creationDate = creationDate; }
 	

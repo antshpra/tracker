@@ -4,11 +4,11 @@ import java.util.Date;
 
 import tracker.commons.client.TransactionView;
 import tracker.commons.client.TransactionViewAccordionImpl;
-import tracker.service.transaction.client.TransactionService;
-import tracker.service.transaction.client.TransactionServiceAsync;
-import tracker.service.transaction.shared.GetTransactionListRequest;
-import tracker.service.transaction.shared.GetTransactionListResponse;
-import tracker.service.transaction.shared.data.TransactionData;
+import tracker.service.client.TrackerService;
+import tracker.service.client.TrackerServiceAsync;
+import tracker.service.shared.GetTransactionListRequest;
+import tracker.service.shared.GetTransactionListResponse;
+import tracker.service.shared.data.TransactionData;
 
 import com.claymus.commons.client.ui.InfiniteScrollPanel;
 import com.google.gwt.core.client.GWT;
@@ -17,8 +17,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class TransactionList extends InfiniteScrollPanel {
 
-	private static final TransactionServiceAsync transactionService =
-			GWT.create( TransactionService.class );
+	private static final TrackerServiceAsync transactionService =
+			GWT.create( TrackerService.class );
 
 	private int pageSize = 25;
 	private Date cursor = new Date();
@@ -45,9 +45,9 @@ public class TransactionList extends InfiniteScrollPanel {
 					cursor = transactionData.getTransactionDate();
 				}
 				
-				loadSuccessful();
 				if( resonse.getTransactionDataList().size() < pageSize )
 					loadFinished();
+				loadSuccessful();
 				
 			}
 

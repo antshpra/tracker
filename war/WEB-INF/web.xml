@@ -17,12 +17,12 @@
 
   <servlet>
     <servlet-name>TransactionService</servlet-name>
-    <servlet-class>tracker.service.transaction.server.TransactionServiceImpl</servlet-class>
+    <servlet-class>tracker.service.server.TrackerServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>TransactionService</servlet-name>
-    <url-pattern>/_ah/transaction</url-pattern>
+    <url-pattern>/service.tracker</url-pattern>
   </servlet-mapping>
   
   <servlet>

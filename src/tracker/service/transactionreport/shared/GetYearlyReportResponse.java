@@ -2,10 +2,11 @@ package tracker.service.transactionreport.shared;
 
 import java.util.List;
 
-import tracker.service.transactionreport.shared.data.TransactionReportData;
-import antshpra.gwt.rpc.shared.Response;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class GetYearlyReportResponse extends Response {
+import tracker.service.transactionreport.shared.data.TransactionReportData;
+
+public class GetYearlyReportResponse implements IsSerializable {
 	
 	private List<TransactionReportData> transactionReportDataList;
 	

@@ -2,16 +2,16 @@ package antshpra.gwt.rpc.server;
 
 import org.junit.Test;
 
-import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
-import antshpra.gwt.rpc.shared.ServerException;
+
+import com.claymus.commons.client.UnexpectedServerException;
 
 public class RequestValidatorTest {
 
 	@Test
-	public void testValidate_1() throws InvalidRequestException, ServerException {
+	public void testValidate_1() throws InvalidRequestException, UnexpectedServerException {
 		@SuppressWarnings("serial")
 		Request request = new Request() {
 			@SuppressWarnings("unused")
@@ -22,7 +22,7 @@ public class RequestValidatorTest {
 	}
 	
 	@Test( expected = InvalidRequestException.class )
-	public void testValidate_2() throws InvalidRequestException, ServerException {
+	public void testValidate_2() throws InvalidRequestException, UnexpectedServerException {
 		@SuppressWarnings("serial")
 		Request request = new Request() {
 			@SuppressWarnings("unused")
@@ -36,7 +36,7 @@ public class RequestValidatorTest {
 	}
 	
 	@Test
-	public void testValidate_3() throws InvalidRequestException, ServerException {
+	public void testValidate_3() throws InvalidRequestException, UnexpectedServerException {
 		@SuppressWarnings("serial")
 		Request request = new Request() {
 			@SuppressWarnings("unused")

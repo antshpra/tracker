@@ -3,6 +3,8 @@ package tracker.commons.shared;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.claymus.commons.client.Amount;
+
 public class AmountTest {
 
 	@Test

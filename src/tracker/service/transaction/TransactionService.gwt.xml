@@ -1,5 +1,0 @@
-<module>
-  <inherits name='antshpra.gwt.rpc.RPC'/>
-  <source path='client'/>
-  <source path='shared'/>
-</module>

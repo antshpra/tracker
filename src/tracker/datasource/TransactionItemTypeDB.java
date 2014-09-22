@@ -1,9 +1,9 @@
 package tracker.datasource;
 
-import tracker.commons.shared.Amount;
 import tracker.commons.shared.TransactionReportType;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 
+import com.claymus.commons.client.Amount;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public enum TransactionItemTypeDB {

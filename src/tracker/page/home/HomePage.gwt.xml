@@ -4,6 +4,7 @@
   
 <module rename-to='page_home'>
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.claymus.commons.Claymus'/>
   <inherits name='tracker.module.transaction.TransactionModule'/>
   <inherits name='tracker.module.transactionreport.TransactionReportModule'/>
   <inherits name='tracker.theme.Theme'/>

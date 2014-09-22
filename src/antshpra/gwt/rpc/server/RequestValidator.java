@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
-import antshpra.gwt.rpc.shared.ServerException;
+
+import com.claymus.commons.client.UnexpectedServerException;
 
 public class RequestValidator {
 
@@ -15,7 +16,7 @@ public class RequestValidator {
 	
 	private RequestValidator() {}
 	
-	public static void validate( Request request ) throws InvalidRequestException, ServerException {
+	public static void validate( Request request ) throws InvalidRequestException, UnexpectedServerException {
 		Field[] fields = request.getClass().getDeclaredFields();
 		
 		for( Field field : fields ) {
@@ -28,10 +29,10 @@ public class RequestValidator {
 					}
 				} catch( IllegalArgumentException e ) {
 					logger.log( Level.SEVERE, "Unexpected exception occured !", e );
-					throw new ServerException();
+					throw new UnexpectedServerException();
 				} catch( IllegalAccessException e ) {
 					logger.log( Level.SEVERE, "Unexpected exception occured !", e );
-					throw new ServerException();
+					throw new UnexpectedServerException();
 				}
 			}
 		}

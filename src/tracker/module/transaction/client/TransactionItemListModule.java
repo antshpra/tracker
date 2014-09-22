@@ -5,11 +5,11 @@ import java.util.List;
 
 import tracker.module.transaction.client.views.TransactionItemView;
 import tracker.module.transaction.client.views.TransactionItemViewImpl;
-import tracker.service.transaction.client.TransactionService;
-import tracker.service.transaction.client.TransactionServiceAsync;
-import tracker.service.transaction.shared.GetTransactionItemListRequest;
-import tracker.service.transaction.shared.GetTransactionItemListResponse;
-import tracker.service.transaction.shared.data.TransactionItemData;
+import tracker.service.client.TrackerService;
+import tracker.service.client.TrackerServiceAsync;
+import tracker.service.shared.GetTransactionItemListRequest;
+import tracker.service.shared.GetTransactionItemListResponse;
+import tracker.service.shared.data.TransactionItemData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Panel;
 
 public class TransactionItemListModule extends Composite {
 
-	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
+	private static final TrackerServiceAsync transactionService = GWT.create( TrackerService.class );
 
 	private Panel itemListPanel = new FlowPanel();
 	private Panel footerPanel = new FlowPanel();

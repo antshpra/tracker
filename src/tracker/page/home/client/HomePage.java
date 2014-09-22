@@ -3,15 +3,14 @@ package tracker.page.home.client;
 import java.util.List;
 
 import tracker.commons.shared.YearType;
-import tracker.module.transaction.client.EditTransactionModuleImpl;
 import tracker.module.transaction.client.TransactionItemListModule;
 import tracker.module.transactionreport.client.ReportModule;
 import tracker.module.transactionreport.client.ReportModuleImpl;
-import tracker.service.transaction.client.TransactionService;
-import tracker.service.transaction.client.TransactionServiceAsync;
-import tracker.service.transaction.shared.GetTransactionItemTypeListRequest;
-import tracker.service.transaction.shared.GetTransactionItemTypeListResponse;
-import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.client.TrackerService;
+import tracker.service.client.TrackerServiceAsync;
+import tracker.service.shared.GetTransactionItemTypeListRequest;
+import tracker.service.shared.GetTransactionItemTypeListResponse;
+import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.client.TransactionReportServiceAsync;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
@@ -29,7 +28,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class HomePage implements EntryPoint {
 
-	private static final TransactionServiceAsync transactionService = GWT.create( TransactionService.class );
+	private static final TrackerServiceAsync transactionService = GWT.create( TrackerService.class );
 	private static final TransactionReportServiceAsync transactionReportService = GWT.create( TransactionReportService.class );
 
 	@Override
@@ -96,7 +95,6 @@ public class HomePage implements EntryPoint {
 			}
 		});
 		
-		RootPanel.get().add( new EditTransactionModuleImpl() );
 		RootPanel.get().add( itemTypeList );
 		RootPanel.get().add( reportModule );
 		RootPanel.get().add( transactionItemListModule );

@@ -2,14 +2,14 @@ package tracker.datasource;
 
 import java.util.Date;
 
-import tracker.datasource.jdo.TransactionJDO;
+import tracker.data.access.gae.TransactionEntity;
 import antshpra.gae.datasource.GAEJDODataSource;
 import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionQueryGAEImpl extends GAEJDOQuery<TransactionJDO> implements TransactionQuery {
+public class TransactionQueryGAEImpl extends GAEJDOQuery<TransactionEntity> implements TransactionQuery {
 	
 	public TransactionQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		super( TransactionJDO.class, gaeJDODataSource );
+		super( TransactionEntity.class, gaeJDODataSource );
 	}
 
 	@Override

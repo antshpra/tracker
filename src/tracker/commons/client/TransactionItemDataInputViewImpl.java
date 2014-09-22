@@ -3,12 +3,13 @@ package tracker.commons.client;
 import java.util.Date;
 import java.util.List;
 
-import tracker.service.transaction.shared.data.TransactionItemData;
-import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.shared.data.TransactionItemData;
+import tracker.service.shared.data.TransactionItemTypeData;
 
 import com.claymus.commons.client.ui.formfield.CurrencyInputFormField;
-import com.claymus.commons.client.ui.formfield.DateInputFormField;
+import com.claymus.commons.client.ui.formfield.DateInputOptionalFormField;
 import com.claymus.commons.client.ui.formfield.ListBoxFormField;
+import com.claymus.commons.client.ui.formfield.NumberInputFormField;
 import com.claymus.commons.client.ui.formfield.TextInputFormField;
 import com.claymus.commons.client.ui.formfield.TimeInputOptionalFormField;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,75 +25,75 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 	private final Panel colAmount = new FlowPanel();
 	private final Panel colItemType = new FlowPanel();
 	private final Panel colDateTime = new FlowPanel();
-	private final Panel colNoteAndButtons = new FlowPanel();
+	private final Panel colNote = new FlowPanel();
+	private final Panel colOrder = new FlowPanel();
+	private final Panel colButtons = new FlowPanel();
 
 	private final Panel nestedRowDateTime = new FlowPanel();
-	private final Panel nestedRowNoteAndButtons = new FlowPanel();
 
 	private final Panel nestedColDate = new FlowPanel();
 	private final Panel nestedColTime = new FlowPanel();
-	private final Panel nestedColNote = new FlowPanel();
-	private final Panel nestedColButtons = new FlowPanel();
 	
 	private final CurrencyInputFormField amountInput = new CurrencyInputFormField();
 	private final ListBoxFormField itemTypeList = new ListBoxFormField();
-	private final DateInputFormField dateInput = new DateInputFormField();
+	private final DateInputOptionalFormField dateInput = new DateInputOptionalFormField();
 	private final TimeInputOptionalFormField timeInput = new TimeInputOptionalFormField();
 	private final TextInputFormField noteInput = new TextInputFormField();
+	private final NumberInputFormField orderInput = new NumberInputFormField();
 	private final Button deleteButton = new Button( "Delete" );
 
 	
-	public TransactionItemDataInputViewImpl() {
+	public TransactionItemDataInputViewImpl(
+			List<TransactionItemTypeData> transactionItemTypeDataList ) {
 
 		amountInput.setPlaceholder( "Amount" );
 		amountInput.setRequired( true );
+		itemTypeList.setPlaceholder( "-- Select Type --" );
+		setTransactionItemTypeDataList( transactionItemTypeDataList );
 		itemTypeList.setRequired( true );
 		dateInput.setDate( new Date() );
 		timeInput.setTime( new Date() );
 		noteInput.setPlaceholder( "Note" );
-		
+		orderInput.setPlaceholder( "Order" );
+		orderInput.setRequired( true );
 		
 		// Composing the widget
 		rowTransactionItem.add( colAmount );
 		rowTransactionItem.add( colItemType );
 		rowTransactionItem.add( colDateTime );
-		rowTransactionItem.add( colNoteAndButtons );
-
+		rowTransactionItem.add( colNote );
+		rowTransactionItem.add( colOrder );
+		rowTransactionItem.add( colButtons );
+		
 		colAmount.add( amountInput );
 		colItemType.add( itemTypeList );
 		colDateTime.add( nestedRowDateTime );
-		colNoteAndButtons.add( nestedRowNoteAndButtons );
-		
+		colNote.add( noteInput );
+		colOrder.add( orderInput );
+		colButtons.add( deleteButton );
+
 		nestedRowDateTime.add( nestedColDate );
 		nestedRowDateTime.add( nestedColTime );
 		
-		nestedRowNoteAndButtons.add( nestedColNote );
-		nestedRowNoteAndButtons.add( nestedColButtons );
-		
 		nestedColDate.add( dateInput );
 		nestedColTime.add( timeInput );
-
-		nestedColNote.add( noteInput );
-		nestedColButtons.add( deleteButton );
 
 		
 		// Setting required style classes
 		rowTransactionItem.setStyleName( "row" );
 		
-		colAmount.setStyleName( "col-md-3 col-xs-4" );
+		colAmount.setStyleName( "col-md-2 col-xs-4" );
 		colItemType.setStyleName( "col-md-4 col-xs-8" );
-		colDateTime.setStyleName( "col-md-5 col-xs-12" );
-		colNoteAndButtons.setStyleName( "col-md-12" );
+		colDateTime.setStyleName( "col-md-6 col-xs-12" );
+		colNote.setStyleName( "col-md-7 col-xs-6" );
+		colOrder.setStyleName( "col-md-2 col-xs-2" );
+		colButtons.setStyleName( "col-md-3 col-xs-4" );
+		colButtons.getElement().setAttribute( "style", "text-align:right" );
 
 		nestedRowDateTime.setStyleName( "row" );
-		nestedRowNoteAndButtons.setStyleName( "row" );
 		
-		nestedColDate.setStyleName( "col-xs-6" );
-		nestedColTime.setStyleName( "col-xs-6" );
-
-		nestedColNote.setStyleName( "col-xs-7" );
-		nestedColButtons.setStyleName( "col-xs-5" );
-		nestedColButtons.getElement().setAttribute( "style", "text-align:right" );
+		nestedColDate.setStyleName( "col-xs-7" );
+		nestedColTime.setStyleName( "col-xs-5" );
 
 		deleteButton.setStyleName( "btn btn-default" );
 
@@ -106,19 +107,37 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 		return deleteButton.addClickHandler( clickHandler );
 	}
 
+	public void setEnabled( boolean enabled ) {
+		amountInput.setEnabled( enabled );
+		itemTypeList.setEnabled( enabled );
+		dateInput.setEnabled( enabled );
+		timeInput.setEnabled( enabled );
+		noteInput.setEnabled( enabled );
+		orderInput.setEnabled( enabled );
+		deleteButton.setEnabled( enabled );
+	}
+	
 	@Override
 	public boolean validateInputs() {
-		return amountInput.validate()
-				&& itemTypeList.validate()
-				&& dateInput.validate()
-				&& timeInput.validate()
-				&& noteInput.validate();
+		boolean validated = true;
+		validated = amountInput.validate() && validated;
+		validated = itemTypeList.validate() && validated;
+		validated = dateInput.validate() && validated;
+		validated = timeInput.validate() && validated;
+		validated = noteInput.validate() && validated;
+		validated = orderInput.validate() && validated;
+		return validated;
 	}
 	
 	@Override
 	public TransactionItemData getTransactionItemData() {
-		// TODO: Implementation
-		return null;
+		TransactionItemData triData = new TransactionItemData();
+		triData.setAmount( amountInput.getAmount() );
+		triData.setTransactionItemTypeId( itemTypeList.getValue() );
+		triData.setTransactionDate( timeInput.getTime( dateInput.getDate() ) );
+		triData.setNote( noteInput.getText() );
+		triData.setOrder( orderInput.getValue() );
+		return triData;
 	}
 	
 	@Override
@@ -126,9 +145,11 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 		// TODO: Implementation
 	}
 	
-	@Override
-	public void setTransactionItemTypeDataList( List<TransactionItemTypeData> transactionItemTypeDataList ) {
-		// TODO: Implementation
+	private void setTransactionItemTypeDataList( List<TransactionItemTypeData> transactionItemTypeDataList ) {
+		for( TransactionItemTypeData transactionItemTypeData : transactionItemTypeDataList ) {
+			itemTypeList.addItem( transactionItemTypeData.getQualifiedTitle(), transactionItemTypeData.getId() );
+			setTransactionItemTypeDataList( transactionItemTypeData.getChildren() );
+		}
 	}
-	
+
 }

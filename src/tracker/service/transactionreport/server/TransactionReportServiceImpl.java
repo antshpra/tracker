@@ -13,20 +13,19 @@ import java.util.logging.Logger;
 
 import tracker.commons.server.DateUtil;
 import tracker.commons.server.JDOToDataConverter;
-import tracker.commons.shared.Amount;
 import tracker.commons.shared.TransactionReportType;
 import tracker.commons.shared.TransactionReportUtil;
 import tracker.commons.shared.TransactionState;
 import tracker.commons.shared.YearType;
-import tracker.datasource.TransactionDataSource;
-import tracker.datasource.TransactionDataSourceFactory;
+import tracker.data.access.DataAccessor;
+import tracker.data.access.DataAccessorFactory;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionReportQuery;
 import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
-import tracker.service.transaction.shared.data.TransactionItemTypeData;
+import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
 import tracker.service.transactionreport.shared.GetMonthlyReportResponse;
@@ -35,8 +34,9 @@ import tracker.service.transactionreport.shared.GetYearlyReportResponse;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
-import antshpra.gwt.rpc.shared.ServerException;
 
+import com.claymus.commons.client.Amount;
+import com.claymus.commons.client.UnexpectedServerException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -44,7 +44,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 	private static final Logger logger = Logger.getLogger( TransactionReportServiceImpl.class.getName() );
 
-	private static final TransactionDataSourceFactory transactionDataSourceFactory = new TransactionDataSourceFactory();
+	private static final DataAccessorFactory transactionDataSourceFactory = new DataAccessorFactory();
 	
 	private static final String MONTH_MIN_INDEX = TransactionReportUtil.getTransactionReportIndex( 1000, 0 );
 	private static final String MONTH_MAX_INDEX = TransactionReportUtil.getTransactionReportIndex( 9999, 11 );
@@ -52,13 +52,13 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 	@Override
 	public GetYearlyReportResponse getYearlyReport( GetYearlyReportRequest request )
-			throws InvalidRequestException, ServerException {
+			throws InvalidRequestException, UnexpectedServerException {
 		
 		RequestValidator.validate( request );
 
 		logger.log( Level.INFO, request.toString() );
 		
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+		DataAccessor transactionDataSource = transactionDataSourceFactory.getDataAccessor();
 
 		TransactionItemTypeData transactionItemTypeData = loadTransactionItemTypeIdToTransactionItemTypeDataMap( transactionDataSource ).get( request.getTransactionItemTypeId() );
 
@@ -111,13 +111,13 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 	@Override
 	public GetMonthlyReportResponse getMonthlyReport( GetMonthlyReportRequest request )
-			throws InvalidRequestException, ServerException {
+			throws InvalidRequestException, UnexpectedServerException {
 		
 		RequestValidator.validate( request );
 
 		logger.log( Level.INFO, request.toString() );
 
-		TransactionDataSource transactionDataSource = transactionDataSourceFactory.getTransactionDataSource();
+		DataAccessor transactionDataSource = transactionDataSourceFactory.getDataAccessor();
 
 		TransactionItemTypeData transactionItemTypeData = loadTransactionItemTypeIdToTransactionItemTypeDataMap( transactionDataSource ).get( request.getTransactionItemTypeId() );
 
@@ -145,7 +145,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 	private boolean updateReports(
 			TransactionItemTypeData transactionItemTypeData,
-			TransactionDataSource transactionDataSource ) {
+			DataAccessor transactionDataSource ) {
 		
 		boolean ret = updateReports(
 				transactionItemTypeData.getId(),
@@ -161,7 +161,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	private boolean updateReports(
 			String transactionItemTypeId,
 			TransactionReportType transactionReportType,
-			TransactionDataSource transactionDataSource ) {
+			DataAccessor transactionDataSource ) {
 		
 		TransactionReportQuery transactionReportQuery = transactionDataSource.newTransactionReportQuery();
 		transactionReportQuery.setTransactionItemTypeId( transactionItemTypeId );
@@ -248,7 +248,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			int year, int month,
 			String transactionItemTypeId,
 			TransactionReportType transactionReportType,
-			TransactionDataSource transactionDataSource ) {
+			DataAccessor transactionDataSource ) {
 		
 		logger.log( Level.INFO, "Creating/Updating report for"
 				+ "\n\t year = " + year + ", month = " + month
@@ -296,7 +296,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	TransactionReportData getYearlyReportData(
 			int year, YearType yearType,
 			TransactionItemTypeData transactionItemTypeData,
-			TransactionDataSource transactionDataSource) {
+			DataAccessor transactionDataSource) {
 		
 		TransactionReportJDO transactionReport;
 		
@@ -361,7 +361,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	TransactionReportData getMonthlyReportData(
 			int year, int month, YearType yearType,
 			TransactionItemTypeData transactionItemTypeData,
-			TransactionDataSource transactionDataSource ) {
+			DataAccessor transactionDataSource ) {
 
 		if( transactionItemTypeData.getTransactionReportType() != TransactionReportType.PERODIC
 				&& transactionItemTypeData.getTransactionReportType() != TransactionReportType.CUMULATIVE )
@@ -395,7 +395,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			String transactionReportIndex,
 			String transactionItemTypeId,
 			TransactionReportType transactionReportType,
-			TransactionDataSource transactionDataSource ) {
+			DataAccessor transactionDataSource ) {
 		
 		TransactionReportQuery transactionReportQuery = transactionDataSource.newTransactionReportQuery();
 		if( transactionReportType == TransactionReportType.PERODIC ) {
@@ -432,7 +432,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	}
 
 	
-	private Map<String, TransactionItemTypeData> loadTransactionItemTypeIdToTransactionItemTypeDataMap( TransactionDataSource transactionDataSource ) {
+	private Map<String, TransactionItemTypeData> loadTransactionItemTypeIdToTransactionItemTypeDataMap( DataAccessor transactionDataSource ) {
 		
 		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
 		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
