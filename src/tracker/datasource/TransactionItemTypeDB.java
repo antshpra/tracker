@@ -39,9 +39,9 @@ public enum TransactionItemTypeDB {
 	SAVINGS_ACCOUNT_ICICI	( 6003, 6000, "Savings Account (ICICI)", 205764.05, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_KMB		( 6004, 6000, "Savings Account (KMB)",   181902.00, TransactionReportType.CUMULATIVE ),
 	
-	FIXED_DEPOSIT		( 7000, 7000, "Fixed Deposit",         0, TransactionReportType.CUMULATIVE ),
-	FIXED_DEPOSIT_ICICI	( 7001, 7000, "Fixed Deposit (ICICI)", 0, TransactionReportType.CUMULATIVE ),
-	FIXED_DEPOSIT_KMB	( 7002, 7000, "Fixed Deposit (KMB)",   0, TransactionReportType.CUMULATIVE ),
+	FIXED_DEPOSIT		( 7000, 7000, "Fixed Deposit",              0, TransactionReportType.CUMULATIVE ),
+	FIXED_DEPOSIT_ICICI	( 7001, 7000, "Fixed Deposit (ICICI)",  25000, TransactionReportType.CUMULATIVE ),
+	FIXED_DEPOSIT_KMB	( 7002, 7000, "Fixed Deposit (KMB)",   180000, TransactionReportType.CUMULATIVE ),
 
 	CREDIT_CARD			( 8000, 8000, "Credit Card",              0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_HDFC	( 8001, 8000, "Credit Card (HDFC)",        0, TransactionReportType.CUMULATIVE ),
@@ -142,7 +142,7 @@ public enum TransactionItemTypeDB {
 	SAVINGS_ACCOUNT_DEDUCTIONS_ICICI ( 20003, 20000, "Savings Account Deductions (ICICI)", 0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_DEDUCTIONS_KMB   ( 20004, 20000, "Savings Account Deductions (KMB)",   0, TransactionReportType.CUMULATIVE ),
 	
-	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 1650, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
 
 	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",           0, TransactionReportType.CUMULATIVE ),
@@ -155,6 +155,10 @@ public enum TransactionItemTypeDB {
 	CREDIT_CARD_POINTS_HDFC		( 23001, 23000, "Credit Card Points (HDFC)", 0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_POINTS_SC		( 23002, 23000, "Credit Card Points (SC)",   0, TransactionReportType.CUMULATIVE ),
 	
+	FIXED_DEPOSIT_INTEREST		 ( 24000, 24000, "Fixed Deposit Interest",              0, TransactionReportType.PERODIC ),
+	FIXED_DEPOSIT_INTEREST_ICICI ( 24001, 24000, "Fixed Deposit Interest (ICICI)", -12046, TransactionReportType.PERODIC ),
+	FIXED_DEPOSIT_INTEREST_KMB	 ( 24002, 24000, "Fixed Deposit Interest (KMB)",        0, TransactionReportType.PERODIC ),
+
 	;
 	
 	private int id;
