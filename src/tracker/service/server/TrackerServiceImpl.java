@@ -14,10 +14,12 @@ import tracker.commons.server.JDOToDataConverter;
 import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
 import tracker.data.access.gae.TransactionEntity;
+import tracker.data.access.gae.TransactionItemEntity;
+import tracker.data.transfer.Transaction;
+import tracker.data.transfer.TransactionItem;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
-import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.service.client.TrackerService;
 import tracker.service.shared.CreateTransactionResponse;
@@ -43,43 +45,67 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 	private static final Logger logger =
 			Logger.getLogger( TrackerServiceImpl.class.getName() );
 	
+	
 	@Override
 	public CreateTransactionResponse saveTransaction( SaveTransactionRequest request )
 			throws UnexpectedServerException {
 
-		TransactionData trData = request.getTransactionData();
-		TransactionEntity transaction = new TransactionEntity();
-		transaction.setTransactionDate( trData.getTransactionDate() );
-		transaction.setDescription( trData.getDescription() );
-		transaction.setCreationDate( new Date() );
-		transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
+		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor();
 
-		DataAccessor transactionDataSource = DataAccessorFactory.getDataAccessor();
-		transaction = transactionDataSource.persistTransaction( transaction );
 		
-		List<TransactionItemJDO> transactionItemList = new ArrayList<>( trData.getTransactionItemDataList().size() );
+		// Creating/Updating Transaction
+		TransactionData trData = request.getTransactionData();
+		Transaction transaction;
+		if( trData.getId() == null ) { // Create new Transaction
+			transaction = dataAccessor.newTransaction();
+			transaction.setTransactionDate( trData.getTransactionDate() );
+			transaction.setDescription( trData.getDescription() );
+			transaction.setCreationDate( new Date() );
+			transaction.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
+			
+		} else { // Update existing Transaction
+			transaction = dataAccessor.getTransaction( trData.getId() );
+			transaction.setDescription( trData.getDescription() );
+		}
+		transaction = dataAccessor.persistTransaction( transaction );
+		
+		
+		// Creating/Updating Transaction Item(s)
+		List<TransactionItem> transactionItemList =
+				new ArrayList<>( trData.getTransactionItemDataList().size() );
 		for( TransactionItemData triData : trData.getTransactionItemDataList() ) {
+			TransactionItem transactionItem;
+			if( triData.getId() == null ) { // Create new Transaction Item
+				transactionItem = dataAccessor.newTransactionItem();
+				transactionItem.setTransactionId( transaction.getId() );
+				transactionItem.setTransactionItemTypeId( triData.getTransactionItemTypeId() );
+				if( triData.getTransactionDate() == null )
+					transactionItem.setTransactionDate( transaction.getTransactionDate() );
+				else
+					transactionItem.setTransactionDate( triData.getTransactionDate() );
+				transactionItem.setAmount( triData.getAmount() );
+				transactionItem.setNote( triData.getNote() );
+				transactionItem.setOrder( triData.getOrder() );
+				transactionItem.setCreationDate( new Date() );
+				transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
+				transactionItem.setLastUpdationDate( new Date() );
 			
-			TransactionItemJDO transactionItem = new TransactionItemJDO();
-			transactionItem.setTransactionId( transaction.getId() );
-			transactionItem.setTransactionItemTypeId( triData.getTransactionItemTypeId() );
-			if( triData.getTransactionDate() == null )
-				transactionItem.setTransactionDate( transaction.getTransactionDate() );
-			else
-				transactionItem.setTransactionDate( triData.getTransactionDate() );
-			transactionItem.setAmount( triData.getAmount() );
-			transactionItem.setNote( triData.getNote() );
-			transactionItem.setOrder( triData.getOrder() );
-			transactionItem.setCreationDate( new Date() );
-			transactionItem.setCreatedBy( "antshpra@gmail.com" ); // TODO: Fetch and set user id instead of hard coded id
-			transactionItem.setLastUpdationDate( new Date() );
-			
+			} else { // Update existing Transaction Item
+				transactionItem = dataAccessor.getTransactionItem( triData.getId() );
+				transactionItem.setTransactionId( null );
+				transactionItem.setAmount( triData.getAmount() );
+				transactionItem.setNote( triData.getNote() );
+				transactionItem.setOrder( triData.getOrder() );
+				transactionItem.setLastUpdationDate( new Date() );
+			}
+
 			transactionItemList.add( transactionItem );
 		}
-		transactionDataSource.persistTransactionItemList( transactionItemList );
+		dataAccessor.persistTransactionItemList( transactionItemList );
 
-		transactionDataSource.close();
+		dataAccessor.close();
 
+		
 		// Creating response
 		CreateTransactionResponse response = new CreateTransactionResponse();
 		response.setTransactionId( transaction.getId() );
@@ -108,13 +134,13 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 		DataAccessor transactionDataSource = transactionDataSourceFactory.getDataAccessor();
 
 		// Fetching TransactionJDO
-		TransactionEntity transaction = transactionDataSource.getTransaction( request.getTransactionId() );
+		Transaction transaction = transactionDataSource.getTransaction( request.getTransactionId() );
 		
 		// Fetching TransactionItemJDO list
 		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
 		transactionItemQuery.setTransactionId( request.getTransactionId() );
 		transactionItemQuery.orderByTransactionDate( true );
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+		List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute();
 		logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + request.getTransactionId() );
 
 		// Creating TransactionData
@@ -196,7 +222,7 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 			transactionItemQuery.setTransactionId( transaction.getId() );
 			transactionItemQuery.orderByTransactionDate( true );
 			
-			List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+			List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute();
 			logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + transaction.getId() );
 
 			// Creating TransactionData
@@ -270,12 +296,12 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 		if( request.getCreationDateChronologicalOrder() != null )
 			transactionItemQuery.orderByCreationDate( request.getCreationDateChronologicalOrder() );
 		
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute( 0, request.getPageSize() );
+		List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute( 0, request.getPageSize() );
 		logger.log( Level.INFO, transactionItemList.size() + " transaction items found.");
 
-		for( TransactionItemJDO transactionItem : transactionItemList ) {
+		for( TransactionItemEntity transactionItem : transactionItemList ) {
 			// Fetching TransactionJDO
-			TransactionEntity transaction = transactionDataSource.getTransaction( transactionItem.getTransactionId() );
+			Transaction transaction = transactionDataSource.getTransaction( transactionItem.getTransactionId() );
 
 			// Creating TransactionData
 			TransactionData transactionData = JDOToDataConverter.convert( transaction, null, null );

@@ -25,6 +25,8 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 	private final DateInputFormField dateInput = new DateInputFormField();
 	private final TimeInputOptionalFormField timeInput = new TimeInputOptionalFormField();
 
+	private String transactionId;
+	
 	
 	public TransactionDataInputViewImpl() {
 
@@ -65,13 +67,6 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 
 
 	@Override
-	public void setEnabled( boolean enabled ) {
-		descriptionInput.setEnabled( enabled );
-		dateInput.setEnabled( enabled );
-		timeInput.setEnabled( enabled );
-	}
-
-	@Override
 	public boolean validateInputs() {
 		boolean validated = true;
 		validated = descriptionInput.validate() && validated;
@@ -81,8 +76,16 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 	}
 	
 	@Override
+	public void setEnabled( boolean enabled ) {
+		descriptionInput.setEnabled( enabled );
+		dateInput.setEnabled( enabled );
+		timeInput.setEnabled( enabled );
+	}
+
+	@Override
 	public TransactionData getTransactionData() {
 		TransactionData trData = new TransactionData();
+		trData.setId( transactionId );
 		trData.setDescription( descriptionInput.getText() );
 		trData.setTransactionDate( timeInput.getTime( dateInput.getDate() ) );
 		return trData;
@@ -90,8 +93,16 @@ public class TransactionDataInputViewImpl extends TransactionDataInputView {
 	
 	@Override
 	public void setTransactionData( TransactionData trData ) {
+		transactionId = trData.getId();
 		descriptionInput.setText( trData.getDescription() );
 		dateInput.setDate( trData.getTransactionDate() );
+		timeInput.setTime( trData.getTransactionDate() );
+	}
+
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
 	}
 	
 }

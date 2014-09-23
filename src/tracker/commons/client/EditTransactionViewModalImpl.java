@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import tracker.service.shared.data.TransactionData;
+import tracker.service.shared.data.TransactionItemData;
 import tracker.service.shared.data.TransactionItemTypeData;
 
 import com.claymus.commons.client.ui.Modal;
@@ -12,7 +13,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 
-public class TransactionInputViewModalImpl extends TransactionInputView
+public class EditTransactionViewModalImpl extends EditTransactionView
 		implements ClickHandler {
 
 	private final List<TransactionItemTypeData> triTypeDataList;
@@ -29,7 +30,7 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 	private final Button saveButton = new Button( "Save" );
 	
 	
-	public TransactionInputViewModalImpl(
+	public EditTransactionViewModalImpl(
 			List<TransactionItemTypeData> transactionItemTypeDataList ) {
 		
 		this.triTypeDataList = transactionItemTypeDataList;
@@ -54,35 +55,11 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 	public void onClick( ClickEvent event ) {
 		
 		if( event.getSource() == addItemButton ) {
-
-			final TransactionItemDataInputView trItemDataInputView =
-					new TransactionItemDataInputViewImpl( triTypeDataList );
-			
-			trItemDataInputView.addDeleteButtonClickHandler( new ClickHandler() {
-	
-				@Override
-				public void onClick(ClickEvent event) {
-					triDataInputViewList.remove( trItemDataInputView );
-					trItemDataInputView.removeFromParent();
-				}
-				
-			});
-			
-			triDataInputViewList.add( trItemDataInputView );
-			modal.add( trItemDataInputView );
-	
+			addTransactionItemDataInputView( null );
 		}
 	
 	}
 
-	@Override
-	public void setEnabled( boolean enabled ) {
-		modal.setEnabled( enabled );
-		trDataInputView.setEnabled( enabled );
-		for( TransactionItemDataInputView triDataInputView : triDataInputViewList )
-			triDataInputView.setEnabled( enabled );
-	}
-	
 	@Override
 	public void setVisible( boolean visible ) {
 		if( visible )
@@ -90,6 +67,35 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 		else
 			modal.hide();
 	}
+	
+	private void addTransactionItemDataInputView( TransactionItemData triData ) {
+
+		final TransactionItemDataInputView triDataInputView =
+				new TransactionItemDataInputViewImpl( triTypeDataList );
+
+		if( triData != null )
+			triDataInputView.setTransactionItemData( triData );
+		
+		triDataInputView.addDeleteButtonClickHandler( new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				removeTransactionItemDataInputView( triDataInputView );
+			}
+			
+		});
+
+		triDataInputViewList.add( triDataInputView );
+		modal.add( triDataInputView );
+	}
+	
+	private void removeTransactionItemDataInputView(
+			TransactionItemDataInputView triDataInputView ) {
+		
+		triDataInputViewList.remove( triDataInputView );
+		triDataInputView.removeFromParent();
+	}
+	
 	
 	@Override
 	public HandlerRegistration addSaveButtonClickHandler(
@@ -107,6 +113,16 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 	}
 	
 	@Override
+	public void setEnabled( boolean enabled ) {
+		modal.setEnabled( enabled );
+		trDataInputView.setEnabled( enabled );
+		for( TransactionItemDataInputView triDataInputView : triDataInputViewList )
+			triDataInputView.setEnabled( enabled );
+		addItemButton.setEnabled( enabled );
+		saveButton.setEnabled( enabled );
+	}
+	
+	@Override
 	public TransactionData getTransactionData() {
 		TransactionData trData = trDataInputView.getTransactionData();
 		for( TransactionItemDataInputView triDataInputView : triDataInputViewList )
@@ -115,8 +131,19 @@ public class TransactionInputViewModalImpl extends TransactionInputView
 	}
 	
 	@Override
-	public void setTransactionData( TransactionData transactionData ) {
-		// TODO: Implementation
+	public void setTransactionData( TransactionData trData ) {
+		for( TransactionItemDataInputView triDataInputView : triDataInputViewList )
+			removeTransactionItemDataInputView( triDataInputView );
+
+		trDataInputView.setTransactionData( trData );
+		for( TransactionItemData triData : trData.getTransactionItemDataList() )
+			addTransactionItemDataInputView( triData );
+		
 	}
 
+	@Override
+	public void reset() {
+		// TODO: Implementation
+	}
+	
 }

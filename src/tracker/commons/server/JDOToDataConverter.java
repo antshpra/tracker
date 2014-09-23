@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import tracker.commons.shared.TransactionReportType;
-import tracker.data.access.gae.TransactionEntity;
-import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.data.access.gae.TransactionItemEntity;
+import tracker.data.transfer.Transaction;
 import tracker.datasource.jdo.TransactionReportJDO;
 import tracker.service.shared.data.TransactionData;
 import tracker.service.shared.data.TransactionItemData;
@@ -15,8 +15,8 @@ import tracker.service.transactionreport.shared.data.TransactionReportData;
 public class JDOToDataConverter {
 	
 	public static TransactionData convert(
-			TransactionEntity transaction,
-			List<TransactionItemJDO> transactionItemList,
+			Transaction transaction,
+			List<TransactionItemEntity> transactionItemList,
 			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		
 		TransactionData transactionData = new TransactionData();
@@ -27,7 +27,7 @@ public class JDOToDataConverter {
 		transactionData.setCreatedBy( transaction.getCreatedBy() );
 		
 		if( transactionItemList != null ) {
-			for( TransactionItemJDO transactionItem : transactionItemList ) {
+			for( TransactionItemEntity transactionItem : transactionItemList ) {
 				TransactionItemData transactionItemData = convert(
 						transactionItem,
 						transactionData,
@@ -40,7 +40,7 @@ public class JDOToDataConverter {
 	}
 
 	public static TransactionItemData convert(
-			TransactionItemJDO transactionItem,
+			TransactionItemEntity transactionItem,
 			TransactionData transactionData,
 			Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap ) {
 		
@@ -58,6 +58,7 @@ public class JDOToDataConverter {
 					+ ( transactionItem.getNote() == null ? "" : transactionItem.getNote() ) );
 		else
 			transactionItemData.setNote( transactionItem.getNote() );
+		transactionItemData.setOrder( transactionItem.getOrder() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
 		transactionItemData.setTransactionData( transactionData );

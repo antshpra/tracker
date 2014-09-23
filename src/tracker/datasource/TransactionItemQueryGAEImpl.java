@@ -3,14 +3,14 @@ package tracker.datasource;
 import java.util.Date;
 import java.util.List;
 
-import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.data.access.gae.TransactionItemEntity;
 import antshpra.gae.datasource.GAEJDODataSource;
 import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemJDO> implements TransactionItemQuery {
+public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemEntity> implements TransactionItemQuery {
 	
 	public TransactionItemQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		super( TransactionItemJDO.class, gaeJDODataSource );
+		super( TransactionItemEntity.class, gaeJDODataSource );
 	}
 
 	@Override

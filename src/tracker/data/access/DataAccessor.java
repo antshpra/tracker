@@ -2,13 +2,12 @@ package tracker.data.access;
 
 import java.util.List;
 
-import tracker.data.access.gae.TransactionEntity;
 import tracker.data.transfer.Transaction;
+import tracker.data.transfer.TransactionItem;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
 
@@ -16,15 +15,18 @@ public interface DataAccessor {
 	
 	Transaction newTransaction();
 	
-	
-	
-	
-	
-	
-	
-	
-	TransactionEntity getTransaction( String transactionId );
+	Transaction getTransaction( String transactionId );
 
+
+	TransactionItem newTransactionItem();
+	
+	TransactionItem getTransactionItem( String transactionItemId );
+	
+	
+	
+	
+	
+	
 	TransactionItemTypeJDO getTransactionItemType( String transactionItemTypeId );
 	
 	TransactionQuery newTransactionQuery();
@@ -35,11 +37,11 @@ public interface DataAccessor {
 	
 	TransactionReportQuery newTransactionReportQuery();
 
-	TransactionEntity persistTransaction( TransactionEntity transactionJDO );
+	Transaction persistTransaction( Transaction transactionJDO );
 	
-	TransactionItemJDO persistTransactionItem( TransactionItemJDO transactionItemJDO );
+	TransactionItem persistTransactionItem( TransactionItem transactionItem );
 	
-	List<TransactionItemJDO> persistTransactionItemList( List<TransactionItemJDO> transactionItemJDOList );
+	List<TransactionItem> persistTransactionItemList( List<TransactionItem> transactionItemJDOList );
 	
 	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
 

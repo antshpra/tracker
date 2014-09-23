@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class TransactionData implements IsSerializable {
 
-	private String transactionId;
+	private String id;
 
 	private Date transactionDate;
 	
@@ -22,20 +22,20 @@ public class TransactionData implements IsSerializable {
 
 	
 	public TransactionData() {
-		this.transactionItemDataList = new LinkedList<TransactionItemData>();
+		transactionItemDataList = new LinkedList<TransactionItemData>();
 	}
 	
 	
 	public String getId() {
-		return this.transactionId;
+		return id;
 	}
 	
 	public void setId( String id ) {
-		this.transactionId = id;
+		this.id = id;
 	}
 	
 	public Date getTransactionDate() {
-		return this.transactionDate;
+		return transactionDate;
 	}
 	
 	public void setTransactionDate( Date transactionDate ) {
@@ -43,14 +43,14 @@ public class TransactionData implements IsSerializable {
 	}
 	
 	public String getDescription() {
-		return this.description; }
+		return description; }
 	
 	public void setDescription( String description ) {
 		this.description = description;
 	}
 	
 	public Date getCreationDate() {
-		return this.creationDate; 
+		return creationDate; 
 	}
 
 	public void setCreationDate( Date creationDate ) {
@@ -58,7 +58,7 @@ public class TransactionData implements IsSerializable {
 	}
 	
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy( String createdBy ) {
@@ -66,11 +66,11 @@ public class TransactionData implements IsSerializable {
 	}
 
 	public List<TransactionItemData> getTransactionItemDataList() {
-		return this.transactionItemDataList;
+		return transactionItemDataList;
 	}
 
 	public void addTransactionItemData( TransactionItemData transactionItemData ) {
-		this.transactionItemDataList.add( transactionItemData );
+		transactionItemDataList.add( transactionItemData );
 	}
 
 }

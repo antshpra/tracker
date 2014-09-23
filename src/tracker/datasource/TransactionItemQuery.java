@@ -3,7 +3,7 @@ package tracker.datasource;
 import java.util.Date;
 import java.util.List;
 
-import tracker.datasource.jdo.TransactionItemJDO;
+import tracker.data.access.gae.TransactionItemEntity;
 
 public interface TransactionItemQuery {
 
@@ -25,9 +25,9 @@ public interface TransactionItemQuery {
 
 	void orderByLastupdationDate( boolean cronological );
 
-	List<TransactionItemJDO> execute();
+	List<TransactionItemEntity> execute();
 
-	List<TransactionItemJDO> execute( int rangeFrom, int rangeTo );
+	List<TransactionItemEntity> execute( int rangeFrom, int rangeTo );
 
 	String toString();
 	

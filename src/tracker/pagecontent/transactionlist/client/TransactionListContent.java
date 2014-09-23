@@ -1,7 +1,7 @@
 package tracker.pagecontent.transactionlist.client;
 
-import tracker.commons.client.TransactionInputView;
-import tracker.commons.client.TransactionInputViewModalImpl;
+import tracker.commons.client.EditTransactionView;
+import tracker.commons.client.EditTransactionViewModalImpl;
 import tracker.service.client.TrackerService;
 import tracker.service.client.TrackerServiceAsync;
 import tracker.service.shared.SaveTransactionRequest;
@@ -23,9 +23,9 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 	private static final TrackerServiceAsync transactionService =
 			GWT.create( TrackerService.class );
 
-	private final TransactionList trList = new TransactionList();
 	private final Button newTransactionButton = new Button();
-	private TransactionInputView trInputView;
+	private TransactionList trList;
+	private EditTransactionView trInputView;
 	
 	
 	public void onModuleLoad() {
@@ -33,12 +33,7 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 		newTransactionButton.setText( "New Transaction" );
 		newTransactionButton.setStyleName( "btn btn-primary" );
 		newTransactionButton.addClickHandler( this );
-		newTransactionButton.setVisible( false );
 		
-		final RootPanel rootPanel = RootPanel.get( "PageContent-TransactionList" );
-		rootPanel.add( newTransactionButton );
-		rootPanel.add( trList );
-
 		GetTransactionItemTypeListRequest getTransactionItemTypeListRequest = new GetTransactionItemTypeListRequest();
 		transactionService.getTransactionItemTypeList(
 				getTransactionItemTypeListRequest,
@@ -46,10 +41,14 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 
 			@Override
 			public void onSuccess( GetTransactionItemTypeListResponse result ) {
-				trInputView = new TransactionInputViewModalImpl( result.getTransactionItemTypeDataList() );
+				trInputView = new EditTransactionViewModalImpl( result.getTransactionItemTypeDataList() );
 				trInputView.addSaveButtonClickHandler( TransactionListContent.this );
+				trList = new TransactionList( trInputView );
+
+				RootPanel rootPanel = RootPanel.get( "PageContent-TransactionList" );
+				rootPanel.add( newTransactionButton );
+				rootPanel.add( trList );
 				rootPanel.add( trInputView );
-				newTransactionButton.setVisible( true );
 			}
 
 			@Override
@@ -71,21 +70,20 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 			if( trInputView.validateInputs() ) {
 				trInputView.setEnabled( false );
 				transactionService.saveTransaction(
-						new SaveTransactionRequest( trInputView.getTransactionData() ),
-						new AsyncCallback<CreateTransactionResponse>() {
+					new SaveTransactionRequest( trInputView.getTransactionData() ),
+					new AsyncCallback<CreateTransactionResponse>() {
 
-							@Override
-							public void onSuccess( CreateTransactionResponse response ) {
-								Window.alert( "Tr. id - " + response.getTransactionId() );
-								trInputView.setVisible( false );
-								trInputView.setEnabled( true );
-							}
+						@Override
+						public void onSuccess( CreateTransactionResponse response ) {
+							trInputView.setVisible( false );
+							trInputView.setEnabled( true );
+						}
 
-							@Override
-							public void onFailure( Throwable caught ) {
-								Window.alert( caught.getMessage() );
-								trInputView.setEnabled( true );
-							}
+						@Override
+						public void onFailure( Throwable caught ) {
+							Window.alert( caught.getMessage() );
+							trInputView.setEnabled( true );
+						}
 
 				});
 			}

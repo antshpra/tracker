@@ -19,10 +19,10 @@ import tracker.commons.shared.TransactionState;
 import tracker.commons.shared.YearType;
 import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
+import tracker.data.access.gae.TransactionItemEntity;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionItemJDO;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
 import tracker.service.shared.data.TransactionItemTypeData;
@@ -73,7 +73,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		TransactionItemQuery query = transactionDataSource.newTransactionItemQuery();
 		query.setTransactionItemTypeId( request.getTransactionItemTypeId() );
 		query.orderByTransactionDate( true );
-		List<TransactionItemJDO> transactionItemList = query.execute( 0, 1 );
+		List<TransactionItemEntity> transactionItemList = query.execute( 0, 1 );
 		if( transactionItemList.size() == 0 )
 			return response;
 		int reportYearStart = DateUtil.getYear( transactionItemList.get( 0 ).getTransactionDate() );
@@ -178,7 +178,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		transactionItemQuery.setTransactionItemTypeId( transactionItemTypeId );
 		transactionItemQuery.setLastupdationDate( startDate, false, endDate, true );
 		transactionItemQuery.orderByLastupdationDate( true );
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+		List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute();
 
 		if( transactionItemList.size() == 0 ) {
 			logger.log( Level.INFO, "No updation required for"
@@ -196,7 +196,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 		// Create a set of months for which TransactionReport creation/updation is required
 		SortedSet<Integer> yearMonthList = new TreeSet<>();
-		for( TransactionItemJDO transactionItem : transactionItemList ) {
+		for( TransactionItemEntity transactionItem : transactionItemList ) {
 			int year = DateUtil.getYear( transactionItem.getTransactionDate() );
 			int month = DateUtil.getMonth( transactionItem.getTransactionDate() );
 			yearMonthList.add( year * 100 + month );
@@ -281,9 +281,9 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 				DateUtil.getDateFor( year, month + 1, 1 ), false );
 		transactionItemQuery.orderByTransactionDate( true );
 		
-		List<TransactionItemJDO> transactionItemList = transactionItemQuery.execute();
+		List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute();
 
-		for( TransactionItemJDO transactionItem : transactionItemList )
+		for( TransactionItemEntity transactionItem : transactionItemList )
 			if( transactionItem.getState() != TransactionState.DELETED )
 				amount = amount.add( transactionItem.getAmount() );
 		

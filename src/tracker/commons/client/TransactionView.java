@@ -8,4 +8,6 @@ public abstract class TransactionView extends Composite {
 
 	public abstract void setTransactionData( TransactionData transactionData );
 
+	public abstract void setEditTransactionView( EditTransactionView editTransactionView );
+
 }

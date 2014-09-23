@@ -2,6 +2,7 @@ package tracker.pagecontent.transactionlist.client;
 
 import java.util.Date;
 
+import tracker.commons.client.EditTransactionView;
 import tracker.commons.client.TransactionView;
 import tracker.commons.client.TransactionViewAccordionImpl;
 import tracker.service.client.TrackerService;
@@ -23,7 +24,13 @@ public class TransactionList extends InfiniteScrollPanel {
 	private int pageSize = 25;
 	private Date cursor = new Date();
 
+	private final EditTransactionView editTransactionView;
 
+	
+	public TransactionList( EditTransactionView editTransactionView ) {
+		this.editTransactionView = editTransactionView;
+	}
+	
 	@Override
 	protected void loadItems() {
 		
@@ -41,6 +48,7 @@ public class TransactionList extends InfiniteScrollPanel {
 				for( TransactionData transactionData: resonse.getTransactionDataList() ) {
 					TransactionView transactionView = new TransactionViewAccordionImpl();
 					transactionView.setTransactionData( transactionData );
+					transactionView.setEditTransactionView( editTransactionView );
 					add( transactionView );
 					cursor = transactionData.getTransactionDate();
 				}

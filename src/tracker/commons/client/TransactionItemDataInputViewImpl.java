@@ -42,6 +42,8 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 	private final NumberInputFormField orderInput = new NumberInputFormField();
 	private final Button deleteButton = new Button( "Delete" );
 
+	private String transactionItemId;
+
 	
 	public TransactionItemDataInputViewImpl(
 			List<TransactionItemTypeData> transactionItemTypeDataList ) {
@@ -132,6 +134,7 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 	@Override
 	public TransactionItemData getTransactionItemData() {
 		TransactionItemData triData = new TransactionItemData();
+		triData.setId( transactionItemId );
 		triData.setAmount( amountInput.getAmount() );
 		triData.setTransactionItemTypeId( itemTypeList.getValue() );
 		triData.setTransactionDate( timeInput.getTime( dateInput.getDate() ) );
@@ -141,8 +144,14 @@ public class TransactionItemDataInputViewImpl extends TransactionItemDataInputVi
 	}
 	
 	@Override
-	public void setTransactionItemData( TransactionItemData transactionItemData ) {
-		// TODO: Implementation
+	public void setTransactionItemData( TransactionItemData triData ) {
+		transactionItemId = triData.getId();
+		amountInput.setAmount( triData.getAmount() );
+		itemTypeList.setValue( triData.getTransactionItemTypeId() );
+		dateInput.setDate( triData.getTransactionDate() );
+		timeInput.setTime( triData.getTransactionDate() );
+		noteInput.setText( triData.getNote() );
+		orderInput.setValue( triData.getOrder() );
 	}
 	
 	private void setTransactionItemTypeDataList( List<TransactionItemTypeData> transactionItemTypeDataList ) {

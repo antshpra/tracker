@@ -7,8 +7,10 @@ import com.claymus.commons.client.Amount;
 import com.claymus.commons.client.ui.Accordion;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -16,11 +18,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class TransactionViewAccordionImpl extends TransactionView {
 
-	private Accordion accordion = new Accordion();
-
-	private final DateTimeFormat dateTimeFormat =
+	private final static DateTimeFormat dateTimeFormat =
 			DateTimeFormat.getFormat( "hh:mm aaa EEE d MMM yyyy" );
+
 	
+	private final Accordion accordion = new Accordion();
+	private TransactionData trData;
+
 	
 	public TransactionViewAccordionImpl() {
 		
@@ -30,19 +34,15 @@ public class TransactionViewAccordionImpl extends TransactionView {
 	}
 	
 	@Override
-	public void setTransactionData( TransactionData transactionData ) {
+	public void setTransactionData( TransactionData trData ) {
 		
-		accordion.setTitle(
-				transactionData.getDescription()
-				+ "<small style='margin-left:5px;'>"
-				+ dateTimeFormat.format( transactionData.getTransactionDate() )
-				+ "</small>");
+		this.trData = trData;
 		
 		accordion.clear();
 		
 		Amount amount = new Amount( 0 );
 		for( TransactionItemData transactionItemData
-				: transactionData.getTransactionItemDataList() ) {
+				: trData.getTransactionItemDataList() ) {
 
 			amount = amount.add( transactionItemData.getAmount() );
 
@@ -85,12 +85,32 @@ public class TransactionViewAccordionImpl extends TransactionView {
 								transactionItemData.getTransactionDate() ) );
 		}
 
-		// TODO: remove this whenever possible
-		if( amount.getValue() != 0 )
-			Window.alert( "Amount = " + amount.getValue()
-					+ " for Tr. " + transactionData.getDescription()
-					+ " (" + transactionData.getTransactionDate() + ")" );
+		
+		accordion.setTitle(
+				trData.getDescription()
+				+ "<small style='margin-left:5px;'>"
+				+ dateTimeFormat.format( trData.getTransactionDate() )
+				+ "</small>"
+				+ ( amount.getValue() != 0 ? "<span class='label label-danger' style='margin-left:5px'>ERROR</span>" : "" ) );
+		
+	}
 
+	@Override
+	public void setEditTransactionView( final EditTransactionView editTransactionView ) {
+		Button editButton = new Button( "Edit" );
+		editButton.setStyleName( "btn btn-sm btn-primary pull-right" );
+
+		editButton.addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				editTransactionView.setTransactionData( trData );
+				editTransactionView.setVisible( true );
+			}
+			
+		});
+		
+		accordion.add( editButton );
 	}
 
 }
