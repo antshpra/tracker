@@ -35,7 +35,7 @@ public class TransactionList extends InfiniteScrollPanel {
 	protected void loadItems() {
 		
 		GetTransactionListRequest request = new GetTransactionListRequest();
-		request.setTransactionDateEnd( cursor, false );
+		request.setTransactionDateEnd( cursor, true );
 		request.setTransactionDateChronologicalOrder( false );
 		request.setCreationDateChronologicalOrder( false );
 		request.setPageSize( pageSize );

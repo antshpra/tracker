@@ -145,9 +145,11 @@ public enum TransactionItemTypeDB {
 	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 0, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
 
-	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",        0, TransactionReportType.CUMULATIVE ),
-	CREDIT_CARD_CASHBACK_HDFC	( 22001, 22000, "Credit Card Cashback (HDFC)", 0, TransactionReportType.CUMULATIVE ),
-	CREDIT_CARD_CASHBACK_SC		( 22002, 22000, "Credit Card Cashback (SC)",   0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",           0, TransactionReportType.CUMULATIVE ),
+	CREDIT_CARD_CASHBACK_HDFC	( 22001, 22000, "Credit Card Cashback (HDFC)",    0, TransactionReportType.CUMULATIVE ),
+	// Rs. 59 - Sweets (24 Feb)
+	// Rs. 180.15 - Shuchi (29 Mar)
+	CREDIT_CARD_CASHBACK_SC		( 22002, 22000, "Credit Card Cashback (SC)", 239.15, TransactionReportType.CUMULATIVE ),
 	
 	CREDIT_CARD_POINTS			( 23000, 23000, "Credit Card Points",        0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_POINTS_HDFC		( 23001, 23000, "Credit Card Points (HDFC)", 0, TransactionReportType.CUMULATIVE ),
