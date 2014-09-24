@@ -51,38 +51,19 @@ public enum TransactionItemTypeDB {
 	/*
 	 * PENDING EXPENSE REPORTING
 	 * 
-	 * 	04 APR Shuchi		  	  0.52
-	 * 	07 APR Shuchi	 		 20.00
-	 * 	14 APR Manish			 -4.00
-	 * 	16 APR (Untracked)		 60.00
-	 * 	21 APR Polo				  2.00
-	 * 	23 APR Naveen			 16.00
-	 * 	30 APR (Untracked)		-99.00
-	 *  30 APR Booze            740.00
 	 * 	01 MAY Prasads Parking	 15.00
 	 *  -- --- To Mama,for Cab-2400.00
-	 *  -- --- April Rent	   4000.00
-	 *  -- --- April Phone Bill 497.77 ( 314.77 + 183.00 ) SC Points
-	 *  -- --- May Phone Bill   317.00 ( 317.00 + 61.65) SC Points
 	 *  -- --- SC Cashback		180.15 // Shuchi
-	 *  -- --- Delhi Trip	   6374.24
-	 *                                 = 9719.68
-	 *  25 May Bike Air	          2.00
-	 *  31 May Bike Air           2.00
-	 *                                 = 9723.68
+	 *                                 = -2204.85
 	 *  06 Jun Bang, Day 0       80.00
 	 *  07 Jun Bang, Day 1      230.00
 	 *  08 Jun Bang, Day 2      811.00
 	 *  09 Jun Bang, Day 3      210.00
 	 *  10 Jun Bang, Day 4       75.00
-	 *                                 = 11129.68
-	 *  20 Jun Bike Air           2.00
-	 *  -- --- TOTAL		  11131.68
+	 *                                 = -798.85
 	 */
 	
-	//  -- --- June Phone Bill  343.60 ( 343.60 ) SC Points
-	//  -- --- July Phone Bill  364.72 ( 94.75 + 269.97 ) SC Points + SC Card
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) - 11131.68, TransactionReportType.CUMULATIVE ),
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) + 798.85, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
 	/*
 	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
