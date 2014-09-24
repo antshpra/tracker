@@ -48,28 +48,11 @@ public enum TransactionItemTypeDB {
 	CREDIT_CARD_SC		( 8002, 8000, "Credit Card (SC)", -25832.78, TransactionReportType.CUMULATIVE ),
 	
 	POCKET			( 9000, 9000, "Pocket", 0, TransactionReportType.CUMULATIVE ),
-	/*
-	 * PENDING EXPENSE REPORTING
-	 * 
-	 * 	01 MAY Prasads Parking	 15.00
-	 *  -- --- To Mama,for Cab-2400.00
-	 *  -- --- SC Cashback		180.15 // Shuchi
-	 *                                 = -2204.85
-	 *  06 Jun Bang, Day 0       80.00
-	 *  07 Jun Bang, Day 1      230.00
-	 *  08 Jun Bang, Day 2      811.00
-	 *  09 Jun Bang, Day 3      210.00
-	 *  10 Jun Bang, Day 4       75.00
-	 *                                 = -798.85
-	 */
-	
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) + 798.85, TransactionReportType.CUMULATIVE ),
+	// To Mama,for Cab -2400.00
+	// Shuchi, SC Cashback 180.15
+	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) + 2219.85, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
-	/*
-	 * 	30 APR Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1218215
-	 * 	13 MAY Lunch & Dinner	440.00 # http://www.billsup.com/bill?b=1228663
-	 */
-	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35975.62, TransactionReportType.CUMULATIVE ), // (6565.57 - 41933.84 - 321.10 + 593.75) - 440 -440
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35095.62, TransactionReportType.CUMULATIVE ), // (6565.57 - 41933.84 - 321.10 + 593.75)
 	
 	// Initial POCKET_CASH + POCKET_BILLSUP must be equal to  Rs. -20,918.97
 	
