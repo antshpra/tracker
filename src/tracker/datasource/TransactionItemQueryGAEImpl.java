@@ -3,71 +3,94 @@ package tracker.datasource;
 import java.util.Date;
 import java.util.List;
 
-import tracker.data.access.gae.TransactionItemEntity;
-import antshpra.gae.datasource.GAEJDODataSource;
-import antshpra.gae.datasource.GAEJDOQuery;
+import javax.jdo.Query;
 
-public class TransactionItemQueryGAEImpl extends GAEJDOQuery<TransactionItemEntity> implements TransactionItemQuery {
+import tracker.data.access.DataAccessor;
+import tracker.data.access.gae.TransactionEntity;
+import tracker.data.access.gae.TransactionItemEntity;
+
+import com.claymus.data.access.GaeQueryBuilder;
+import com.claymus.data.access.GaeQueryBuilder.Operator;
+
+public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 	
-	public TransactionItemQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		super( TransactionItemEntity.class, gaeJDODataSource );
+	private final GaeQueryBuilder gaeQueryBuilder;
+	
+	public TransactionItemQueryGAEImpl( DataAccessor gaeJDODataSource ) {
+		gaeQueryBuilder = new GaeQueryBuilder( gaeJDODataSource.getPersistenceManager().newQuery( TransactionItemEntity.class ) );
 	}
 
 	@Override
 	public void setTransactionId( String transactionId ) {
-		addFilter( "transactionId", transactionId );
+		gaeQueryBuilder.addFilter( "transactionId", transactionId );
 	}
 	
 	@Override
 	public void setTransactionItemTypeId( String transactionItemTypeId ) {
-		addFilter( "transactionItemTypeId", transactionItemTypeId );
+		gaeQueryBuilder.addFilter( "transactionItemTypeId", transactionItemTypeId );
 	}
 
 	@Override
 	public void setTransactionItemTypeIdList( List<String> transactionItemTypeIdList ) {
-		addFilter( "transactionItemTypeId", transactionItemTypeIdList );
+		gaeQueryBuilder.addFilter( "transactionItemTypeId", transactionItemTypeIdList );
 	}
 
 	@Override
 	public void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "transactionDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
+			gaeQueryBuilder.addFilter( "transactionDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
 	public void setCreationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "creationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
+			gaeQueryBuilder.addFilter( "creationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
 	public void setLastupdationDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive ) {
 		if( startDate != null )
-			addFilter( "lastUpdationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
+			gaeQueryBuilder.addFilter( "lastUpdationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			addFilter( "lastUpdationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "lastUpdationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 	
 	@Override
 	public void orderByTransactionDate( boolean cronological ) {
-		addOrdering( "transactionDate", cronological );
+		gaeQueryBuilder.addOrdering( "transactionDate", cronological );
 	}
 
 	@Override
 	public void orderByCreationDate( boolean cronological ) {
-		addOrdering( "creationDate", cronological );
+		gaeQueryBuilder.addOrdering( "creationDate", cronological );
 	}
 
 	@Override
 	public void orderByLastupdationDate( boolean cronological ) {
-		addOrdering( "lastUpdationDate", cronological );
+		gaeQueryBuilder.addOrdering( "lastUpdationDate", cronological );
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TransactionItemEntity> execute() {
+		Query query = gaeQueryBuilder.build();
+		return (List<TransactionItemEntity>) query.execute();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TransactionItemEntity> execute( int rangeFrom, int rangeTo ) {
+		Query query = gaeQueryBuilder.build();
+		query.setRange( rangeFrom, rangeTo );
+		return (List<TransactionItemEntity>) query.execute();
 	}
 
 }

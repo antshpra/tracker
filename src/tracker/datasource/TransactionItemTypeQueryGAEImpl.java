@@ -3,15 +3,12 @@ package tracker.datasource;
 import java.util.ArrayList;
 import java.util.List;
 
+import tracker.data.access.DataAccessor;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
-import antshpra.gae.datasource.GAEJDODataSource;
-import antshpra.gae.datasource.GAEJDOQuery;
 
-public class TransactionItemTypeQueryGAEImpl extends GAEJDOQuery<TransactionItemTypeJDO> implements TransactionItemTypeQuery {
+public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery {
 
-	public TransactionItemTypeQueryGAEImpl( GAEJDODataSource gaeJDODataSource ) {
-		super( TransactionItemTypeJDO.class, gaeJDODataSource );
-	}
+	public TransactionItemTypeQueryGAEImpl( DataAccessor gaeJDODataSource ) {}
 	
 	// TODO: Deprecate this implementation once TransactionItemTypeDB is migrated to DataStore
 	@Override

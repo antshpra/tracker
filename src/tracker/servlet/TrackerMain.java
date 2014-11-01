@@ -8,22 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 
-import tracker.pagecontent.transactionlist.TransactionListContentFactory;
+import tracker.pagecontent.transactionlist.TransactionListContentHelper;
 
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
 import com.claymus.data.transfer.WebsiteWidget;
-import com.claymus.module.pagecontent.html.HtmlContent;
-import com.claymus.module.pagecontent.html.HtmlContentFactory;
 import com.claymus.module.websitewidget.header.HeaderWidget;
 import com.claymus.module.websitewidget.header.HeaderWidgetFactory;
+import com.claymus.pagecontent.html.HtmlContent;
+import com.claymus.pagecontent.html.HtmlContentHelper;
 import com.claymus.servlet.ClaymusMain;
 
 @SuppressWarnings("serial")
 public class TrackerMain extends ClaymusMain {
 	
 	static {
-		PAGE_CONTENT_REGISTRY.register( TransactionListContentFactory.class );
+		PAGE_CONTENT_REGISTRY.register( TransactionListContentHelper.class );
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class TrackerMain extends ClaymusMain {
 							"WEB-INF/classes/tracker/page/home/HomePage.ftl" ) );
 		else if( requestUri.equals( "/transactions" ) )
 			pageContentList.add(
-					TransactionListContentFactory.newTransactionListContent() );
+					TransactionListContentHelper.newTransactionListContent() );
 
 		return pageContentList;
 	}
@@ -56,20 +56,14 @@ public class TrackerMain extends ClaymusMain {
 		List<WebsiteWidget> websiteWidgetList
 				= super.getWebsiteWidgetList( request );
 
-		ClaymusHelper claymusHelper = new ClaymusHelper( request );
+		ClaymusHelper claymusHelper = ClaymusHelper.get( request );
 		
 		HeaderWidget headerWidget = HeaderWidgetFactory.newHeaderWidget();
 		headerWidget.setBrand( "Track It Up !" );
-		if( claymusHelper.isUserAdmin() )
-			headerWidget.setRightNavItems( new String[][] {
-					{ "Transactions", "/transactions" },
-					{ "Log Out", claymusHelper.createLogoutURL() }
-			});
-		else
-			headerWidget.setRightNavItems( new String[][] {
-					{ "Transactions", "/transactions" },
-					{ "Log In", claymusHelper.createLoginURL() }
-			});
+		headerWidget.setRightNavItems( new String[][] {
+				{ "Transactions", "/transactions" },
+				{ "Log Out", claymusHelper.createLogoutURL() }
+		});
 		headerWidget.setPosition( "HEADER" );
 		websiteWidgetList.add( headerWidget );
 
@@ -84,8 +78,8 @@ public class TrackerMain extends ClaymusMain {
 		String html = "";
 		for( String line : lines )
 			html = html + line;
-		HtmlContent htmlContent = HtmlContentFactory.newHtmlContent();
-		htmlContent.setHtml( html );
+		HtmlContent htmlContent = HtmlContentHelper.newHtmlContent();
+		htmlContent.setContent( html );
 		return htmlContent;
 	}
 

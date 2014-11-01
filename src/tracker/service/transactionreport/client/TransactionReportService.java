@@ -6,7 +6,7 @@ import tracker.service.transactionreport.shared.GetYearlyReportRequest;
 import tracker.service.transactionreport.shared.GetYearlyReportResponse;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 
-import com.claymus.commons.client.UnexpectedServerException;
+import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

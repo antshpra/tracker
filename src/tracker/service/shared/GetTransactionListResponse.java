@@ -10,13 +10,23 @@ public class GetTransactionListResponse implements IsSerializable {
 
 	private List<TransactionData> transactionDataList;
 
+	private String cursor;
+	
+
+	public GetTransactionListResponse(
+			List<TransactionData> transactionDataList, String cursor ) {
+
+		this.transactionDataList = transactionDataList;
+		this.cursor = cursor;
+	}
+	
 	
 	public List<TransactionData> getTransactionDataList() {
 		return this.transactionDataList;
 	}
 
-	public void setTransactionDataList( List<TransactionData> transactionDataList ) {
-		this.transactionDataList = transactionDataList;
+	public String getCursor() {
+		return this.cursor;
 	}
-	
+
 }

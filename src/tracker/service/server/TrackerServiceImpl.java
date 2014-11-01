@@ -36,7 +36,7 @@ import tracker.service.shared.data.TransactionData;
 import tracker.service.shared.data.TransactionItemData;
 import tracker.service.shared.data.TransactionItemTypeData;
 
-import com.claymus.commons.client.UnexpectedServerException;
+import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -103,8 +103,6 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 		}
 		dataAccessor.persistTransactionItemList( transactionItemList );
 
-		dataAccessor.close();
-
 		
 		// Creating response
 		CreateTransactionResponse response = new CreateTransactionResponse();
@@ -129,36 +127,6 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 	
 
 	@Override
-	public GetTransactionResponse getTransaction( GetTransactionRequest request ) throws UnexpectedServerException {
-		
-		DataAccessor transactionDataSource = transactionDataSourceFactory.getDataAccessor();
-
-		// Fetching TransactionJDO
-		Transaction transaction = transactionDataSource.getTransaction( request.getTransactionId() );
-		
-		// Fetching TransactionItemJDO list
-		TransactionItemQuery transactionItemQuery = transactionDataSource.newTransactionItemQuery();
-		transactionItemQuery.setTransactionId( request.getTransactionId() );
-		transactionItemQuery.orderByTransactionDate( true );
-		List<TransactionItemEntity> transactionItemList = transactionItemQuery.execute();
-		logger.log( Level.INFO, transactionItemList.size() + " transaction items found for transaction id - " + request.getTransactionId() );
-
-		// Creating TransactionData
-		TransactionData transactionData = JDOToDataConverter.convert(
-				transaction,
-				transactionItemList,
-				loadTransactionItemTypeIdToTransactionItemTypeDataMap() );
-				
-		// Creating GetTransactionResponse
-		GetTransactionResponse response = new GetTransactionResponse();
-		response.setTransactionData( transactionData );
-		
-		transactionDataSource.close();
-
-		return response;
-	}
-	
-	@Override
 	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) throws UnexpectedServerException {
 		
 		Date transactionDateStart = request.getTransactionDateStart();
@@ -168,9 +136,8 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 		Date creationDateEnd = request.getCreationDateEnd();
 
 		// Creating GetTransactionResponse
-		GetTransactionListResponse response = new GetTransactionListResponse();
 		List<TransactionData> transactionDataList = new LinkedList<TransactionData>(); 
-		response.setTransactionDataList( transactionDataList );
+		GetTransactionListResponse response = new GetTransactionListResponse( transactionDataList, null );
 		
 		// Checking for valid transactionDate range 
 		if( transactionDateStart != null
@@ -230,8 +197,6 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 					
 			transactionDataList.add( transactionData );
 		}
-		
-		transactionDataSource.close();
 		
 		return response;		
 	}
@@ -312,8 +277,6 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 			transactionItemDataList.add( transactionItemData );
 		}
 		
-		transactionDataSource.close();
-		
 		return response;		
 	}
 
@@ -365,8 +328,6 @@ public class TrackerServiceImpl extends RemoteServiceServlet implements TrackerS
 				parentTransactionItemTypeData.addChild( transactionItemTypeData );
 			}
 		}
-		
-		transactionDataSource.close();
 		
 		return transactionItemTypeIdToTransactionItemTypeDataMap;
 	}

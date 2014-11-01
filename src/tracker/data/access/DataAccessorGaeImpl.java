@@ -17,24 +17,13 @@ import tracker.datasource.TransactionReportQuery;
 import tracker.datasource.TransactionReportQueryGAEImpl;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
-import antshpra.gae.datasource.GAEJDODataSource;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class DataAccessorGaeImpl extends GAEJDODataSource implements DataAccessor {
-	
-	protected <T> T getEntity( Class<T> clazz, Object id ) {
-		T entity = (T) super.getPersistenceManager().getObjectById( clazz, id );
-		return super.getPersistenceManager().detachCopy( entity );
-	}
-
-	protected <T> T createOrUpdateEntity( T entity ) {
-		entity = super.getPersistenceManager().makePersistent( entity );
-		return super.getPersistenceManager().detachCopy( entity );
-	}
-	
-
-	
+@SuppressWarnings("serial")
+public class DataAccessorGaeImpl
+		extends com.claymus.data.access.DataAccessorGaeImpl
+		implements DataAccessor {
 	
 	@Override
 	public Transaction newTransaction() {
@@ -100,27 +89,27 @@ public class DataAccessorGaeImpl extends GAEJDODataSource implements DataAccesso
 	
 	@Override
 	public Transaction persistTransaction( Transaction transaction ) {
-		return super.getPersistenceManager().makePersistent( transaction );
+		return createOrUpdateEntity( transaction );
 	}
 	
 	@Override
 	public TransactionItem persistTransactionItem( TransactionItem transactionItemJDO ) {
-		return super.getPersistenceManager().makePersistent( transactionItemJDO );
+		return createOrUpdateEntity( transactionItemJDO );
 	}
 	
 	@Override
 	public List<TransactionItem> persistTransactionItemList( List<TransactionItem> transactionItemList ) {
-		return (List<TransactionItem>) super.getPersistenceManager().makePersistentAll( transactionItemList );
+		return (List<TransactionItem>) createOrUpdateEntityList( transactionItemList );
 	}
 
 	@Override
 	public TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO ) {
-		return super.getPersistenceManager().makePersistent( transactionReportJDO );
+		return createOrUpdateEntity( transactionReportJDO );
 	}
 	
 	@Override
 	public List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList ) {
-		return (List<TransactionReportJDO>) super.getPersistenceManager().makePersistentAll( transactionReportJDOList );
+		return (List<TransactionReportJDO>) createOrUpdateEntityList( transactionReportJDOList );
 	}
 
 }

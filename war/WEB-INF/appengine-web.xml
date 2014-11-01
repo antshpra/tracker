@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
-  <application>devo-tracker</application>
-  <version>mark-0p2</version>
+  <application>track-it-up</application>
+  <version>mark-0p3</version>
 
   <threadsafe>true</threadsafe>
   <sessions-enabled>false</sessions-enabled>

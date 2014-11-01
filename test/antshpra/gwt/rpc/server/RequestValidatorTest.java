@@ -6,7 +6,7 @@ import antshpra.gwt.rpc.shared.InvalidRequestException;
 import antshpra.gwt.rpc.shared.Request;
 import antshpra.gwt.rpc.shared.RequiredField;
 
-import com.claymus.commons.client.UnexpectedServerException;
+import com.claymus.commons.shared.exception.UnexpectedServerException;
 
 public class RequestValidatorTest {
 

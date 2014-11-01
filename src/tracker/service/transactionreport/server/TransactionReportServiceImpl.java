@@ -36,7 +36,7 @@ import antshpra.gwt.rpc.server.RequestValidator;
 import antshpra.gwt.rpc.shared.InvalidRequestException;
 
 import com.claymus.commons.client.Amount;
-import com.claymus.commons.client.UnexpectedServerException;
+import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
@@ -104,8 +104,6 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 		}
 		
-		transactionDataSource.close();
-		
 		return response;
 	}
 
@@ -137,8 +135,6 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			transactionReportDataList.add( transactionReportData );
 		}
 		
-		transactionDataSource.close();
-
 		return response;
 	}
 	

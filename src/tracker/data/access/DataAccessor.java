@@ -11,7 +11,7 @@ import tracker.datasource.TransactionReportQuery;
 import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
 
-public interface DataAccessor {
+public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
 	Transaction newTransaction();
 	
@@ -46,7 +46,5 @@ public interface DataAccessor {
 	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
 
 	List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList );
-
-	void close();
 	
 }

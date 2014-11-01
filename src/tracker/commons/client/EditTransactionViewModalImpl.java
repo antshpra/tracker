@@ -41,8 +41,8 @@ public class EditTransactionViewModalImpl extends EditTransactionView
 		// Composing the widget
 		modal.add( trDataInputView );
 
-		modal.addButton( addItemButton );
-		modal.addButton( saveButton );
+		modal.add( addItemButton );
+		modal.add( saveButton );
 
 		addItemButton.setStyleName( "btn btn-primary" );
 		saveButton.setStyleName( "btn btn-primary" );
@@ -114,7 +114,6 @@ public class EditTransactionViewModalImpl extends EditTransactionView
 	
 	@Override
 	public void setEnabled( boolean enabled ) {
-		modal.setEnabled( enabled );
 		trDataInputView.setEnabled( enabled );
 		for( TransactionItemDataInputView triDataInputView : triDataInputViewList )
 			triDataInputView.setEnabled( enabled );

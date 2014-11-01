@@ -5,15 +5,18 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <servlet>
-    <servlet-name>ClaymusService</servlet-name>
-    <servlet-class>com.claymus.service.server.ClaymusServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>ClaymusService</servlet-name>
-    <url-pattern>/service.claymus</url-pattern>
-  </servlet-mapping>
+  <!-- Filters -->
+
+  <filter>
+    <filter-name>ClaymusFilter</filter-name>
+    <filter-class>com.claymus.servlet.ClaymusFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ClaymusFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Handlers for GWT Services -->
 
   <servlet>
     <servlet-name>TransactionService</servlet-name>
@@ -35,7 +38,18 @@
     <url-pattern>/_ah/transactionreport</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>ClaymusService</servlet-name>
+    <servlet-class>com.claymus.service.server.ClaymusServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ClaymusService</servlet-name>
+    <url-pattern>/service.claymus</url-pattern>
+  </servlet-mapping>
 
+  <!-- Main Claymus Handler -->
+  
   <servlet>
     <servlet-name>TrackerMain</servlet-name>
     <servlet-class>tracker.servlet.TrackerMain</servlet-class>
@@ -46,7 +60,8 @@
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 
-
+  <!-- Security Constraints -->
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>admin</web-resource-name>

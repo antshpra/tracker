@@ -54,7 +54,7 @@ public class TransactionReportServiceImplTest {
 		
 		createTransactionReport( "MONTH_2014_02", transactionItemTypeChildId, TransactionReportType.CUMULATIVE, 31, "01-01-2014 00:00:00 IST", transactionDataSource );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
     }
 
     @After
@@ -79,7 +79,7 @@ public class TransactionReportServiceImplTest {
 		Assert.assertNotNull( transactionReportData.getChildren().get( 0 ) );
 		Assert.assertEquals( 0, transactionReportData.getChildren().get( 0 ).getAmount().getValue() );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class TransactionReportServiceImplTest {
 		Assert.assertNotNull( transactionReportData.getChildren().get( 0 ) );
 		Assert.assertEquals( 131, transactionReportData.getChildren().get( 0 ).getAmount().getValue() );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
 	}
 	
 	
@@ -120,7 +120,7 @@ public class TransactionReportServiceImplTest {
 		Assert.assertNotNull( transactionReportData.getChildren().get( 0 ) );
 		Assert.assertEquals( 0, transactionReportData.getChildren().get( 0 ).getAmount().getValue() );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
 	}
 
 	@Test
@@ -140,7 +140,7 @@ public class TransactionReportServiceImplTest {
 		Assert.assertNotNull( transactionReportData.getChildren().get( 0 ) );
 		Assert.assertEquals( 100, transactionReportData.getChildren().get( 0 ).getAmount().getValue() );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
 	}
 
 	
@@ -165,7 +165,7 @@ public class TransactionReportServiceImplTest {
 		Assert.assertNotNull( transactionReport );
 		Assert.assertEquals( 22, transactionReport.getAmount().getValue() );
 		
-		transactionDataSource.close();
+		transactionDataSource.destroy();
 	}
 	
 	

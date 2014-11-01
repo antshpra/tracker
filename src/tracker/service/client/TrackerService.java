@@ -11,22 +11,20 @@ import tracker.service.shared.GetTransactionRequest;
 import tracker.service.shared.GetTransactionResponse;
 import tracker.service.shared.SaveTransactionRequest;
 
-import com.claymus.commons.client.UnexpectedServerException;
+import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("../service.tracker")
 public interface TrackerService extends RemoteService {
 
+	// API Version: 1.0; Owner Module: TransactionListContent;
 	CreateTransactionResponse saveTransaction( SaveTransactionRequest request )
 			throws UnexpectedServerException;
 
-	
-	
-	
-	GetTransactionResponse getTransaction( GetTransactionRequest request ) throws UnexpectedServerException;
-	
-	GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) throws UnexpectedServerException;
+	// API Version: 1.0; Owner Module: TransactionListContent;
+	GetTransactionListResponse getTransactionList(
+			GetTransactionListRequest request ) throws UnexpectedServerException;
 
 	GetTransactionItemListResponse getTransactionItemList( GetTransactionItemListRequest request ) throws UnexpectedServerException;
 
