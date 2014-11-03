@@ -47,16 +47,4 @@
 		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src-cms</name>
-			<type>2</type>
-			<locationURI>WORKSPACE_LOC/pratilipi/src-cms</locationURI>
-		</link>
-		<link>
-			<name>test-cms</name>
-			<type>2</type>
-			<locationURI>WORKSPACE_LOC/pratilipi/test-cms</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
