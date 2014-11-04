@@ -1,4 +1,4 @@
-package tracker.module.transactionreport.client.views;
+package tracker.pagecontent.transactionlist.client;
 
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 

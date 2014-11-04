@@ -1,9 +1,7 @@
-package tracker.module.transactionreport.client;
+package tracker.pagecontent.transactionlist.client;
 
 import java.util.List;
 
-import tracker.module.transactionreport.client.views.MonthlyReportView;
-import tracker.module.transactionreport.client.views.MonthlyReportViewImpl;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 import tracker.theme.client.ThemeFactory;
 import tracker.theme.client.TransactionReportModuleStyle;

@@ -1,10 +1,10 @@
-package tracker.module.transactionreport.client.views;
+package tracker.pagecontent.transactionlist.client;
 
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 
 import com.google.gwt.user.client.ui.Composite;
 
-public abstract class YearlyReportView extends Composite {
+public abstract class MonthlyReportView extends Composite {
 
 	public abstract void setTransactionReportData( TransactionReportData transactionReportData );
 

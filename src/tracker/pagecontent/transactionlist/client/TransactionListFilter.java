@@ -6,21 +6,21 @@ import tracker.commons.shared.TransactionFilter;
 import tracker.service.shared.data.TransactionItemTypeData;
 
 import com.claymus.commons.client.ui.formfield.ListBoxFormField;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class TransactionListFilter extends Composite {
+public class TransactionListFilter extends Composite implements HasValueChangeHandlers<TransactionFilter> {
 
 	private final Panel panel = new FlowPanel();
 	private final ListBoxFormField itemTypeList = new ListBoxFormField();
 
 	
-	public TransactionListFilter(
-			final TransactionList transactionList,
-			List<TransactionItemTypeData> triTypeDataList ) {
+	public TransactionListFilter( List<TransactionItemTypeData> triTypeDataList ) {
 		
 		itemTypeList.setPlaceholder( "-- Select Transaction Item Type --" );
 		setTransactionItemTypeDataList( triTypeDataList );
@@ -33,7 +33,8 @@ public class TransactionListFilter extends Composite {
 				trFilter.setTransactionItemTypeId( event.getValue() );
 				trFilter.setTransactionDateChronologicalOrder( false );
 				trFilter.setCreationDateChronologicalOrder( false );
-				transactionList.setTransactionFilter( trFilter );
+
+				ValueChangeEvent.fire( TransactionListFilter.this, trFilter );
 			}
 
 		});
@@ -49,6 +50,11 @@ public class TransactionListFilter extends Composite {
 			itemTypeList.addItem( triTypeData.getQualifiedTitle(), triTypeData.getId() );
 			setTransactionItemTypeDataList( triTypeData.getChildren() );
 		}
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler( ValueChangeHandler<TransactionFilter> handler ) {
+		return addHandler( handler, ValueChangeEvent.getType() );
 	}
 
 }

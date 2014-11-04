@@ -41,10 +41,6 @@ public class TrackerMain extends ClaymusMain {
 		String requestUri = request.getRequestURI();
 		if( requestUri.equals( "/" ) )
 			pageContentList.add(
-					generateHtmlContentFromFile(
-							"WEB-INF/classes/tracker/page/home/HomePage.ftl" ) );
-		else if( requestUri.equals( "/transactions" ) )
-			pageContentList.add(
 					TransactionListContentHelper.newTransactionListContent() );
 
 		return pageContentList;

@@ -1,4 +1,4 @@
-package tracker.module.transactionreport.client;
+package tracker.pagecontent.transactionlist.client;
 
 import java.util.List;
 

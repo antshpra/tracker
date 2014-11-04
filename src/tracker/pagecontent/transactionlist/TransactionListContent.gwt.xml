@@ -7,6 +7,9 @@
   <inherits name='com.claymus.commons.Claymus'/>
   <inherits name='tracker.commons.Tracker'/>
   <inherits name='tracker.service.TrackerService'/>
+  <inherits name='tracker.service.transactionreport.TransactionReportService'/>
+  
+  <inherits name='tracker.theme.Theme'/>
   
   <entry-point class='tracker.pagecontent.transactionlist.client.TransactionListContent'/>
 

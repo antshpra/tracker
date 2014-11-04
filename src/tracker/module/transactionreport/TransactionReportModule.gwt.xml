@@ -1,4 +1,0 @@
-<module>
-  <inherits name='tracker.service.transactionreport.TransactionReportService'/>
-  <source path='client'/>
-</module>
