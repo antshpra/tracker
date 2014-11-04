@@ -2,14 +2,18 @@ package tracker.data.access;
 
 import java.util.List;
 
+import tracker.commons.shared.TransactionFilter;
+import tracker.data.access.gae.TransactionItemTypeEntity;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
+import tracker.data.transfer.TransactionItemType;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
+
+import com.claymus.data.access.DataListCursorTuple;
 
 public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
@@ -17,17 +21,22 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
 	Transaction getTransaction( String transactionId );
 
+	DataListCursorTuple<Transaction> getTransactionList(
+			TransactionFilter trFilter, String cursorStr, Integer resultCount );
 
+	
 	TransactionItem newTransactionItem();
 	
 	TransactionItem getTransactionItem( String transactionItemId );
 	
+	List<TransactionItem> getTransactionItemList( String encodedTrId );
 	
 	
+	List<TransactionItemType> getTransactionItemTypeList();
+
 	
 	
-	
-	TransactionItemTypeJDO getTransactionItemType( String transactionItemTypeId );
+	TransactionItemTypeEntity getTransactionItemType( String transactionItemTypeId );
 	
 	TransactionQuery newTransactionQuery();
 

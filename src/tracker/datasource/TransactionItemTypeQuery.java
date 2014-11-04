@@ -2,11 +2,11 @@ package tracker.datasource;
 
 import java.util.List;
 
-import tracker.datasource.jdo.TransactionItemTypeJDO;
+import tracker.data.access.gae.TransactionItemTypeEntity;
 
 public interface TransactionItemTypeQuery {
 
-	List<TransactionItemTypeJDO> execute();
+	List<TransactionItemTypeEntity> execute();
 
 	String toString();
 

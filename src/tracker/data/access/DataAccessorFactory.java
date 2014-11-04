@@ -7,6 +7,7 @@ import com.claymus.data.access.MemcacheClaymusImpl;
 public class DataAccessorFactory
 		extends com.claymus.data.access.DataAccessorFactory {
 
+	@Deprecated
 	public static DataAccessor getDataAccessor() {
 		return new DataAccessorGaeImpl();
 	}

@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import tracker.commons.server.DateUtil;
-import tracker.commons.server.JDOToDataConverter;
+import tracker.commons.server.TrackerHelper;
 import tracker.commons.shared.TransactionReportType;
 import tracker.commons.shared.TransactionReportUtil;
 import tracker.commons.shared.TransactionState;
@@ -20,10 +20,10 @@ import tracker.commons.shared.YearType;
 import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
 import tracker.data.access.gae.TransactionItemEntity;
+import tracker.data.access.gae.TransactionItemTypeEntity;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionItemTypeJDO;
 import tracker.datasource.jdo.TransactionReportJDO;
 import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
@@ -346,7 +346,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		
 		}
 
-		TransactionReportData transactionReportData = JDOToDataConverter.convert( transactionReport, transactionItemTypeData );
+		TransactionReportData transactionReportData = TrackerHelper.convert( transactionReport, transactionItemTypeData );
 		
 		for( TransactionItemTypeData transactionItemTypeChildData : transactionItemTypeData.getChildren() )
 			transactionReportData.addChild( getYearlyReportData( year, yearType, transactionItemTypeChildData, transactionDataSource ) );
@@ -378,7 +378,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 				transactionItemTypeData.getTransactionReportType(),
 				transactionDataSource );
 
-		TransactionReportData transactionReportData = JDOToDataConverter.convert( transactionReport, transactionItemTypeData );
+		TransactionReportData transactionReportData = TrackerHelper.convert( transactionReport, transactionItemTypeData );
 		
 		for( TransactionItemTypeData transactionItemTypeDataChild : transactionItemTypeData.getChildren() )
 			transactionReportData.addChild( getMonthlyReportData( year, month, yearType, transactionItemTypeDataChild, transactionDataSource ) );
@@ -431,12 +431,12 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	private Map<String, TransactionItemTypeData> loadTransactionItemTypeIdToTransactionItemTypeDataMap( DataAccessor transactionDataSource ) {
 		
 		TransactionItemTypeQuery transactionItemTypeQuery = transactionDataSource.newTransactionItemTypeQuery();
-		List<TransactionItemTypeJDO> transactionItemTypeList = transactionItemTypeQuery.execute();
+		List<TransactionItemTypeEntity> transactionItemTypeList = transactionItemTypeQuery.execute();
 		
 		// TODO: Cache the map in MemCache
 		Map<String, TransactionItemTypeData> transactionItemTypeIdToTransactionItemTypeDataMap = new LinkedHashMap<>( transactionItemTypeList.size() );
 		
-		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList ) {
+		for( TransactionItemTypeEntity transactionItemType : transactionItemTypeList ) {
 			TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
 			transactionItemTypeData.setId( transactionItemType.getId() );
 			transactionItemTypeData.setTitle( transactionItemType.getTitle() );
@@ -445,7 +445,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			transactionItemTypeIdToTransactionItemTypeDataMap.put( transactionItemType.getId(), transactionItemTypeData );
 		}
 
-		for( TransactionItemTypeJDO transactionItemType : transactionItemTypeList ) {
+		for( TransactionItemTypeEntity transactionItemType : transactionItemTypeList ) {
 			String id = transactionItemType.getId();
 			String parentId = transactionItemType.getParentId();
 			if( parentId != null ) {

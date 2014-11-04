@@ -1,7 +1,7 @@
 package tracker.datasource;
 
 import tracker.commons.shared.TransactionReportType;
-import tracker.datasource.jdo.TransactionItemTypeJDO;
+import tracker.data.access.gae.TransactionItemTypeEntity;
 
 import com.claymus.commons.client.Amount;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -159,11 +159,11 @@ public enum TransactionItemTypeDB {
 		return this.transactionReportType;
 	}
 	
-	public TransactionItemTypeJDO toTransactionItemTypeJDO() {
-		TransactionItemTypeJDO transactionItemType = new TransactionItemTypeJDO();
-		transactionItemType.setId( KeyFactory.createKey( TransactionItemTypeJDO.class.getSimpleName(), getId() ) );
+	public TransactionItemTypeEntity toTransactionItemTypeJDO() {
+		TransactionItemTypeEntity transactionItemType = new TransactionItemTypeEntity();
+		transactionItemType.setId( KeyFactory.createKey( TransactionItemTypeEntity.class.getSimpleName(), getId() ) );
 		if( getParentId() != getId() )
-			transactionItemType.setParentId( KeyFactory.createKeyString( TransactionItemTypeJDO.class.getSimpleName(), getParentId() ) );
+			transactionItemType.setParentId( KeyFactory.createKeyString( TransactionItemTypeEntity.class.getSimpleName(), getParentId() ) );
 		transactionItemType.setTitle( getTitle() );
 		transactionItemType.setInitialAmount( new Amount( Math.round( getInitialAmount() * 100 ) ) );
 		transactionItemType.setTransactionReportType( this.transactionReportType );

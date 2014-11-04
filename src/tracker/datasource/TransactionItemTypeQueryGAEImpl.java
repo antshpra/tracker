@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tracker.data.access.DataAccessor;
-import tracker.datasource.jdo.TransactionItemTypeJDO;
+import tracker.data.access.gae.TransactionItemTypeEntity;
 
 public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery {
 
@@ -12,9 +12,9 @@ public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery
 	
 	// TODO: Deprecate this implementation once TransactionItemTypeDB is migrated to DataStore
 	@Override
-	public List<TransactionItemTypeJDO> execute() {
+	public List<TransactionItemTypeEntity> execute() {
 		TransactionItemTypeDB transactionItemTypeDBValues[] = TransactionItemTypeDB.values();
-		List<TransactionItemTypeJDO> transactionItemTypeJDOList = new ArrayList<>( transactionItemTypeDBValues.length );
+		List<TransactionItemTypeEntity> transactionItemTypeJDOList = new ArrayList<>( transactionItemTypeDBValues.length );
 		for( TransactionItemTypeDB transactionItemTypeDBValue : transactionItemTypeDBValues ) {
 			transactionItemTypeJDOList.add( transactionItemTypeDBValue.toTransactionItemTypeJDO() );
 		}

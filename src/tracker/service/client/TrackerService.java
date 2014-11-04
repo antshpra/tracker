@@ -7,8 +7,6 @@ import tracker.service.shared.GetTransactionItemTypeListRequest;
 import tracker.service.shared.GetTransactionItemTypeListResponse;
 import tracker.service.shared.GetTransactionListRequest;
 import tracker.service.shared.GetTransactionListResponse;
-import tracker.service.shared.GetTransactionRequest;
-import tracker.service.shared.GetTransactionResponse;
 import tracker.service.shared.SaveTransactionRequest;
 
 import com.claymus.commons.shared.exception.UnexpectedServerException;

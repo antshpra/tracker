@@ -43,7 +43,7 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 			public void onSuccess( GetTransactionItemTypeListResponse result ) {
 				trInputView = new EditTransactionViewModalImpl( result.getTransactionItemTypeDataList() );
 				trInputView.addSaveButtonClickHandler( TransactionListContent.this );
-				trList = new TransactionList( trInputView );
+				trList = new TransactionList( trInputView, transactionService );
 
 				RootPanel rootPanel = RootPanel.get( "PageContent-TransactionList" );
 				rootPanel.add( newTransactionButton );
