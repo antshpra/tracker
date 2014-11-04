@@ -15,33 +15,38 @@ import com.google.gwt.user.client.ui.Composite;
 
 public class TransactionList extends Composite {
 
-	private int resultCount = 25;
+	private final InfiniteScrollPanel infiniteScrollPanel;
+	private TransactionFilter trFilter = null;
 	private String cursor = null;
+	private int resultCount = 25;
 
 	
 	public TransactionList(
 			final EditTransactionView editTrView,
 			final TrackerServiceAsync transactionService ) {
 		
-		TransactionFilter trFilter = new TransactionFilter();
+		trFilter = new TransactionFilter();
 		trFilter.setTransactionDateChronologicalOrder( false );
 		trFilter.setCreationDateChronologicalOrder( false );
-		
-		final GetTransactionListRequest request = new GetTransactionListRequest();
-		request.setTransactionFilter( trFilter );
-		request.setResultCount( resultCount );
-		
-		InfiniteScrollPanel infiniteScrollPanel = new InfiniteScrollPanel() {
+
+
+		infiniteScrollPanel = new InfiniteScrollPanel() {
 			
 			@Override
 			protected void loadItems() {
+				final GetTransactionListRequest request = new GetTransactionListRequest();
+				request.setTransactionFilter( trFilter );
 				request.setCursor( cursor );
+				request.setResultCount( resultCount );
 				transactionService.getTransactionList(
 						request,
 						new AsyncCallback<GetTransactionListResponse>() {
 
 								@Override
 								public void onSuccess( GetTransactionListResponse resonse ) {
+									
+									if( request.getTransactionFilter() != trFilter )
+										return;
 					
 									for( TransactionData trData : resonse.getTransactionDataList() ) {
 										TransactionView trView = new TransactionViewAccordionImpl();
@@ -51,7 +56,7 @@ public class TransactionList extends Composite {
 									}
 
 									cursor = resonse.getCursor();
-									if( cursor == null )
+									if( resonse.getTransactionDataList().size() == 0 )
 										loadFinished();
 									loadSuccessful();
 						
@@ -68,6 +73,13 @@ public class TransactionList extends Composite {
 		};
 		
 		initWidget( infiniteScrollPanel );
+	}
+	
+	
+	public void setTransactionFilter( TransactionFilter trFilter ) {
+		this.trFilter = trFilter;
+		cursor = null;
+		infiniteScrollPanel.reset();
 	}
 	
 }

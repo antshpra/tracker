@@ -57,7 +57,7 @@ public class TransactionReportQueryGAEImpl implements TransactionReportQuery {
 	@Override
 	public List<TransactionReportJDO> execute() {
 		Query query = gaeQueryBuilder.build();
-		return (List<TransactionReportJDO>) query.execute();
+		return (List<TransactionReportJDO>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,7 +65,7 @@ public class TransactionReportQueryGAEImpl implements TransactionReportQuery {
 	public List<TransactionReportJDO> execute( int rangeFrom, int rangeTo ) {
 		Query query = gaeQueryBuilder.build();
 		query.setRange( rangeFrom, rangeTo );
-		return (List<TransactionReportJDO>) query.execute();
+		return (List<TransactionReportJDO>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 	}
 
 }

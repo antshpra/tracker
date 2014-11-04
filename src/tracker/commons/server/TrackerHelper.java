@@ -49,12 +49,12 @@ public class TrackerHelper extends ClaymusHelper {
 		Map<String, TransactionItemTypeData> triTypeIdToTriTypeDataMap = new LinkedHashMap<>( triTypeList.size() );
 		
 		for( TransactionItemType triType : triTypeList ) {
-			TransactionItemTypeData transactionItemTypeData = new TransactionItemTypeData();
-			transactionItemTypeData.setId( triType.getId() );
-			transactionItemTypeData.setTitle( triType.getTitle() );
-			transactionItemTypeData.setInitialAmount( triType.getInitialAmount() );
-			transactionItemTypeData.setTransactionReportType( triType.getTransactionReportType() );
-			triTypeIdToTriTypeDataMap.put( triType.getId(), transactionItemTypeData );
+			TransactionItemTypeData triTypeData = new TransactionItemTypeData();
+			triTypeData.setId( triType.getId() );
+			triTypeData.setTitle( triType.getTitle() );
+			triTypeData.setInitialAmount( triType.getInitialAmount() );
+			triTypeData.setTransactionReportType( triType.getTransactionReportType() );
+			triTypeIdToTriTypeDataMap.put( triType.getId(), triTypeData );
 		}
 
 		for( TransactionItemType triType : triTypeList ) {
@@ -81,21 +81,22 @@ public class TrackerHelper extends ClaymusHelper {
 			trData.setCreatedBy( tr.getCreatedBy() );
 			
 			List<TransactionItem> triList = dataAccessor.getTransactionItemList( tr.getId() );
-			for( TransactionItem transactionItem : triList ) {
+			for( TransactionItem tri : triList ) {
 			
-				TransactionItemData transactionItemData = new TransactionItemData();
+				TransactionItemData triData = new TransactionItemData();
 				
-				transactionItemData.setId( transactionItem.getId() );
-				transactionItemData.setTransactionId( transactionItem.getTransactionId() );
-				transactionItemData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( transactionItem.getTransactionItemTypeId() ) );
-				transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
-				transactionItemData.setAmount( transactionItem.getAmount() );
-				transactionItemData.setNote( transactionItem.getNote() );
-				transactionItemData.setOrder( transactionItem.getOrder() );
-				transactionItemData.setCreationDate( transactionItem.getCreationDate() );
-				transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
+				triData.setId( tri.getId() );
+				triData.setTransactionId( tri.getTransactionId() );
+				triData.setTransactionItemTypeId( tri.getTransactionItemTypeId() );
+				triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
+				triData.setTransactionDate( tri.getTransactionDate() );
+				triData.setAmount( tri.getAmount() );
+				triData.setNote( tri.getNote() );
+				triData.setOrder( tri.getOrder() );
+				triData.setCreationDate( tri.getCreationDate() );
+				triData.setCreatedBy( tri.getCreatedBy() );
 				
-				trData.addTransactionItemData( transactionItemData );
+				trData.addTransactionItemData( triData );
 			}
 
 			trDataList.add( trData );
@@ -154,7 +155,6 @@ public class TrackerHelper extends ClaymusHelper {
 		transactionItemData.setOrder( transactionItem.getOrder() );
 		transactionItemData.setCreationDate( transactionItem.getCreationDate() );
 		transactionItemData.setCreatedBy( transactionItem.getCreatedBy() );
-		transactionItemData.setTransactionData( transactionData );
 		
 		return transactionItemData;
 	}

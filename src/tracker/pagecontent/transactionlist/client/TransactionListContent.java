@@ -4,10 +4,10 @@ import tracker.commons.client.EditTransactionView;
 import tracker.commons.client.EditTransactionViewModalImpl;
 import tracker.service.client.TrackerService;
 import tracker.service.client.TrackerServiceAsync;
-import tracker.service.shared.SaveTransactionRequest;
 import tracker.service.shared.CreateTransactionResponse;
 import tracker.service.shared.GetTransactionItemTypeListRequest;
 import tracker.service.shared.GetTransactionItemTypeListResponse;
+import tracker.service.shared.SaveTransactionRequest;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -24,6 +24,7 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 			GWT.create( TrackerService.class );
 
 	private final Button newTransactionButton = new Button();
+	private TransactionListFilter trListFilter;
 	private TransactionList trList;
 	private EditTransactionView trInputView;
 	
@@ -34,27 +35,28 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 		newTransactionButton.setStyleName( "btn btn-primary" );
 		newTransactionButton.addClickHandler( this );
 		
-		GetTransactionItemTypeListRequest getTransactionItemTypeListRequest = new GetTransactionItemTypeListRequest();
 		transactionService.getTransactionItemTypeList(
-				getTransactionItemTypeListRequest,
+				new GetTransactionItemTypeListRequest(),
 				new AsyncCallback<GetTransactionItemTypeListResponse>() {
 
-			@Override
-			public void onSuccess( GetTransactionItemTypeListResponse result ) {
-				trInputView = new EditTransactionViewModalImpl( result.getTransactionItemTypeDataList() );
-				trInputView.addSaveButtonClickHandler( TransactionListContent.this );
-				trList = new TransactionList( trInputView, transactionService );
-
-				RootPanel rootPanel = RootPanel.get( "PageContent-TransactionList" );
-				rootPanel.add( newTransactionButton );
-				rootPanel.add( trList );
-				rootPanel.add( trInputView );
-			}
-
-			@Override
-			public void onFailure( Throwable caught ) {
-				Window.alert( caught.getClass().getName() );
-			}
+					@Override
+					public void onSuccess( GetTransactionItemTypeListResponse result ) {
+						trInputView = new EditTransactionViewModalImpl( result.getTransactionItemTypeDataList() );
+						trInputView.addSaveButtonClickHandler( TransactionListContent.this );
+						trList = new TransactionList( trInputView, transactionService );
+						trListFilter = new TransactionListFilter( trList, result.getTransactionItemTypeDataList() );
+		
+						RootPanel rootPanel = RootPanel.get( "PageContent-TransactionList" );
+						rootPanel.add( newTransactionButton );
+						rootPanel.add( trListFilter );
+						rootPanel.add( trList );
+						rootPanel.add( trInputView );
+					}
+		
+					@Override
+					public void onFailure( Throwable caught ) {
+						Window.Location.reload();
+					}
 
 		} );
 		

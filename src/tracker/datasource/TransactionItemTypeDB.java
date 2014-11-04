@@ -161,9 +161,9 @@ public enum TransactionItemTypeDB {
 	
 	public TransactionItemTypeEntity toTransactionItemTypeJDO() {
 		TransactionItemTypeEntity transactionItemType = new TransactionItemTypeEntity();
-		transactionItemType.setId( KeyFactory.createKey( TransactionItemTypeEntity.class.getSimpleName(), getId() ) );
+		transactionItemType.setId( KeyFactory.createKey( "TransactionItemTypeJDO", getId() ) );
 		if( getParentId() != getId() )
-			transactionItemType.setParentId( KeyFactory.createKeyString( TransactionItemTypeEntity.class.getSimpleName(), getParentId() ) );
+			transactionItemType.setParentId( KeyFactory.createKeyString( "TransactionItemTypeJDO", getParentId() ) );
 		transactionItemType.setTitle( getTitle() );
 		transactionItemType.setInitialAmount( new Amount( Math.round( getInitialAmount() * 100 ) ) );
 		transactionItemType.setTransactionReportType( this.transactionReportType );

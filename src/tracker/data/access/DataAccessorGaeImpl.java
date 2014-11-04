@@ -96,6 +96,10 @@ public class DataAccessorGaeImpl
 						: new GaeQueryBuilder( pm.newQuery( TransactionItemEntity.class ) );
 
 						
+		if( trFilter.getTransactionItemTypeId() != null )
+			gaeQueryBuilder.addFilter( "transactionItemTypeId", trFilter.getTransactionItemTypeId() );
+		
+		
 		if( trDateStart != null )
 			gaeQueryBuilder.addFilter( "transactionDate", trDateStart, trFilter.isTransactionDateStartInclusive() ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
@@ -139,14 +143,21 @@ public class DataAccessorGaeImpl
 					cursor == null ? null : cursor.toWebSafeString() );
 		
 		} else {
-			query.setResult( "transactionId" );
-			
-			List<String> trIdList = (List<String>) query.executeWithMap(
+			List<TransactionItem> triList = (List<TransactionItem>) query.executeWithMap(
 					gaeQueryBuilder.getParamNameValueMap() );
-			Cursor cursor = JDOCursorHelper.getCursor( trIdList );
+			Cursor cursor = JDOCursorHelper.getCursor( triList );
+			
+			List<String> trIdList = new LinkedList<>();
+			for( TransactionItem tri : triList )
+				if( ! trIdList.contains( tri.getTransactionId() ) )
+					trIdList.add( tri.getTransactionId() );
+					
+			List<Transaction> trList = new ArrayList<>( triList.size() );
+			for( String trId : trIdList )
+				trList.add( getTransaction( trId ) );
 
 			return new DataListCursorTuple<>(
-					(List<Transaction>) pm.detachCopyAll( pm.getObjectsById( trIdList ) ),
+					trList,
 					cursor == null ? null : cursor.toWebSafeString() );
 		}
 		

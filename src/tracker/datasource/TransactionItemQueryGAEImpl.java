@@ -82,7 +82,7 @@ public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 	@Override
 	public List<TransactionItemEntity> execute() {
 		Query query = gaeQueryBuilder.build();
-		return (List<TransactionItemEntity>) query.execute();
+		return (List<TransactionItemEntity>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 	}
 	
 	@SuppressWarnings("unchecked")

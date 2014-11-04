@@ -3,7 +3,6 @@ package tracker.page.home.client;
 import java.util.List;
 
 import tracker.commons.shared.YearType;
-import tracker.module.transaction.client.TransactionItemListModule;
 import tracker.module.transactionreport.client.ReportModule;
 import tracker.module.transactionreport.client.ReportModuleImpl;
 import tracker.service.client.TrackerService;
@@ -34,7 +33,6 @@ public class HomePage implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		final ReportModule reportModule = new ReportModuleImpl();
-		final TransactionItemListModule transactionItemListModule = new TransactionItemListModule();
 
 		final ListBox itemTypeList = new ListBox();
 		itemTypeList.addItem( "Loading ..." ); // I18n
@@ -90,14 +88,12 @@ public class HomePage implements EntryPoint {
 
 					});
 					
-					transactionItemListModule.setTransactionItemId( itemTypeList.getValue( itemTypeList.getSelectedIndex() ) );;
 				}
 			}
 		});
 		
 		RootPanel.get().add( itemTypeList );
 		RootPanel.get().add( reportModule );
-		RootPanel.get().add( transactionItemListModule );
 		
 		ThemeFactory.getTheme().getTransactionModuleStyle().ensureInjected();
 		ThemeFactory.getTheme().getTransactionReportModuleStyle().ensureInjected();

@@ -26,43 +26,38 @@
   </datastore-index>
 
   
-  <!-- Required by tracker.service.transaction.server.TransactionServiceImpl.getTransactionList -->
+  
+  <!-- Required by TransactionService.getTransactionList -->
 	<datastore-index kind="TRANSACTION" ancestor="false" source="manual">
 		<property name="TRANSACTION_DATE" direction="desc"/>
 		<property name="CREATION_DATE" direction="desc"/>
 	</datastore-index>
 
-	<datastore-index kind="TRANSACTION_ITEM" ancestor="true" source="manual">
-		<property name="TRANSACTION_DATE" direction="asc"/>
-	</datastore-index>
-    
-    <!-- Required by tracker.service.transaction.server.TransactionServiceImpl.getTransactionItemList -->
 	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="manual">
-		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
-		<property name="TRANSACTION_DATE" direction="desc"/>
-	</datastore-index>
-    
-	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
+        <property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
+        <property name="TRANSACTION_DATE" direction="desc"/>
+        <property name="CREATION_DATE" direction="desc"/>
+    </datastore-index>
+	
+
+		
+	<!-- Required by TransactionReportService -->
 	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="manual">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="TRANSACTION_DATE" direction="asc"/>
 	</datastore-index>
 		
-	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
 	<datastore-index kind="TRANSACTION_ITEM" ancestor="false" source="manual">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="LAST_UPDATION_DATE" direction="asc"/>
 	</datastore-index>
 	
-	
-	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
 	<datastore-index kind="TRANSACTION_REPORT" ancestor="false" source="manual">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="TYPE" direction="asc"/>
 		<property name="LAST_UPDATION_DATE" direction="desc"/>
 	</datastore-index>
 
-	<!-- Required by tracker.service.transactionreport.server.TransactionReportServiceImpl -->
 	<datastore-index kind="TRANSACTION_REPORT" ancestor="false" source="manual">
 		<property name="TRANSACTION_ITEM_TYPE_ID" direction="asc"/>
 		<property name="TYPE" direction="asc"/>
