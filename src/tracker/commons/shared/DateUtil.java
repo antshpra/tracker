@@ -1,4 +1,4 @@
-package tracker.module.transaction.client;
+package tracker.commons.shared;
 
 import java.util.Date;
 

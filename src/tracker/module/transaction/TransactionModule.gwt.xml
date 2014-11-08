@@ -1,5 +1,0 @@
-<module>
-  <inherits name='tracker.commons.Tracker'/>
-  <inherits name='tracker.service.TrackerService'/>
-  <source path='client'/>
-</module>
