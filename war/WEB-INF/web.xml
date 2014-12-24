@@ -21,8 +21,8 @@
   <servlet>
     <servlet-name>TransactionService</servlet-name>
     <servlet-class>tracker.service.server.TrackerServiceImpl</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>TransactionService</servlet-name>
     <url-pattern>/service.tracker</url-pattern>
@@ -31,8 +31,8 @@
   <servlet>
     <servlet-name>TransactionReportService</servlet-name>
     <servlet-class>tracker.service.transactionreport.server.TransactionReportServiceImpl</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>TransactionReportService</servlet-name>
     <url-pattern>/_ah/transactionreport</url-pattern>
@@ -41,8 +41,8 @@
   <servlet>
     <servlet-name>ClaymusService</servlet-name>
     <servlet-class>com.claymus.service.server.ClaymusServiceImpl</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>ClaymusService</servlet-name>
     <url-pattern>/service.claymus</url-pattern>
@@ -53,8 +53,8 @@
   <servlet>
     <servlet-name>TrackerMain</servlet-name>
     <servlet-class>tracker.servlet.TrackerMain</servlet-class>
+	<load-on-startup>1</load-on-startup>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>TrackerMain</servlet-name>
     <url-pattern>/*</url-pattern>

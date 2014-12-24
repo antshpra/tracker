@@ -13,27 +13,27 @@ import tracker.pagecontent.transactionlist.TransactionListContentHelper;
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
 import com.claymus.data.transfer.WebsiteWidget;
-import com.claymus.module.websitewidget.header.HeaderWidget;
-import com.claymus.module.websitewidget.header.HeaderWidgetFactory;
+import com.claymus.pagecontent.PageContentRegistry;
 import com.claymus.pagecontent.html.HtmlContent;
 import com.claymus.pagecontent.html.HtmlContentHelper;
 import com.claymus.servlet.ClaymusMain;
+import com.claymus.websitewidget.header.HeaderWidget;
+import com.claymus.websitewidget.header.HeaderWidgetHelper;
 
 @SuppressWarnings("serial")
 public class TrackerMain extends ClaymusMain {
 	
 	static {
-		PAGE_CONTENT_REGISTRY.register( TransactionListContentHelper.class );
+		PageContentRegistry.register( TransactionListContentHelper.class );
 	}
 	
 	@Override
-	protected String getTemplateName() {
+	protected String getTemplateName( HttpServletRequest reqest ) {
 		return "tracker/servlet/TrackerTemplate.ftl";
 	}
 
 	@Override
-	protected List<PageContent> getPageContentList( HttpServletRequest request )
-			throws IOException {
+	protected List<PageContent> getPageContentList( HttpServletRequest request ) {
 	
 		List<PageContent> pageContentList
 				= super.getPageContentList( request );
@@ -47,14 +47,14 @@ public class TrackerMain extends ClaymusMain {
 	}
 	
 	@Override
-	protected List<WebsiteWidget> getWebsiteWidgetList( HttpServletRequest request ) throws IOException {
+	protected List<WebsiteWidget> getWebsiteWidgetList( HttpServletRequest request ) {
 		
 		List<WebsiteWidget> websiteWidgetList
 				= super.getWebsiteWidgetList( request );
 
 		ClaymusHelper claymusHelper = ClaymusHelper.get( request );
 		
-		HeaderWidget headerWidget = HeaderWidgetFactory.newHeaderWidget();
+		HeaderWidget headerWidget = HeaderWidgetHelper.newHeaderWidget();
 		headerWidget.setBrand( "Track It Up !" );
 		headerWidget.setRightNavItems( new String[][] {
 				{ "Transactions", "/transactions" },
