@@ -5,6 +5,7 @@ import java.util.List;
 
 import tracker.commons.shared.TransactionFilter;
 import tracker.data.access.gae.TransactionItemTypeEntity;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
 import tracker.data.transfer.TransactionItemType;
@@ -12,7 +13,6 @@ import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionReportJDO;
 
 import com.claymus.data.access.DataListCursorTuple;
 import com.claymus.data.access.Memcache;
@@ -188,16 +188,16 @@ public class DataAccessorWithMemcache
 
 
 	@Override
-	public TransactionReportJDO persistTransactionReport(
-			TransactionReportJDO transactionReportJDO) {
+	public TransactionReportEntity persistTransactionReport(
+			TransactionReportEntity transactionReportJDO) {
 		// TODO Auto-generated method stub
 		return dataAccessor.persistTransactionReport(transactionReportJDO);
 	}
 
 
 	@Override
-	public List<TransactionReportJDO> persistTransactionReportList(
-			List<TransactionReportJDO> transactionReportJDOList) {
+	public List<TransactionReportEntity> persistTransactionReportList(
+			List<TransactionReportEntity> transactionReportJDOList) {
 		// TODO Auto-generated method stub
 		return dataAccessor.persistTransactionReportList(transactionReportJDOList);
 	}

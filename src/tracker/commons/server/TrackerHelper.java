@@ -11,10 +11,10 @@ import tracker.commons.shared.TransactionReportType;
 import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
 import tracker.data.access.gae.TransactionItemEntity;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
 import tracker.data.transfer.TransactionItemType;
-import tracker.datasource.jdo.TransactionReportJDO;
 import tracker.service.shared.data.TransactionData;
 import tracker.service.shared.data.TransactionItemData;
 import tracker.service.shared.data.TransactionItemTypeData;
@@ -161,7 +161,7 @@ public class TrackerHelper extends ClaymusHelper {
 	
 	@Deprecated
 	public static TransactionReportData convert(
-			TransactionReportJDO transactionReportJDO,
+			TransactionReportEntity transactionReportJDO,
 			TransactionItemTypeData transactionItemTypeData ) {
 		
 		TransactionReportData transactionReportData = new TransactionReportData();

@@ -5,6 +5,7 @@ import java.util.List;
 
 import tracker.data.access.gae.TransactionEntity;
 
+@Deprecated
 public interface TransactionQuery {
 
 	void setTransactionDate( Date startDate, boolean startDateInclusive, Date endDate, boolean endDateInclusive );

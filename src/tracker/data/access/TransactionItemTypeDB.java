@@ -1,4 +1,4 @@
-package tracker.datasource;
+package tracker.data.access;
 
 import tracker.commons.shared.TransactionReportType;
 import tracker.data.access.gae.TransactionItemTypeEntity;

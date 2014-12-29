@@ -13,7 +13,7 @@ import tracker.commons.shared.TransactionReportType;
 import tracker.commons.shared.YearType;
 import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
-import tracker.datasource.jdo.TransactionReportJDO;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 
@@ -149,7 +149,7 @@ public class TransactionReportServiceImplTest {
 		TransactionReportServiceImpl transactionReportService = new TransactionReportServiceImpl();
 		DataAccessor transactionDataSource = new DataAccessorFactory().getDataAccessor(); 
 		
-		TransactionReportJDO transactionReport = transactionReportService.getTransactionReport(
+		TransactionReportEntity transactionReport = transactionReportService.getTransactionReport(
 				"MONTH_2014_02",
 				transactionItemTypeId,
 				TransactionReportType.PERODIC,
@@ -177,7 +177,7 @@ public class TransactionReportServiceImplTest {
 			String lastUpdationDateStr,
 			DataAccessor transactionDataSource ) throws ParseException {
 		
-		TransactionReportJDO transactionReport = new TransactionReportJDO();
+		TransactionReportEntity transactionReport = new TransactionReportEntity();
 		transactionReport.setIndex( transactionReportIndex );
 		transactionReport.setTransactionItemTypeId( transactionItemTypeId );
 		transactionReport.setType( transactionReportType );

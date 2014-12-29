@@ -6,17 +6,18 @@ import javax.jdo.Query;
 
 import tracker.commons.shared.TransactionReportType;
 import tracker.data.access.DataAccessor;
-import tracker.datasource.jdo.TransactionReportJDO;
+import tracker.data.access.gae.TransactionReportEntity;
 
 import com.claymus.data.access.GaeQueryBuilder;
 import com.claymus.data.access.GaeQueryBuilder.Operator;
 
+@Deprecated
 public class TransactionReportQueryGAEImpl implements TransactionReportQuery {
 	
 	private final GaeQueryBuilder gaeQueryBuilder;
 	
 	public TransactionReportQueryGAEImpl( DataAccessor gaeJDODataSource ) {
-		gaeQueryBuilder = new GaeQueryBuilder( gaeJDODataSource.getPersistenceManager().newQuery( TransactionReportJDO.class ) );
+		gaeQueryBuilder = new GaeQueryBuilder( gaeJDODataSource.getPersistenceManager().newQuery( TransactionReportEntity.class ) );
 	}
 
 	@Override
@@ -55,17 +56,17 @@ public class TransactionReportQueryGAEImpl implements TransactionReportQuery {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TransactionReportJDO> execute() {
+	public List<TransactionReportEntity> execute() {
 		Query query = gaeQueryBuilder.build();
-		return (List<TransactionReportJDO>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
+		return (List<TransactionReportEntity>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TransactionReportJDO> execute( int rangeFrom, int rangeTo ) {
+	public List<TransactionReportEntity> execute( int rangeFrom, int rangeTo ) {
 		Query query = gaeQueryBuilder.build();
 		query.setRange( rangeFrom, rangeTo );
-		return (List<TransactionReportJDO>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
+		return (List<TransactionReportEntity>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 	}
 
 }

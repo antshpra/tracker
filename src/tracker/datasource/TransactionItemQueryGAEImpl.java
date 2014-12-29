@@ -6,12 +6,12 @@ import java.util.List;
 import javax.jdo.Query;
 
 import tracker.data.access.DataAccessor;
-import tracker.data.access.gae.TransactionEntity;
 import tracker.data.access.gae.TransactionItemEntity;
 
 import com.claymus.data.access.GaeQueryBuilder;
 import com.claymus.data.access.GaeQueryBuilder.Operator;
 
+@Deprecated
 public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 	
 	private final GaeQueryBuilder gaeQueryBuilder;

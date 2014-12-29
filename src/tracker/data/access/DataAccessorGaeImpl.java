@@ -15,19 +15,18 @@ import tracker.commons.shared.TransactionFilter;
 import tracker.data.access.gae.TransactionEntity;
 import tracker.data.access.gae.TransactionItemEntity;
 import tracker.data.access.gae.TransactionItemTypeEntity;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
 import tracker.data.transfer.TransactionItemType;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemQueryGAEImpl;
-import tracker.datasource.TransactionItemTypeDB;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionItemTypeQueryGAEImpl;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.TransactionQueryGAEImpl;
 import tracker.datasource.TransactionReportQuery;
 import tracker.datasource.TransactionReportQueryGAEImpl;
-import tracker.datasource.jdo.TransactionReportJDO;
 
 import com.claymus.data.access.DataListCursorTuple;
 import com.claymus.data.access.GaeQueryBuilder;
@@ -53,12 +52,12 @@ public class DataAccessorGaeImpl
 	
 	@Override
 	public TransactionEntity getTransaction( Long id ) {
-        return getEntity( TransactionEntity.class, id );
+		return getEntity( TransactionEntity.class, id );
 	}
 
 	@Override
 	public TransactionEntity getTransaction( String id ) {
-        return getEntity( TransactionEntity.class, KeyFactory.stringToKey( id ) );
+		return getEntity( TransactionEntity.class, KeyFactory.stringToKey( id ) );
 	}
 
 	@SuppressWarnings("unchecked")
@@ -261,13 +260,13 @@ public class DataAccessorGaeImpl
 	}
 
 	@Override
-	public TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO ) {
+	public TransactionReportEntity persistTransactionReport( TransactionReportEntity transactionReportJDO ) {
 		return createOrUpdateEntity( transactionReportJDO );
 	}
 	
 	@Override
-	public List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList ) {
-		return (List<TransactionReportJDO>) createOrUpdateEntityList( transactionReportJDOList );
+	public List<TransactionReportEntity> persistTransactionReportList( List<TransactionReportEntity> transactionReportJDOList ) {
+		return (List<TransactionReportEntity>) createOrUpdateEntityList( transactionReportJDOList );
 	}
 
 }

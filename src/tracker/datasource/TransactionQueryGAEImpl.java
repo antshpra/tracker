@@ -11,6 +11,7 @@ import tracker.data.access.gae.TransactionEntity;
 import com.claymus.data.access.GaeQueryBuilder;
 import com.claymus.data.access.GaeQueryBuilder.Operator;
 
+@Deprecated
 public class TransactionQueryGAEImpl implements TransactionQuery {
 	
 	private final GaeQueryBuilder gaeQueryBuilder;

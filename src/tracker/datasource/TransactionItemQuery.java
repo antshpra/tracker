@@ -5,6 +5,7 @@ import java.util.List;
 
 import tracker.data.access.gae.TransactionItemEntity;
 
+@Deprecated
 public interface TransactionItemQuery {
 
 	void setTransactionId( String transactionId );

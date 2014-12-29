@@ -21,10 +21,10 @@ import tracker.data.access.DataAccessor;
 import tracker.data.access.DataAccessorFactory;
 import tracker.data.access.gae.TransactionItemEntity;
 import tracker.data.access.gae.TransactionItemTypeEntity;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionReportJDO;
 import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.client.TransactionReportService;
 import tracker.service.transactionreport.shared.GetMonthlyReportRequest;
@@ -163,7 +163,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		transactionReportQuery.setTransactionItemTypeId( transactionItemTypeId );
 		transactionReportQuery.setReportType( transactionReportType );
 		transactionReportQuery.orderByLastUpdationDate( false );
-		List<TransactionReportJDO> transactionReportList = transactionReportQuery.execute( 0, 1 );
+		List<TransactionReportEntity> transactionReportList = transactionReportQuery.execute( 0, 1 );
 		
 		// We have to update reports for all additions/updations in TransactionItems happened since last update in TransactionReports
 		Date startDate = transactionReportList.size() == 0 ? null : transactionReportList.get( 0 ).getLastUpdationDate();
@@ -213,20 +213,20 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			transactionReportQuery.orderByLastUpdationDate( false ); // Not actually required. Re-using existing index.
 			transactionReportList = transactionReportQuery.execute();
 
-			for( TransactionReportJDO transactionReport : transactionReportList )
+			for( TransactionReportEntity transactionReport : transactionReportList )
 				yearMonthList.add(
 						TransactionReportUtil.getTransactionReportYear( transactionReport.getIndex() ) * 100 +
 						TransactionReportUtil.getTransactionReportMonth( transactionReport.getIndex() ) );
 		}
 		
-		List<TransactionReportJDO> updatedTransactionReportList = new LinkedList<>();
+		List<TransactionReportEntity> updatedTransactionReportList = new LinkedList<>();
 		
 		Iterator<Integer> iterator = yearMonthList.iterator();
 		while ( iterator.hasNext() ) {
 			int yearMonth = iterator.next();
 			int year = yearMonth / 100;
 			int month = yearMonth % 100;
-			TransactionReportJDO transactionReport = createOrUpdateMonthlyReport(
+			TransactionReportEntity transactionReport = createOrUpdateMonthlyReport(
 					year, month,
 					transactionItemTypeId,
 					transactionReportType,
@@ -240,7 +240,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 		return true;
 	}
 	
-	TransactionReportJDO createOrUpdateMonthlyReport(
+	TransactionReportEntity createOrUpdateMonthlyReport(
 			int year, int month,
 			String transactionItemTypeId,
 			TransactionReportType transactionReportType,
@@ -251,7 +251,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 				+ "\n\t transactionItemTypeId = " + transactionItemTypeId
 				+ "\n\t transactionReportType = " + transactionReportType );
 
-		TransactionReportJDO transactionReport = getTransactionReport(
+		TransactionReportEntity transactionReport = getTransactionReport(
 				TransactionReportUtil.getTransactionReportIndex( year, month ),
 				transactionItemTypeId,
 				transactionReportType,
@@ -294,7 +294,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			TransactionItemTypeData transactionItemTypeData,
 			DataAccessor transactionDataSource) {
 		
-		TransactionReportJDO transactionReport;
+		TransactionReportEntity transactionReport;
 		
 		if( transactionItemTypeData.getTransactionReportType() == TransactionReportType.PERODIC ) {
 			
@@ -309,7 +309,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 					throw new UnsupportedOperationException( "YearType '" + yearType + "' is not yet supported." );
 				}
 	
-				TransactionReportJDO monthlyTransactionReport = getTransactionReport(
+				TransactionReportEntity monthlyTransactionReport = getTransactionReport(
 						transactionReportIndex,
 						transactionItemTypeData.getId(),
 						transactionItemTypeData.getTransactionReportType(),
@@ -317,7 +317,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 				amount = amount.add( monthlyTransactionReport.getAmount() );
 			}
 
-			transactionReport = new TransactionReportJDO(
+			transactionReport = new TransactionReportEntity(
 					TransactionReportUtil.getTransactionReportIndex( year ),
 					transactionItemTypeData.getId(),
 					transactionItemTypeData.getTransactionReportType(),
@@ -372,7 +372,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			throw new UnsupportedOperationException( "YearType '" + yearType + "' is not yet supported." );
 		}
 		
-		TransactionReportJDO transactionReport = getTransactionReport(
+		TransactionReportEntity transactionReport = getTransactionReport(
 				transactionReportIndex,
 				transactionItemTypeData.getId(),
 				transactionItemTypeData.getTransactionReportType(),
@@ -387,7 +387,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 	}
 
 	
-	TransactionReportJDO getTransactionReport(
+	TransactionReportEntity getTransactionReport(
 			String transactionReportIndex,
 			String transactionItemTypeId,
 			TransactionReportType transactionReportType,
@@ -408,16 +408,16 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 			transactionReportQuery.orderByLastUpdationDate( false );
 		}
 		
-		List<TransactionReportJDO> transactionReportList = transactionReportQuery.execute( 0, 1 );
+		List<TransactionReportEntity> transactionReportList = transactionReportQuery.execute( 0, 1 );
 		
 		if( transactionReportList.size() == 0 ) {
-			return new TransactionReportJDO(
+			return new TransactionReportEntity(
 					transactionReportIndex,
 					transactionItemTypeId,
 					transactionReportType,
 					new Amount( 0 ) );
 		} else if( ! transactionReportList.get( 0 ).getIndex().equals( transactionReportIndex ) ) {
-			return new TransactionReportJDO(
+			return new TransactionReportEntity(
 					transactionReportIndex,
 					transactionItemTypeId,
 					transactionReportType,

@@ -3,8 +3,9 @@ package tracker.datasource;
 import java.util.List;
 
 import tracker.commons.shared.TransactionReportType;
-import tracker.datasource.jdo.TransactionReportJDO;
+import tracker.data.access.gae.TransactionReportEntity;
 
+@Deprecated
 public interface TransactionReportQuery {
 
 	void setIndex( String index );
@@ -19,8 +20,8 @@ public interface TransactionReportQuery {
 
 	void orderByLastUpdationDate( boolean cronological );
 		
-	List<TransactionReportJDO> execute();
+	List<TransactionReportEntity> execute();
 
-	List<TransactionReportJDO> execute( int rangeFrom, int rangeTo );
+	List<TransactionReportEntity> execute( int rangeFrom, int rangeTo );
 	
 }

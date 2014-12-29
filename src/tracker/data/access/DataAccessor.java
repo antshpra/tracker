@@ -4,6 +4,7 @@ import java.util.List;
 
 import tracker.commons.shared.TransactionFilter;
 import tracker.data.access.gae.TransactionItemTypeEntity;
+import tracker.data.access.gae.TransactionReportEntity;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
 import tracker.data.transfer.TransactionItemType;
@@ -11,7 +12,6 @@ import tracker.datasource.TransactionItemQuery;
 import tracker.datasource.TransactionItemTypeQuery;
 import tracker.datasource.TransactionQuery;
 import tracker.datasource.TransactionReportQuery;
-import tracker.datasource.jdo.TransactionReportJDO;
 
 import com.claymus.data.access.DataListCursorTuple;
 
@@ -69,9 +69,9 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	List<TransactionItem> persistTransactionItemList( List<TransactionItem> transactionItemJDOList );
 	
 	@Deprecated
-	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
+	TransactionReportEntity persistTransactionReport( TransactionReportEntity transactionReportJDO );
 
 	@Deprecated
-	List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList );
+	List<TransactionReportEntity> persistTransactionReportList( List<TransactionReportEntity> transactionReportJDOList );
 	
 }

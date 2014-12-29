@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tracker.data.access.DataAccessor;
+import tracker.data.access.TransactionItemTypeDB;
 import tracker.data.access.gae.TransactionItemTypeEntity;
 
+@Deprecated
 public class TransactionItemTypeQueryGAEImpl implements TransactionItemTypeQuery {
 
 	public TransactionItemTypeQueryGAEImpl( DataAccessor gaeJDODataSource ) {}
