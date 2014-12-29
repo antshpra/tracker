@@ -39,6 +39,7 @@ public class TransactionReportEntity implements TransactionReport {
 	
 	public TransactionReportEntity() {}
 	
+	@Deprecated
 	public TransactionReportEntity(
 			String transactionReportIndex,
 			String transactionItemTypeId,

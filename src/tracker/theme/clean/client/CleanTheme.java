@@ -6,6 +6,7 @@ import tracker.theme.client.TransactionReportModuleStyle;
 
 import com.google.gwt.resources.client.ClientBundle;
 
+@Deprecated
 public interface CleanTheme extends Theme, ClientBundle {
 	
 	@Source( { "../../../../antshpra/gwt/theme/Clean.css", "TransactionModule.css" } )

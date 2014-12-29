@@ -2,6 +2,7 @@ package tracker.theme.client;
 
 import com.google.gwt.resources.client.CssResource;
 
+@Deprecated
 public interface TransactionModuleStyle extends CssResource {
 
 	String transaction();
