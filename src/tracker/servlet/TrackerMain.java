@@ -57,7 +57,6 @@ public class TrackerMain extends ClaymusMain {
 		HeaderWidget headerWidget = HeaderWidgetHelper.newHeaderWidget();
 		headerWidget.setBrand( "Track It Up !" );
 		headerWidget.setRightNavItems( new String[][] {
-				{ "Transactions", "/transactions" },
 				{ "Log Out", claymusHelper.createLogoutURL() }
 		});
 		headerWidget.setPosition( "HEADER" );
