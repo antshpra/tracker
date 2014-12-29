@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+@Deprecated
 public abstract class Request implements IsSerializable {
 
 	protected static void assertNonNull( Object object ) {

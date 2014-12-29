@@ -19,7 +19,10 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
 	Transaction newTransaction();
 	
-	Transaction getTransaction( String transactionId );
+	Transaction getTransaction( Long id );
+
+	@Deprecated
+	Transaction getTransaction( String id );
 
 	DataListCursorTuple<Transaction> getTransactionList(
 			TransactionFilter trFilter, String cursorStr, Integer resultCount );
@@ -27,33 +30,48 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
 	TransactionItem newTransactionItem();
 	
-	TransactionItem getTransactionItem( String transactionItemId );
+	TransactionItem getTransactionItem( Long id );
+
+	@Deprecated
+	TransactionItem getTransactionItem( String id );
 	
+	List<TransactionItem> getTransactionItemList( Long trId );
+
+	@Deprecated
 	List<TransactionItem> getTransactionItemList( String encodedTrId );
 	
 	
 	List<TransactionItemType> getTransactionItemTypeList();
 
 	
-	
+	@Deprecated
 	TransactionItemTypeEntity getTransactionItemType( String transactionItemTypeId );
 	
+	@Deprecated
 	TransactionQuery newTransactionQuery();
 
+	@Deprecated
 	TransactionItemQuery newTransactionItemQuery();
 
+	@Deprecated
 	TransactionItemTypeQuery newTransactionItemTypeQuery();
 	
+	@Deprecated
 	TransactionReportQuery newTransactionReportQuery();
 
+	@Deprecated
 	Transaction persistTransaction( Transaction transactionJDO );
 	
+	@Deprecated
 	TransactionItem persistTransactionItem( TransactionItem transactionItem );
 	
+	@Deprecated
 	List<TransactionItem> persistTransactionItemList( List<TransactionItem> transactionItemJDOList );
 	
+	@Deprecated
 	TransactionReportJDO persistTransactionReport( TransactionReportJDO transactionReportJDO );
 
+	@Deprecated
 	List<TransactionReportJDO> persistTransactionReportList( List<TransactionReportJDO> transactionReportJDOList );
 	
 }

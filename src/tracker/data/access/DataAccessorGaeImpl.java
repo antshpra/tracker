@@ -33,6 +33,7 @@ import com.claymus.data.access.DataListCursorTuple;
 import com.claymus.data.access.GaeQueryBuilder;
 import com.claymus.data.access.GaeQueryBuilder.Operator;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
@@ -51,10 +52,13 @@ public class DataAccessorGaeImpl
 	}
 	
 	@Override
-	public TransactionEntity getTransaction( String transactionId ) {
-        return getEntity(
-        		TransactionEntity.class,
-        		KeyFactory.stringToKey( transactionId ) );
+	public TransactionEntity getTransaction( Long id ) {
+        return getEntity( TransactionEntity.class, id );
+	}
+
+	@Override
+	public TransactionEntity getTransaction( String id ) {
+        return getEntity( TransactionEntity.class, KeyFactory.stringToKey( id ) );
 	}
 
 	@SuppressWarnings("unchecked")
@@ -170,10 +174,20 @@ public class DataAccessorGaeImpl
 	}
 	
 	@Override
-	public TransactionItem getTransactionItem( String transactionItemId ) {
-		return getEntity(
-        		TransactionItemEntity.class,
-        		KeyFactory.stringToKey( transactionItemId ) );
+	public TransactionItem getTransactionItem( Long id ) {
+		return getEntity( TransactionItemEntity.class, id );
+	}
+
+	@Override
+	public TransactionItem getTransactionItem( String id ) {
+		return getEntity( TransactionItemEntity.class, KeyFactory.stringToKey( id ) );
+	}
+
+	@Override
+	public List<TransactionItem> getTransactionItemList( Long trId ) {
+		Key key = KeyFactory.createKey( TransactionEntity.class.getSimpleName(), trId );
+		String encodedTrId = KeyFactory.keyToString( key );
+		return getTransactionItemList( encodedTrId );
 	}
 
 	@SuppressWarnings("unchecked")

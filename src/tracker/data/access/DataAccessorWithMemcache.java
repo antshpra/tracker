@@ -1,5 +1,6 @@
 package tracker.data.access;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tracker.commons.shared.TransactionFilter;
@@ -21,6 +22,11 @@ public class DataAccessorWithMemcache
 		extends com.claymus.data.access.DataAccessorWithMemcache
 		implements DataAccessor {
 	
+	private static final String PREFIX_TRANSACTION = "Transaction-";
+	private static final String PREFIX_TRANSACTION_ITEM = "TransactionItem-";
+	private static final String PREFIX_TRANSACTION_ITEM_LIST = "TransactionItemList-";
+
+	
 	private final DataAccessor dataAccessor;
 	private final Memcache memcache;
 	
@@ -40,9 +46,25 @@ public class DataAccessorWithMemcache
 	}
 
 	@Override
-	public Transaction getTransaction(String transactionId) {
-		// TODO Auto-generated method stub
-		return dataAccessor.getTransaction( transactionId );
+	public Transaction getTransaction( Long id ) {
+		Transaction tr = memcache.get( PREFIX_TRANSACTION + id );
+		if( tr == null ) {
+			tr = dataAccessor.getTransaction( id );
+			if( tr != null )
+				memcache.put( PREFIX_TRANSACTION + id, tr );
+		}
+		return tr;
+	}
+
+	@Override
+	public Transaction getTransaction( String id ) {
+		Transaction tr = memcache.get( PREFIX_TRANSACTION + id );
+		if( tr == null ) {
+			tr = dataAccessor.getTransaction( id );
+			if( tr != null )
+				memcache.put( PREFIX_TRANSACTION + id, tr );
+		}
+		return tr;
 	}
 
 	@Override
@@ -59,14 +81,47 @@ public class DataAccessorWithMemcache
 	}
 
 	@Override
-	public TransactionItem getTransactionItem(String transactionItemId) {
-		// TODO Auto-generated method stub
-		return dataAccessor.getTransactionItem(transactionItemId);
+	public TransactionItem getTransactionItem( Long id ) {
+		TransactionItem tri = memcache.get( PREFIX_TRANSACTION_ITEM + id );
+		if( tri == null ) {
+			tri = dataAccessor.getTransactionItem( id );
+			if( tri != null )
+				memcache.put( PREFIX_TRANSACTION_ITEM + id, tri );
+		}
+		return tri;
+	}
+
+	@Override
+	public TransactionItem getTransactionItem( String id ) {
+		TransactionItem tri = memcache.get( PREFIX_TRANSACTION_ITEM + id );
+		if( tri == null ) {
+			tri = dataAccessor.getTransactionItem( id );
+			if( tri != null )
+				memcache.put( PREFIX_TRANSACTION_ITEM + id, tri );
+		}
+		return tri;
+	}
+
+	@Override
+	public List<TransactionItem> getTransactionItemList( Long trId ) {
+		List<TransactionItem> triList = memcache.get( PREFIX_TRANSACTION_ITEM_LIST + trId );
+		if( triList == null ) {
+			triList = dataAccessor.getTransactionItemList( trId );
+			if( triList != null )
+				memcache.put( PREFIX_TRANSACTION_ITEM_LIST + trId, new ArrayList<>( triList ) );
+		}
+		return triList;
 	}
 
 	@Override
 	public List<TransactionItem> getTransactionItemList( String encodedTrId ) {
-		return dataAccessor.getTransactionItemList( encodedTrId );
+		List<TransactionItem> triList = memcache.get( PREFIX_TRANSACTION_ITEM_LIST + encodedTrId );
+		if( triList == null ) {
+			triList = dataAccessor.getTransactionItemList( encodedTrId );
+			if( triList != null )
+				memcache.put( PREFIX_TRANSACTION_ITEM_LIST + encodedTrId, new ArrayList<>( triList ) );
+		}
+		return triList;
 	}
 
 	

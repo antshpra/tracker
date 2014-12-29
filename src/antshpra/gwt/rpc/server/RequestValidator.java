@@ -10,6 +10,7 @@ import antshpra.gwt.rpc.shared.RequiredField;
 
 import com.claymus.commons.shared.exception.UnexpectedServerException;
 
+@Deprecated
 public class RequestValidator {
 
 	private static Logger logger = Logger.getLogger( RequestValidator.class.getName() );

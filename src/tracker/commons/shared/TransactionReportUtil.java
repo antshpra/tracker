@@ -1,5 +1,6 @@
 package tracker.commons.shared;
 
+@Deprecated
 public class TransactionReportUtil {
 
 	public static String getTransactionReportIndex( int year ) {
