@@ -69,21 +69,28 @@ public enum TransactionItemTypeDB {
 
 	BULK_PURCHASES	( 12000, 12000, "Bulk Purchases", 0, TransactionReportType.PERODIC ),
 
-	EVENTS								( 13000, 13000, "Events",													   0, TransactionReportType.PERODIC ),
-	EVENTS_BIKE_ACCIDENT_04APR14		( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)",			   0, TransactionReportType.PERODIC ),
-	EVENTS_DELHI_TRIP_18APR14			( 13002, 13000, "Delhi trip for Shuchi's Marriage (18-21 Apr'14) (Cancelled)", 0, TransactionReportType.PERODIC ),
-	EVENTS_BANGLORE_TRIP_06JUN14		( 13003, 13000, "Banglore Trip (07-09 Jun'14)",								   0, TransactionReportType.PERODIC ),
-	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip (25 Jul - 03 Aug'14)",				   0, TransactionReportType.PERODIC ),
-	EVENTS_BANGLORE_TRIP_10JUL14		( 13005, 13000, "Banglore Trip for Pratilipi (11-13 Jul'14)",				   0, TransactionReportType.PERODIC ),
-	EVENTS_BHONGIR_FORT_BIKE_TRIP_21JUN14(13006, 13000, "Bike Trip to Bhongir Fort (21 Jun'14)",					   0, TransactionReportType.PERODIC ),
-	EVENTS_RELIEVING_AT_AMAZON_23JUL14  ( 13007, 13000, "Relieving at Amazon (23 Jul'14)",					           0, TransactionReportType.PERODIC ),
-	EVENTS_MOM_TEETH_TREATMENT_04JUL14  ( 13008, 13000, "Mom's teeth treatment (04 Jul'14)",					       0, TransactionReportType.PERODIC ),
-	EVENTS_BANGLORE_TRIP_19JUL14		( 13009, 13000, "Banglore Trip for Pratilipi (20-21 Jul'14)",				   0, TransactionReportType.PERODIC ),
-	EVENTS_RAEBARELI_TRIP_27NOV14		( 13010, 13000, "Raebareli Trip for Gyan's Wedding (27 Nov-04 Dec'14)",		   0, TransactionReportType.PERODIC ),
-	EVENTS_MOVING_TO_BANGLORE_04AUG14	( 13011, 13000, "Moving to Banglore for Pratilipi (04-05 Aug'14)",			   0, TransactionReportType.PERODIC ),
-	EVENTS_MOM_DAD_HYD_TRIP_29JAN15		( 13012, 13000, "Mom Dad's trip to Hyderabad (29 Jan'15-11 Feb'15)",		   0, TransactionReportType.PERODIC ),
-	EVENTS_BHOPAL_HYD_TRIP_29JAN15		( 13013, 13000, "Bhopal - Hyderabad Trip (27 Sep'15-01 Oct'15)",			   0, TransactionReportType.PERODIC ),
+	EVENTS								( 13000, 13000, "Events",														   0, TransactionReportType.PERODIC ),
+	EVENTS_BIKE_ACCIDENT_04APR14		( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)",				   0, TransactionReportType.PERODIC ),
+	EVENTS_DELHI_TRIP_18APR14			( 13002, 13000, "Delhi Trip for Shuchi's Marriage (18-21 Apr'14) (Cancelled)",	   0, TransactionReportType.PERODIC ),
+	EVENTS_BANGLORE_TRIP_06JUN14		( 13003, 13000, "Banglore Trip (07-09 Jun'14)",									   0, TransactionReportType.PERODIC ),
+	EVENTS_BHONGIR_FORT_BIKE_TRIP_21JUN14(13006, 13000, "Bike Trip to Bhongir Fort (21 Jun'14)",						   0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_TEETH_TREATMENT_04JUL14  ( 13008, 13000, "Mom's teeth treatment (04 Jul'14)",						       0, TransactionReportType.PERODIC ),
+	EVENTS_BANGLORE_TRIP_10JUL14		( 13005, 13000, "Banglore Trip for Pratilipi (11-13 Jul'14)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_BANGLORE_TRIP_19JUL14		( 13009, 13000, "Banglore Trip for Pratilipi (20-21 Jul'14)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_RELIEVING_AT_AMAZON_23JUL14  ( 13007, 13000, "Relieving at Amazon (23 Jul'14)",						           0, TransactionReportType.PERODIC ),
+	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip for Dad's Retirement (25 Jul - 03 Aug'14)", 0, TransactionReportType.PERODIC ),
+	EVENTS_MOVING_TO_BANGLORE_04AUG14	( 13011, 13000, "Moving to Banglore for Pratilipi (04-05 Aug'14)",				   0, TransactionReportType.PERODIC ),
+	EVENTS_BHOPAL_HYDERABAD_TRIP_27SEP14( 13013, 13000, "Bhopal-Hyderabad Trip (27 Sep'14-01 Oct'14)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_RAEBARELI_TRIP_27NOV14		( 13010, 13000, "Raebareli Trip for Gyan's Wedding (27 Nov-04 Dec'14)",			   0, TransactionReportType.PERODIC ),
+	EVENTS_HYDERABAD_TRIP_24DEC15		( 13014, 13000, "Hyderabad Trip for Bike (25-27 Dec'14)",						   0, TransactionReportType.PERODIC ),
 
+	EVENTS_BHOPAL_TRIP_14JAN15			( 13015, 13000, "Bhopal Trip for Disha's B'Day (14-16 Jan'15)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_MAHOBA_BHOPAL_TRIP_20FEB15	( 13016, 13000, "Bhopal Trip for Engagement (20-25 Feb'15)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Engagement (22 Feb'15)",										   0, TransactionReportType.PERODIC ),
+	
+	EVENTS_MOM_DAD_HYD_TRIP_29JAN15		( 13012, 13000, "Mom-Dad's trip to Hyderabad (29 Jan'15-11 Feb'15)",			   0, TransactionReportType.PERODIC ),
+
+	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
 
 	HOME_SEND	( 15000, 15000, "Home Send", 0, TransactionReportType.PERODIC ),
