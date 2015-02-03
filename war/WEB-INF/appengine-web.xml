@@ -3,7 +3,7 @@
 
   <application>track-it-up</application>
   <module>default</module>
-  <version>mark-0p4</version>
+  <version>mark-0p5</version>
 
   <threadsafe>true</threadsafe>
   <sessions-enabled>false</sessions-enabled>

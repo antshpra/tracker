@@ -82,14 +82,14 @@ public enum TransactionItemTypeDB {
 	EVENTS_RELIEVING_AT_AMAZON_23JUL14  ( 13007, 13000, "Relieving at Amazon (23 Jul'14)",						           0, TransactionReportType.PERODIC ),
 	EVENTS_MAHOBA_RAEBARELI_TRIP_25JUL14( 13004, 13000, "Mahoba-Raebareli Trip for Dad's Retirement (25 Jul - 03 Aug'14)", 0, TransactionReportType.PERODIC ),
 	EVENTS_MOVING_TO_BANGLORE_04AUG14	( 13011, 13000, "Moving to Banglore for Pratilipi (04-05 Aug'14)",				   0, TransactionReportType.PERODIC ),
-	EVENTS_BHOPAL_HYDERABAD_TRIP_27SEP14( 13013, 13000, "Bhopal-Hyderabad Trip (27 Sep'14 - 01 Oct'14)",				   0, TransactionReportType.PERODIC ),
+	EVENTS_BHOPAL_HYDERABAD_TRIP_27SEP14( 13013, 13000, "Bhopal-Hyderabad Trip (27 Sep - 01 Oct'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_RAEBARELI_TRIP_27NOV14		( 13010, 13000, "Raebareli Trip for Gyan's Wedding (27 Nov - 04 Dec'14)",		   0, TransactionReportType.PERODIC ),
 	EVENTS_HYDERABAD_TRIP_24DEC15		( 13014, 13000, "Hyderabad Trip for Bike Transfer (25-27 Dec'14)",				   0, TransactionReportType.PERODIC ),
 	EVENTS_BHOPAL_TRIP_14JAN15			( 13015, 13000, "Bhopal Trip for Disha's B'Day (14-16 Jan'15)",					   0, TransactionReportType.PERODIC ),
-	EVENTS_MAHOBA_BHOPAL_TRIP_20FEB15	( 13016, 13000, "Bhopal Trip for Engagement (20-25 Feb'15)",					   0, TransactionReportType.PERODIC ),
-	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Engagement (22 Feb'15)",										   0, TransactionReportType.PERODIC ),
-	EVENTS_MOM_DAD_HYD_TRIP_29JAN15		( 13012, 13000, "Mom-Dad's trip to Hyderabad (29 Jan'15 - 11 Feb'15)",			   0, TransactionReportType.PERODIC ),
-	EVENTS_MARRIAGE_APPARALS_27APR15	( 13018, 13000, "Marriage - Apparals (27 Apr'15)",								   0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_DAD_HYD_BNG_TRIP_29JAN15	( 13012, 13000, "Mom-Dad's Hyderabad-Bangalore Trip (29 Jan'15 - 11 Feb'15)",	   0, TransactionReportType.PERODIC ),
+//	EVENTS_MAHOBA_BHOPAL_TRIP_20FEB15	( 13016, 13000, "Bhopal Trip for Engagement (19 Feb - 03 Mar'15)",					   0, TransactionReportType.PERODIC ),
+	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Mahoba-Raebareli-Sagar Trip for Engagement (19 Feb - 03 Mar'15)", 0, TransactionReportType.PERODIC ),
+	EVENTS_MARRIAGE_APPARALS_27APR15	( 13018, 13000, "Marriage - Apparels (27 Apr'15)",								   0, TransactionReportType.PERODIC ),
 
 	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
@@ -100,7 +100,8 @@ public enum TransactionItemTypeDB {
 
 	CLAYMUS		( 17000, 17000, "Claymus", 0, TransactionReportType.PERODIC ),
 	
-	PRATILIPI	( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
+	PRATILIPI						( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
+	PRATILIPI_EUREKA_IITB_31JAN15	( 18001, 18000, "Pratilipi - Eureka IIT-B (29 Jan - 2 Feb'15)", 0, TransactionReportType.PERODIC ),
 	
 	SAVINGS_ACCOUNT_INTEREST	   ( 19000, 19000, "Savings Account Interest",         0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_INTEREST_SBBJ  ( 19001, 19000, "Savings Account Interest (SBBJ)",  0, TransactionReportType.CUMULATIVE ),
@@ -131,6 +132,7 @@ public enum TransactionItemTypeDB {
 	FIXED_DEPOSIT_INTEREST_ICICI ( 24001, 24000, "Fixed Deposit Interest (ICICI)", -12046, TransactionReportType.PERODIC ),
 	FIXED_DEPOSIT_INTEREST_KMB	 ( 24002, 24000, "Fixed Deposit Interest (KMB)",        0, TransactionReportType.PERODIC ),
 
+	PPF_ACCOUNT		 ( 25000, 25000, "PPF Account",              0, TransactionReportType.PERODIC ),
 	;
 	
 	private int id;
