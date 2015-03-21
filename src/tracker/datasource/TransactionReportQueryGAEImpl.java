@@ -31,7 +31,7 @@ public class TransactionReportQueryGAEImpl implements TransactionReportQuery {
 			gaeQueryBuilder.addFilter( "index", startIndex, startIndexInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endIndex != null )
-			gaeQueryBuilder.addFilter( "index", endIndex, endIndexInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "index", endIndex, endIndexInclusive ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override

@@ -107,13 +107,13 @@ public class DataAccessorGaeImpl
 			gaeQueryBuilder.addFilter( "transactionDate", trDateStart, trFilter.isTransactionDateStartInclusive() ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( trDateEnd != null )
-			gaeQueryBuilder.addFilter( "transactionDate", trDateEnd, trFilter.isTransactionDateEndInclusive() ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "transactionDate", trDateEnd, trFilter.isTransactionDateEndInclusive() ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 
 		if( creationDateStart != null )
 			gaeQueryBuilder.addFilter( "creationDate", creationDateStart, trFilter.isCreationDateStartInclusive() ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 
 		if( creationDateEnd != null )
-			gaeQueryBuilder.addFilter( "creationDate", creationDateEnd, trFilter.isCreationDateEndInclusive() ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "creationDate", creationDateEnd, trFilter.isCreationDateEndInclusive() ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 	
 
 		if( trFilter.getTransactionDateChronologicalOrder() != null )

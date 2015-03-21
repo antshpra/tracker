@@ -41,7 +41,7 @@ public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 			gaeQueryBuilder.addFilter( "transactionDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			gaeQueryBuilder.addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "transactionDate", endDate, endDateInclusive ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 			gaeQueryBuilder.addFilter( "creationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			gaeQueryBuilder.addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "creationDate", endDate, endDateInclusive ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class TransactionItemQueryGAEImpl implements TransactionItemQuery {
 			gaeQueryBuilder.addFilter( "lastUpdationDate", startDate, startDateInclusive ? Operator.GREATER_THAN_OR_EQUAL : Operator.GREATER_THAN );
 		
 		if( endDate != null )
-			gaeQueryBuilder.addFilter( "lastUpdationDate", endDate, endDateInclusive ? Operator.LESST_THAN_OR_EQUAL : Operator.LESS_THAN );
+			gaeQueryBuilder.addFilter( "lastUpdationDate", endDate, endDateInclusive ? Operator.LESS_THAN_OR_EQUAL : Operator.LESS_THAN );
 	}
 	
 	@Override
