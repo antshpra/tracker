@@ -48,7 +48,25 @@
     <url-pattern>/service.claymus</url-pattern>
   </servlet-mapping>
 
-  <!-- Main Claymus Handler -->
+
+  <!-- Tracker Service Handler -->
+  
+  <servlet>
+    <servlet-name>TrackerService</servlet-name>
+    <servlet-class>tracker.servlet.TrackerService</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>Prefix</param-name>
+      <param-value>/api</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TrackerService</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- Main Tracker Handler -->
   
   <servlet>
     <servlet-name>TrackerMain</servlet-name>
@@ -59,6 +77,7 @@
     <servlet-name>TrackerMain</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
+
 
   <!-- Security Constraints -->
   

@@ -42,6 +42,7 @@ public class TrackerHelper extends ClaymusHelper {
 	}
 
 	
+	@Deprecated
 	public List<TransactionData> createTransactionDataList( List<Transaction> trList ) {
 		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
 
