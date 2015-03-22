@@ -18,7 +18,6 @@ public class DataAccessorFactory
 			dataAccessor = new DataAccessorGaeImpl();
 			dataAccessor = new DataAccessorWithMemcache( dataAccessor, cacheL2 );
 			dataAccessor = new DataAccessorWithMemcache( dataAccessor, new MemcacheClaymusImpl() );
-			cacheL1.put( "DataAccessor-" + request.hashCode(), dataAccessor );
 			cacheL1.put( "TrackerDataAccessor-" + request.hashCode(), dataAccessor );
 		}
 		return dataAccessor;

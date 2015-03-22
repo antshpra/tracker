@@ -132,6 +132,8 @@ public class DataAccessorWithMemcache
 
 	
 	
+	
+	
 	@Override
 	public TransactionItemTypeEntity getTransactionItemType(
 			String transactionItemTypeId) {

@@ -137,8 +137,7 @@ public class DataAccessorGaeImpl
 
 		
 		if( trFilter.getTransactionItemTypeId() == null ) {
-			List<Transaction> trList = (List<Transaction>) query.executeWithMap(
-					gaeQueryBuilder.getParamNameValueMap() );
+			List<Transaction> trList = (List<Transaction>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 			Cursor cursor = JDOCursorHelper.getCursor( trList );
 
 			return new DataListCursorTuple<>(
@@ -146,8 +145,7 @@ public class DataAccessorGaeImpl
 					cursor == null ? null : cursor.toWebSafeString() );
 		
 		} else {
-			List<TransactionItem> triList = (List<TransactionItem>) query.executeWithMap(
-					gaeQueryBuilder.getParamNameValueMap() );
+			List<TransactionItem> triList = (List<TransactionItem>) query.executeWithMap( gaeQueryBuilder.getParamNameValueMap() );
 			Cursor cursor = JDOCursorHelper.getCursor( triList );
 			
 			List<String> trIdList = new LinkedList<>();
@@ -210,6 +208,8 @@ public class DataAccessorGaeImpl
 		return transactionItemTypeList;
 	}
 
+	
+	
 	
 	
 	@Override

@@ -44,6 +44,9 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	List<TransactionItemType> getTransactionItemTypeList();
 
 	
+	
+	
+	
 	@Deprecated
 	TransactionItemTypeEntity getTransactionItemType( String transactionItemTypeId );
 	
