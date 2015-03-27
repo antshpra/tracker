@@ -1,11 +1,12 @@
 package tracker.data.transfer.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.claymus.commons.client.Amount;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class TransactionItemData implements IsSerializable {
+@SuppressWarnings("serial")
+public class TransactionItemData implements Serializable {
 
 	private String id;
 

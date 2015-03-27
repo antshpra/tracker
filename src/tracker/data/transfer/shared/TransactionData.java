@@ -1,12 +1,12 @@
 package tracker.data.transfer.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-public class TransactionData implements IsSerializable {
+@SuppressWarnings("serial")
+public class TransactionData implements Serializable {
 
 	private Long id;
 
