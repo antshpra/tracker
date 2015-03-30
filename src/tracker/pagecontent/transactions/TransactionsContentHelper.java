@@ -13,11 +13,11 @@ import tracker.data.access.DataAccessorFactory;
 import tracker.data.transfer.Transaction;
 import tracker.data.transfer.TransactionItem;
 import tracker.data.transfer.TransactionItemType;
+import tracker.data.transfer.shared.TransactionData;
+import tracker.data.transfer.shared.TransactionItemData;
+import tracker.data.transfer.shared.TransactionItemTypeData;
 import tracker.pagecontent.transactionlist.shared.TransactionListContentData;
 import tracker.pagecontent.transactions.gae.TransactionsContentEntity;
-import tracker.service.shared.data.TransactionData;
-import tracker.service.shared.data.TransactionItemData;
-import tracker.service.shared.data.TransactionItemTypeData;
 
 import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.claymus.data.access.DataListCursorTuple;
@@ -57,22 +57,9 @@ public class TransactionsContentHelper extends PageContentHelper<
 			triTypeData.setId( triType.getId() );
 			triTypeData.setTitle( triType.getTitle() );
 			triTypeData.setInitialAmount( triType.getInitialAmount() );
-			triTypeData.setTransactionReportType( triType.getTransactionReportType() );
 			triTypeIdToTriTypeDataMap.put( triType.getId(), triTypeData );
 		}
 
-		for( TransactionItemType triType : triTypeList ) {
-			String id = triType.getId();
-			String parentId = triType.getParentId();
-			if( parentId != null ) {
-				TransactionItemTypeData triTypeData = triTypeIdToTriTypeDataMap.get( id );
-				TransactionItemTypeData parentTriTypeData = triTypeIdToTriTypeDataMap.get( parentId );
-				triTypeData.setParent( parentTriTypeData );
-				parentTriTypeData.addChild( triTypeData );
-			}
-		}
-
-		
 		List<TransactionData> trDataList = new ArrayList<>( trList.size() );
 		for( Transaction tr : trList ) {
 
@@ -82,27 +69,26 @@ public class TransactionsContentHelper extends PageContentHelper<
 			trData.setTransactionDate( tr.getTransactionDate() );
 			trData.setDescription( tr.getDescription() );
 			trData.setCreationDate( tr.getCreationDate() );
-			trData.setCreatedBy( tr.getCreatedBy() );
 			
 			List<TransactionItem> triList = dataAccessor.getTransactionItemList( tr.getId() );
+			List<TransactionItemData> triDataList = new ArrayList<>( triList.size() );
 			for( TransactionItem tri : triList ) {
 			
 				TransactionItemData triData = new TransactionItemData();
 				
 				triData.setId( tri.getId() );
 				triData.setTransactionId( tri.getTransactionId() );
-				triData.setTransactionItemTypeId( tri.getTransactionItemTypeId() );
 				triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
 				triData.setTransactionDate( tri.getTransactionDate() );
 				triData.setAmount( tri.getAmount() );
 				triData.setNote( tri.getNote() );
-				triData.setOrder( tri.getOrder() );
+				triData.setOrder( (int) (long) tri.getOrder() );
 				triData.setCreationDate( tri.getCreationDate() );
-				triData.setCreatedBy( tri.getCreatedBy() );
 				
-				trData.addTransactionItemData( triData );
+				triDataList.add( triData );
 			}
 
+			trData.setTransactionItemList( triDataList );
 			trDataList.add( trData );
 		}
 		

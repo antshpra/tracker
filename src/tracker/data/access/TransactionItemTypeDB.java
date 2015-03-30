@@ -90,6 +90,7 @@ public enum TransactionItemTypeDB {
 //	EVENTS_MAHOBA_BHOPAL_TRIP_20FEB15	( 13016, 13000, "Bhopal Trip for Engagement (19 Feb - 03 Mar'15)",					   0, TransactionReportType.PERODIC ),
 	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Mahoba-Raebareli-Sagar Trip for Engagement (19 Feb - 03 Mar'15)", 0, TransactionReportType.PERODIC ),
 	EVENTS_MARRIAGE_APPARALS_27APR15	( 13018, 13000, "Marriage - Apparels (27 Apr'15)",								   0, TransactionReportType.PERODIC ),
+	EVENTS_MARRIAGE_27APR15				( 13019, 13000, "Marriage (27 Apr'15)",											   0, TransactionReportType.PERODIC ),
 
 	
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),

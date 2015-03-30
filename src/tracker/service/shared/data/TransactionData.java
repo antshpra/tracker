@@ -1,7 +1,7 @@
 package tracker.service.shared.data;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -22,7 +22,7 @@ public class TransactionData implements IsSerializable {
 
 	
 	public TransactionData() {
-		transactionItemDataList = new LinkedList<TransactionItemData>();
+		transactionItemDataList = new ArrayList<TransactionItemData>();
 	}
 	
 	
