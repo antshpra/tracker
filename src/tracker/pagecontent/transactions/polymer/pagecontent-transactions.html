@@ -1,0 +1,177 @@
+<polymer-element name="pagecontent-transactions" attributes="apiUrl cursor pageSize">
+
+	<template>
+
+		<style>
+		
+			.transaction {
+				border-bottom: 1px solid #DDD;
+				padding: 10px;
+			}
+			
+			.transaction:hover {
+				background-color: #EEE;
+			}
+			
+			.transaction table {
+				border-collapse: collapse;
+			}
+			
+			.transaction table tr td {
+				padding: 0px;
+			}
+
+		</style>
+		
+		
+		<template repeat="{{ transaction in transactionList }}">
+			<div class="transaction">
+				<b>{{ transaction.description }}</b>
+				<small>{{ transaction.trDate | formatDate }}</small>
+				<table>
+					<template repeat="{{ transactionItem in transaction.triList }}">
+						<tr>
+							<td><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
+							<td>{{ transactionItem.triType.title }}</td>
+							<td>{{ transactionItem.amount | formatAmount }}</td>
+							<td>{{ transactionItem.note }}</td>
+						</tr>
+					</template>
+				</table>
+			</div>
+		</template>
+		
+		<div hidden?="{{ !isLoading }}">
+			<paper-spinner active></paper-spinner>
+			<span style="margin-left:10px;">Please wait...</span>
+		</div>
+		
+		<div hidden?="{{ !isFinished }}">No more items !</div>
+	
+	
+		<core-ajax
+				id="AjaxGet"
+				url="{{ apiUrl }}"
+				contentType="application/json"
+				method="GET"
+				handleAs="json"
+				on-core-response="{{ handleAjaxGetResponse }}"
+				on-core-error="{{ handleAjaxGetError }}" >
+		</core-ajax>
+
+	</template>
+
+
+	<script>
+
+		Polymer( 'pagecontent-transactions', {
+
+			formatDate: function( timeMillis, refTimeMillis ) {
+				var date = new Date( timeMillis );
+				var refDate = refTimeMillis ? new Date( refTimeMillis ) : new Date();
+
+				var dateStr = '';
+				if( date.getDate() != refDate.getDate() || date.getMonth() != refDate.getMonth() || date.getFullYear() != refDate.getFullYear() ) {
+					dateStr = date.getDate() + ' ';
+					switch( date.getMonth() ) {
+						case 0: dateStr = dateStr + 'Jan'; break;
+						case 1: dateStr = dateStr + 'Feb'; break;
+						case 2: dateStr = dateStr + 'Mar'; break;
+						case 3: dateStr = dateStr + 'Apr'; break;
+						case 4: dateStr = dateStr + 'May'; break;
+						case 5: dateStr = dateStr + 'Jun'; break;
+						case 6: dateStr = dateStr + 'Jul'; break;
+						case 7: dateStr = dateStr + 'Aug'; break;
+						case 8: dateStr = dateStr + 'Sep'; break;
+						case 9: dateStr = dateStr + 'Oct'; break;
+						case 10: dateStr = dateStr + 'Nov'; break;
+						case 11: dateStr = dateStr + 'Dec'; break;
+					}
+					if( date.getFullYear() != refDate.getFullYear() ) {
+						dateStr = dateStr + ' ' + date.getFullYear();
+					}
+				} else if( !refTimeMillis ) {
+					dateStr = 'Today';
+				}
+				
+				var timeStr = '';
+				if( refTimeMillis || date.getMinutes() != 0 || date.getHours() != 0 ) {
+					if( date.getMinutes() <= 9 ) {
+						timeStr = '0' + date.getMinutes();
+					} else {
+						timeStr = date.getMinutes();
+					}
+				
+					if( date.getHours() <= 9 ) {
+						timeStr = '0' + date.getHours() + ':' + timeStr + ' am';
+					} else if( date.getHours() <= 11 ) {
+						timeStr = date.getHours() + ':' + timeStr + ' am';
+					} else if( date.getHours() == 12 ) {
+						timeStr = date.getHours() + ':' + timeStr + ' pm';
+					} else if( date.getHours() <= 21 ) {
+						timeStr = '0' + ( date.getHours() - 12 ) + ':' + timeStr + ' am';
+					} else {
+						timeStr = ( date.getHours() - 12 ) + ':' + timeStr + ' pm';
+					}
+				}
+				
+				var fullDate = '';
+				if( dateStr != '' && timeStr == '' )
+					return dateStr;
+				else if( dateStr == '' && timeStr != '' )
+					return timeStr;
+				else
+					return dateStr + ', ' + timeStr;
+			},
+			
+			formatAmount: function( amount ) {
+				var valueStr = amount.value + '';
+				if( valueStr.length == 1 )
+					return 'Rs. 0.0' + valueStr;
+				else if( valueStr.length == 2 )
+					return 'Rs. 0.' + valueStr;
+				else
+					return 'Rs. ' + valueStr.substring( 0, valueStr.length - 2 ) + '.' + valueStr.substring( valueStr.length - 2 );
+			},
+			
+			loadTransactionList: function() {
+				if( this.isLoading || this.isFinished )
+					return;
+
+				this.isLoading = true;
+				
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params = JSON.stringify( { cursor:this.cursor, resultCount:this.pageSize } );
+				ajaxGet.go();
+			},
+
+			handleAjaxGetResponse: function( event, response ) {
+				if( response.response == '' ) {
+					this.isLoading = false;
+					this.fire( 'load-error' );
+
+				} else {
+					this.cursor = response.response[ 'cursor' ];
+					var transactionList = response.response[ 'transactionList' ];
+					for( var i = 0; i < transactionList.length; i++ )
+						this.transactionList.push( transactionList[i] );
+					this.isFinished = transactionList.length < this.pageSize;
+					this.isLoading = false;
+					this.fire( 'load-success' );
+				}
+			},
+
+			handleAjaxGetError: function( event, response ) {
+				this.isLoading = false;
+				this.fire( 'load-error' );
+			},
+
+			ready: function() {
+				this.transactionList = [];
+			},
+
+		});
+		
+	</script>
+	
+</polymer-element>

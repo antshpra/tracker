@@ -82,7 +82,7 @@ public class TransactionsContentHelper extends PageContentHelper<
 				triData.setTransactionDate( tri.getTransactionDate() );
 				triData.setAmount( tri.getAmount() );
 				triData.setNote( tri.getNote() );
-				triData.setOrder( (int) (long) tri.getOrder() );
+				triData.setOrder( tri.getOrder() == null ? null : (int) (long) tri.getOrder() );
 				triData.setCreationDate( tri.getCreationDate() );
 				
 				triDataList.add( triData );
