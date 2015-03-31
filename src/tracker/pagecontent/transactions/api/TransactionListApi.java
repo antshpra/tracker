@@ -1,10 +1,10 @@
 package tracker.pagecontent.transactions.api;
 
 import tracker.commons.shared.TransactionFilter;
+import tracker.data.transfer.shared.TransactionData;
 import tracker.pagecontent.transactions.TransactionsContentHelper;
 import tracker.pagecontent.transactions.api.shared.GetTransactionListRequest;
 import tracker.pagecontent.transactions.api.shared.GetTransactionListResponse;
-import tracker.service.shared.data.TransactionData;
 
 import com.claymus.api.GenericApi;
 import com.claymus.api.annotation.Bind;

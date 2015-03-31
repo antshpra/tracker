@@ -2,7 +2,7 @@ package tracker.pagecontent.transactions.api.shared;
 
 import java.util.List;
 
-import tracker.service.shared.data.TransactionData;
+import tracker.data.transfer.shared.TransactionData;
 
 import com.claymus.api.shared.GenericResponse;
 
