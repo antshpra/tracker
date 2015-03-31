@@ -3,7 +3,7 @@
 
   <application>track-it-up</application>
   <module>default</module>
-  <version>mark-0p6</version>
+  <version>mark-0p9</version>
 
   <threadsafe>true</threadsafe>
   <sessions-enabled>false</sessions-enabled>
@@ -11,8 +11,8 @@
   <instance-class>F1</instance-class>
 
   <automatic-scaling>
-    <min-idle-instances>1</min-idle-instances>
-    <max-idle-instances>2</max-idle-instances>
+    <min-idle-instances>0</min-idle-instances>
+    <max-idle-instances>1</max-idle-instances>
     <min-pending-latency>automatic</min-pending-latency>
     <max-pending-latency>10ms</max-pending-latency>
   </automatic-scaling>
@@ -27,6 +27,18 @@
   <system-properties>
     <!-- Configure java.util.logging -->
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+
+	<!-- Configure Web Domain -->
+    <property name="track-it-up.domain" value="track-it-up.appspot.com"/>
+
+	<!-- Configure Email -->
+    <property name="track-it-up.email" value="prashant@claymus.com"/>
+
+	<!-- Configure Blob Storage -->
+    <property name="track-it-up.blobservice.gcs.bucket" value="track-it-up.pratilipi.com"/>
+
+	<!-- Configure Search Index -->
+    <property name="track-it-up.searchservice.gae.index" value="GLOBAL_INDEX"/>
   </system-properties>
 
 </appengine-web-app>

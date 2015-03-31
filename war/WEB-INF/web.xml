@@ -8,11 +8,29 @@
   <!-- Filters -->
 
   <filter>
+    <filter-name>RemoteAPIFilter</filter-name>
+    <filter-class>tracker.servlet.RemoteAPIFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RemoteAPIFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
     <filter-name>ClaymusFilter</filter-name>
     <filter-class>com.claymus.servlet.ClaymusFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ClaymusFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>ClaymusGaeFilter</filter-name>
+    <filter-class>com.claymus.servlet.ClaymusGaeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ClaymusGaeFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 

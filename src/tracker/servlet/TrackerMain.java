@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 
-import tracker.pagecontent.transactionlist.TransactionListContentHelper;
+import tracker.pagecontent.transactions.TransactionsContentHelper;
 
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.transfer.PageContent;
@@ -24,7 +24,7 @@ import com.claymus.websitewidget.header.HeaderWidgetHelper;
 public class TrackerMain extends ClaymusMain {
 	
 	static {
-		PageContentRegistry.register( TransactionListContentHelper.class );
+		PageContentRegistry.register( TransactionsContentHelper.class );
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class TrackerMain extends ClaymusMain {
 		String requestUri = request.getRequestURI();
 		if( requestUri.equals( "/" ) )
 			pageContentList.add(
-					TransactionListContentHelper.newTransactionListContent() );
+					TransactionsContentHelper.newTransactionsContent() );
 
 		return pageContentList;
 	}

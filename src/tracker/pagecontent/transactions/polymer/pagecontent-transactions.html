@@ -43,8 +43,8 @@
 				<h3>
 					<span class="red" hidden?="{{ transaction | validateTr }}" >[ERROR]</span>
 					{{ transaction.description }}
-					<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small
-				></h3>
+					<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small>
+				</h3>
 				<table>
 					<template repeat="{{ transactionItem in transaction.triList }}">
 						<tr class="{{ transactionItem.amount.value > 0 ? 'br-gray purchase' : 'payment' }}">

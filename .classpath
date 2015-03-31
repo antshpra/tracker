@@ -9,6 +9,9 @@
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.18"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 
+	<!-- GAE Remote API -->
+	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-remote-api.jar"/>
+
 	<!-- FreeMarker for GAE -->
 	<classpathentry kind="lib" path="war/WEB-INF/lib/freemarker-gae-2.3.20.jar">
 		<attributes>
