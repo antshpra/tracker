@@ -5,36 +5,54 @@
 		<style>
 		
 			.transaction {
-				border-bottom: 1px solid #DDD;
-				padding: 10px;
-			}
-			
-			.transaction:hover {
-				background-color: #EEE;
+				padding-bottom: 10px;
 			}
 			
 			.transaction table {
+				margin: 10px;
 				border-collapse: collapse;
 			}
 			
 			.transaction table tr td {
-				padding: 0px;
+				padding: 2px 5px 2px 5px;
 			}
 
+			.transaction .purchase  {
+				border-width: 0px 0px 1px 0px;
+			}
+
+			.transaction .payment .currency, .transaction .payment .amount, .transaction .payment .category {
+				border-width: 1px 0px 0px 0px;
+				font-weight: bold;
+			}
+
+			.transaction .date {
+				text-align: right;
+			}
+			
+			.transaction .amount {
+				padding-left: 0px;
+				text-align: right;
+			}
+			
 		</style>
 		
 		
 		<template repeat="{{ transaction in transactionList }}">
 			<div class="transaction">
-				<b>{{ transaction.description }}</b>
-				<small>{{ transaction.trDate | formatDate }}</small>
+				<h3>
+					<span class="red" hidden?="{{ transaction | validateTr }}" >[ERROR]</span>
+					{{ transaction.description }}
+					<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small
+				></h3>
 				<table>
 					<template repeat="{{ transactionItem in transaction.triList }}">
-						<tr>
-							<td><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
-							<td>{{ transactionItem.triType.title }}</td>
-							<td>{{ transactionItem.amount | formatAmount }}</td>
-							<td>{{ transactionItem.note }}</td>
+						<tr class="{{ transactionItem.amount.value > 0 ? 'br-gray purchase' : 'payment' }}">
+							<td class="gray date"><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
+							<td class="{{ transactionItem.amount.value > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
+							<td class="{{ transactionItem.amount.value > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
+							<td class="{{ transactionItem.amount.value > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
+							<td class="gray"><small>{{ transactionItem.note }}</small></td>
 						</tr>
 					</template>
 				</table>
@@ -109,7 +127,7 @@
 					} else if( date.getHours() == 12 ) {
 						timeStr = date.getHours() + ':' + timeStr + ' pm';
 					} else if( date.getHours() <= 21 ) {
-						timeStr = '0' + ( date.getHours() - 12 ) + ':' + timeStr + ' am';
+						timeStr = '0' + ( date.getHours() - 12 ) + ':' + timeStr + ' pm';
 					} else {
 						timeStr = ( date.getHours() - 12 ) + ':' + timeStr + ' pm';
 					}
@@ -125,13 +143,21 @@
 			},
 			
 			formatAmount: function( amount ) {
-				var valueStr = amount.value + '';
+				var valueStr = ( amount.value < 0 ? -amount.value : amount.value ) + '';
 				if( valueStr.length == 1 )
-					return 'Rs. 0.0' + valueStr;
+					return '0.0' + valueStr;
 				else if( valueStr.length == 2 )
-					return 'Rs. 0.' + valueStr;
+					return '0.' + valueStr;
 				else
-					return 'Rs. ' + valueStr.substring( 0, valueStr.length - 2 ) + '.' + valueStr.substring( valueStr.length - 2 );
+					return valueStr.substring( 0, valueStr.length - 2 ) + '.' + valueStr.substring( valueStr.length - 2 );
+			},
+			
+			validateTr: function( transaction ) {
+				var triList = transaction.triList;
+				var sum = 0;
+				for( var i = 0; i < triList.length; i++ )
+					sum = sum + triList[i].amount.value;
+				return sum == 0;
 			},
 			
 			loadTransactionList: function() {
@@ -141,7 +167,7 @@
 				this.isLoading = true;
 				
 				var ajaxGet = this.$.AjaxGet;
-				ajaxGet.params = JSON.stringify( { cursor:this.cursor, resultCount:this.pageSize } );
+				ajaxGet.params = JSON.stringify( { trDateOrder:false, creationDateOrder:false, cursor:this.cursor, resultCount:this.pageSize } );
 				ajaxGet.go();
 			},
 

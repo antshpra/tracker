@@ -22,6 +22,8 @@ public class TransactionListApi extends GenericApi {
 			throws InsufficientAccessException, UnexpectedServerException {
 
 		TransactionFilter trFilter = new TransactionFilter();
+		trFilter.setTransactionDateChronologicalOrder( request.getTrDateOrder() );
+		trFilter.setCreationDateChronologicalOrder( request.getCreationDateOrder() );
 		
 		DataListCursorTuple<TransactionData> dataListCursorTuple
 				= TransactionsContentHelper.getTransactionList(
