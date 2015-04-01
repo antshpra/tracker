@@ -5,7 +5,7 @@
 		<style>
 		
 			.transaction {
-				padding-bottom: 10px;
+				padding-bottom: 15px;
 			}
 			
 			.transaction table {
@@ -16,7 +16,7 @@
 			.transaction table tr td {
 				padding: 2px 5px 2px 5px;
 			}
-
+			
 			.transaction .purchase  {
 				border-width: 0px 0px 1px 0px;
 			}
@@ -29,35 +29,142 @@
 			.transaction .date {
 				text-align: right;
 			}
-			
+
 			.transaction .amount {
 				padding-left: 0px;
 				text-align: right;
 			}
 			
+			
+			.transaction-edit {
+				padding-bottom: 25px;
+			}
+			
+			.transaction-edit h3 {
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+			
+			.transaction-edit table {
+				margin: 0px 10px;
+				border-collapse: collapse;
+			}
+			
+			.transaction-edit table tr td {
+				padding: 0px 5px 0px 5px;
+			}
+			
+			.transaction-edit .payment .currency, .transaction-edit .payment .amount, .transaction-edit .payment .category {
+				font-weight: bold;
+			}
+
+			.transaction-edit .order {
+				padding-left: 0px;
+				width: 15px;
+			}
+			
+			.transaction-edit .datetime {
+				padding-left: 0px;
+				padding-right: 0px;
+			}
+
+			.transaction-edit .date {
+				width: 115px;
+			}
+
+			.transaction-edit .time {
+				width: 65px;
+			}
+
+			.transaction-edit .amount {
+				padding-left: 0px;
+				width: 75px;
+			}
+
+			.transaction-edit .note {
+				padding-right: 0px;
+			}
+
+			.transaction-edit .buttons div {
+				padding-right: 10px;
+			}
+
 		</style>
 		
 		
-		<template repeat="{{ transaction in transactionList }}">
-			<div class="transaction">
-				<h3>
-					<span class="red" hidden?="{{ transaction | validateTr }}" >[ERROR]</span>
-					{{ transaction.description }}
-					<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small>
-				</h3>
-				<table>
-					<template repeat="{{ transactionItem in transaction.triList }}">
-						<tr class="{{ transactionItem.amount.value > 0 ? 'br-gray purchase' : 'payment' }}">
-							<td class="gray date"><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
-							<td class="{{ transactionItem.amount.value > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
-							<td class="{{ transactionItem.amount.value > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
-							<td class="{{ transactionItem.amount.value > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
-							<td class="gray"><small>{{ transactionItem.note }}</small></td>
-						</tr>
+		<template repeat="{{ transaction, i in transactionList }}">
+			<div>
+
+				<div hidden?="{{ transaction.isEditing }}" class="transaction">
+					<h3>
+						<span class="red" hidden?="{{ transaction | validateTr }}" >[ERROR]</span>
+						{{ transaction.description }}
+						<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small>
+						<small><small class="a" on-tap="{{ editTr }}" data-index="{{ i }}">edit</small></small>
+					</h3>
+					<table>
+						<template repeat="{{ transactionItem in transaction.triList }}">
+							<tr class="{{ transactionItem.amount.value > 0 ? 'br-gray purchase' : 'payment' }}">
+								<td class="gray date"><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
+								<td class="{{ transactionItem.amount.value > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
+								<td class="{{ transactionItem.amount.value > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
+								<td class="{{ transactionItem.amount.value > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
+								<td class="gray"><small>{{ transactionItem.note }}</small></td>
+							</tr>
+						</template>
+					</table>
+				</div>
+
+				<div hidden?="{{ !transaction.isEditing }}" class="bg-gray transaction-edit">
+					<template bind="{{ transactionCloneList[i] as transactionClone }}">
+						<h3 horizontal layout center>
+							<paper-input flex label="Description" value="{{ transactionClone.description }}"></paper-input>
+							<small>
+								<small>
+									<input class="gray date" is="core-input" type="date" value="{{ transactionClone.trDate }}" />
+									<input class="gray time" is="core-input" type="time" value="{{ transactionClone.trTime }}" />
+								</small>
+							</small>
+						</h3>
+						<table>
+							<template repeat="{{ transactionItem in transactionClone.triList }}">
+								<tr class="{{ transactionItem.amount.value > 0 ? 'purchase' : 'payment' }}">
+									<td class="gray order">
+										<small>
+											<paper-input label="#" value="{{ transactionItem.order }}"></paper-input>
+										</small>
+									</td>
+									<td class="datetime">
+										<small hidden?="{{ transactionClone.trDate == transactionItem.trDate && transactionClone.trTime == transactionItem.trTime }}">
+											<input class="gray date" is="core-input" type="date" value="{{ transactionItem.trDate }}" />
+											<input class="gray time" is="core-input" type="time" value="{{ transactionItem.trTime }}" />
+										</small>
+									</td>
+									<td class="currency">Rs.</td>
+									<td class="amount">
+										<paper-input label="Amount" value="{{ transactionItem.amount.value / 100 }}"></paper-input>
+									</td>
+									<td class="category">{{ transactionItem.triType.title }}</td>
+									<td class="gray note">
+										<small>
+											<paper-input label="Note" value="{{ transactionItem.note }}"></paper-input>
+										</small>
+									</td>
+								</tr>
+							</template>
+						</table>
+						<div horizontal layout class="buttons">
+							<div flex></div>
+							<div class="a" on-tap="{{ saveTr }}" data-index="{{ i }}">Save</div>
+							<div class="a" on-tap="{{ deleteTr }}" data-index="{{ i }}">Delete</div>
+							<div class="a" on-tap="{{ cancelEditTr }}" data-index="{{ i }}">Cancel</div>
+						</div>
 					</template>
-				</table>
+				</div>
+
 			</div>
 		</template>
+		
 		
 		<div hidden?="{{ !isLoading }}">
 			<paper-spinner active></paper-spinner>
@@ -160,6 +267,69 @@
 				return sum == 0;
 			},
 			
+			formatHtmlDate: function( timeMillis ) {
+				if( ! timeMillis )
+					return '';
+				
+				var date = new Date( timeMillis );
+				var dateStr = date.getFullYear();
+				if( date.getMonth() < 9 )
+					dateStr = dateStr + '-0' + ( date.getMonth() + 1 );
+				else
+					dateStr = dateStr + '-' + ( date.getMonth() + 1 );
+				if( date.getDate() <= 9 )
+					dateStr = dateStr + '-0' + date.getDate();
+				else
+					dateStr = dateStr + '-' + date.getDate();
+
+				return dateStr;
+			},
+
+			formatHtmlTime: function( timeMillis ) {
+				if( ! timeMillis )
+					return '';
+	
+				var date = new Date( timeMillis );
+				var timeStr;
+				if( date.getHours() <= 9 )
+					timeStr = '0' + date.getHours();
+				else
+					timeStr = date.getHours();
+				if( date.getMinutes() <= 9 )
+					timeStr = timeStr + ':0' + date.getMinutes();
+				else
+					timeStr = timeStr + ':' + date.getMinutes();
+				
+				return timeStr;
+			},
+
+			editTr: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+
+				var transaction = this.transactionList[ index ];
+				transaction.isEditing = true;
+
+				var transactionClone = JSON.parse( JSON.stringify( transaction ) );
+				var trDateMillis = transactionClone.trDate;
+				transactionClone.trDate = this.formatHtmlDate( trDateMillis );
+				transactionClone.trTime = this.formatHtmlTime( trDateMillis );
+				var triList = transactionClone.triList;
+				for( var j = 0; j < triList.length; j++ ) {
+					var triDateMillis = triList[j].trDate;
+					triList[j].trDate = this.formatHtmlDate( trDateMillis );
+					triList[j].trTime = this.formatHtmlTime( trDateMillis );
+				}
+
+				this.transactionCloneList[ index ] = transactionClone;
+			},
+			
+			cancelEditTr: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+
+				var transaction = this.transactionList[ index ];
+				transaction.isEditing = false;
+			},
+			
 			loadTransactionList: function() {
 				if( this.isLoading || this.isFinished )
 					return;
@@ -194,6 +364,7 @@
 
 			ready: function() {
 				this.transactionList = [];
+				this.transactionCloneList = [];
 			},
 
 		});
