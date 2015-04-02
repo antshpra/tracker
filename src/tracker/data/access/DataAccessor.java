@@ -27,6 +27,8 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	DataListCursorTuple<Transaction> getTransactionList(
 			TransactionFilter trFilter, String cursorStr, Integer resultCount );
 
+	Transaction createOrUpdateTransaction( Transaction tr );
+
 	
 	TransactionItem newTransactionItem();
 	
@@ -40,6 +42,10 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	@Deprecated
 	List<TransactionItem> getTransactionItemList( String encodedTrId );
 	
+	List<TransactionItem> createOrUpdateTransactionItemList( List<TransactionItem> triList );
+
+	void deleteTransactionItem( String trId, String triId );
+
 	
 	List<TransactionItemType> getTransactionItemTypeList();
 

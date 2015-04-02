@@ -1,6 +1,7 @@
 package tracker.pagecontent.transactions;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,15 @@ public class TransactionsContentHelper extends PageContentHelper<
 	}
 
 	
-	private static List<TransactionData> createTransactionDataList( List<Transaction> trList, HttpServletRequest request ) {
+	private static TransactionData createTransactionData( Transaction tr, HttpServletRequest request ) {
+		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
+		return createTransactionData( tr, dataAccessor.getTransactionItemList( tr.getId() ), request );
+	}
+	
+	private static TransactionData createTransactionData( Transaction tr, List<TransactionItem> triList, HttpServletRequest request ) {
 		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
 
+		
 		List<TransactionItemType> triTypeList = dataAccessor.getTransactionItemTypeList();
 		Map<String, TransactionItemTypeData> triTypeIdToTriTypeDataMap = new LinkedHashMap<>( triTypeList.size() );
 		
@@ -60,53 +67,56 @@ public class TransactionsContentHelper extends PageContentHelper<
 			triTypeIdToTriTypeDataMap.put( triType.getId(), triTypeData );
 		}
 
-		List<TransactionData> trDataList = new ArrayList<>( trList.size() );
-		for( Transaction tr : trList ) {
 
-			TransactionData trData = new TransactionData();
-			
-			trData.setId( tr.getId() );
-			trData.setTransactionDate( tr.getTransactionDate() );
-			trData.setDescription( tr.getDescription() );
-			trData.setCreationDate( tr.getCreationDate() );
-			
-			List<TransactionItem> triList = dataAccessor.getTransactionItemList( tr.getId() );
-			List<TransactionItemData> triDataList = new ArrayList<>( triList.size() );
-			for( TransactionItem tri : triList ) {
-			
-				TransactionItemData triData = new TransactionItemData();
-				
-				triData.setId( tri.getId() );
-				triData.setTransactionId( tri.getTransactionId() );
-				triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
-				triData.setTransactionDate( tri.getTransactionDate() );
-				triData.setAmount( tri.getAmount() );
-				triData.setNote( tri.getNote() );
-				triData.setOrder( tri.getOrder() == null ? null : (int) (long) tri.getOrder() );
-				triData.setCreationDate( tri.getCreationDate() );
-				
-				int index = 0;
-				for( ; index < triDataList.size(); index++ ) {
-					if( triData.getOrder() != null && triDataList.get( index ).getOrder() != null && (int) triData.getOrder() < (int) triDataList.get( index ).getOrder() )
-						break;
-					else if( triData.getTransactionDate().before( triDataList.get( index ).getTransactionDate() ) )
-						break;
-					else if( triData.getCreationDate().before( triDataList.get( index ).getCreationDate() ) )
-						break;
-					else if( triData.getAmount().getValue() > 0 && triDataList.get( index ).getAmount().getValue() < 0 )
-						break;
-				}
-				
-				triDataList.add( index, triData );
-			}
-
-			trData.setTransactionItemList( triDataList );
-			trDataList.add( trData );
-		}
+		TransactionData trData = new TransactionData();
 		
-		return trDataList;
+		trData.setId( tr.getId() );
+		trData.setTransactionDate( tr.getTransactionDate() );
+		trData.setDescription( tr.getDescription() );
+		trData.setCreationDate( tr.getCreationDate() );
+		
+		List<TransactionItemData> triDataList = new ArrayList<>( triList.size() );
+		for( TransactionItem tri : triList ) {
+		
+			TransactionItemData triData = new TransactionItemData();
+			
+			triData.setId( tri.getId() );
+			triData.setTransactionId( tri.getTransactionId() );
+			triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
+			triData.setTransactionDate( tri.getTransactionDate() );
+			triData.setAmount( tri.getAmount() );
+			triData.setNote( tri.getNote() );
+			triData.setOrder( tri.getOrder() == null ? null : (int) (long) tri.getOrder() );
+			triData.setCreationDate( tri.getCreationDate() );
+			
+			int index = 0;
+			for( ; index < triDataList.size(); index++ ) {
+				if( triData.getOrder() != null && triDataList.get( index ).getOrder() != null ) {
+					if( (int) triData.getOrder() < (int) triDataList.get( index ).getOrder() )
+						break;
+				} else if( triData.getTransactionDate().before( triDataList.get( index ).getTransactionDate() ) )
+					break;
+				else if( triData.getCreationDate().before( triDataList.get( index ).getCreationDate() ) )
+					break;
+				else if( triData.getAmount() > 0 && triDataList.get( index ).getAmount() < 0 )
+					break;
+			}
+			
+			triDataList.add( index, triData );
+		}
+
+		trData.setTransactionItemList( triDataList );
+		
+		return trData;
 	}
 	
+	private static List<TransactionData> createTransactionDataList( List<Transaction> trList, HttpServletRequest request ) {
+		List<TransactionData> trDataList = new ArrayList<>( trList.size() );
+		for( Transaction tr : trList )
+			trDataList.add( createTransactionData( tr , request ) );
+		return trDataList;
+	}
+
 	
 	public static DataListCursorTuple<TransactionData> getTransactionList(
 			TransactionFilter trFilter, String cursor, Integer resultCount,
@@ -119,6 +129,71 @@ public class TransactionsContentHelper extends PageContentHelper<
 		List<TransactionData> trDataList = createTransactionDataList( trList, request );
 
 		return new DataListCursorTuple<TransactionData>( trDataList, trListCursorTuple.getCursor() );
+	}
+
+	public static TransactionData saveTransaction( TransactionData trData, HttpServletRequest request ) {
+
+		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
+
+		Transaction transaction;
+		if( trData.getId() == null ) { // Create new Transaction
+			transaction = dataAccessor.newTransaction();
+			transaction.setTransactionDate( trData.getTransactionDate() );
+			transaction.setDescription( trData.getDescription() );
+			transaction.setCreationDate( new Date() );
+			
+		} else { // Update existing Transaction
+			transaction = dataAccessor.getTransaction( trData.getId() );
+			transaction.setDescription( trData.getDescription() );
+		}
+		transaction = dataAccessor.createOrUpdateTransaction( transaction );
+		
+		
+		// Creating/Updating Transaction Item(s)
+		List<TransactionItemData> triDataList = trData.getTransactionItemList();
+		List<TransactionItem> transactionItemList = new ArrayList<>( triDataList.size() );
+		for( TransactionItemData triData : triDataList ) {
+			TransactionItem transactionItem;
+
+			if( triData.getId() == null ) { // Create new Transaction Item
+				if( triData.getAmount() == 0 )
+					continue;
+				
+				transactionItem = dataAccessor.newTransactionItem();
+				transactionItem.setTransactionId( transaction.getId() );
+				transactionItem.setTransactionItemTypeId( triData.getTransactionItemTypeId() );
+				if( triData.getTransactionDate() == null )
+					transactionItem.setTransactionDate( transaction.getTransactionDate() );
+				else
+					transactionItem.setTransactionDate( triData.getTransactionDate() );
+				transactionItem.setAmount( triData.getAmount() );
+				transactionItem.setNote( triData.getNote() );
+				transactionItem.setOrder( (long) (int) triData.getOrder() );
+				transactionItem.setCreationDate( new Date() );
+				transactionItem.setLastUpdationDate( new Date() );
+			
+			} else { // Update existing Transaction Item
+
+				if( triData.getAmount() == 0 ) {
+					dataAccessor.deleteTransactionItem( triData.getTransactionId(), triData.getId() );
+					continue;
+				}
+	
+				transactionItem = dataAccessor.getTransactionItem( triData.getId() );
+				transactionItem.setAmount( triData.getAmount() );
+				transactionItem.setNote( triData.getNote() );
+				transactionItem.setOrder( (long) (int) triData.getOrder() );
+				transactionItem.setLastUpdationDate( new Date() );
+			
+			}
+
+			transactionItemList.add( transactionItem );
+		}
+		
+		transactionItemList = dataAccessor.createOrUpdateTransactionItemList( transactionItemList );
+
+		
+		return createTransactionData( transaction, transactionItemList, request );
 	}
 
 }

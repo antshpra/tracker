@@ -83,10 +83,14 @@ public class TransactionItemEntity implements TransactionItem {
 		this.transactionDate = transactionDate; 
 	}
 
-	public Amount getAmount() {
-		return new Amount( amount );
+	public Long getAmount() {
+		return amount;
 	}
 	
+	public void setAmount( Long amount ) {
+		this.amount = amount; 
+	}
+
 	public void setAmount( Amount amount ) {
 		this.amount = amount.getValue(); 
 	}

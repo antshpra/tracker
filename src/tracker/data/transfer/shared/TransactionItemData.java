@@ -3,8 +3,6 @@ package tracker.data.transfer.shared;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.claymus.commons.client.Amount;
-
 @SuppressWarnings("serial")
 public class TransactionItemData implements Serializable {
 
@@ -12,11 +10,13 @@ public class TransactionItemData implements Serializable {
 
 	private String trId;
 
+	private String triTypeId;
+
 	private TransactionItemTypeData triType;
 	
 	private Long trDate;
 	
-	private Amount amount;
+	private Long amount;
 	
 	private String note;
 
@@ -41,6 +41,14 @@ public class TransactionItemData implements Serializable {
 		this.trId = trId;
 	}
 	
+	public String getTransactionItemTypeId() {
+		return triTypeId;
+	}
+	
+	public void setTransactionItemTypeId( String triTypeId ) {
+		this.triTypeId = triTypeId;
+	}
+	
 	public TransactionItemTypeData getTransactionItemType() {
 		return triType;
 	}
@@ -57,11 +65,11 @@ public class TransactionItemData implements Serializable {
 		this.trDate = trDate.getTime();
 	}
 	
-	public Amount getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 	
-	public void setAmount( Amount amount ) {
+	public void setAmount( Long amount ) {
 		this.amount = amount;
 	}
 	

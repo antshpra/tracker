@@ -281,7 +281,7 @@ public class TransactionReportServiceImpl extends RemoteServiceServlet implement
 
 		for( TransactionItemEntity transactionItem : transactionItemList )
 			if( transactionItem.getState() != TransactionState.DELETED )
-				amount = amount.add( transactionItem.getAmount() );
+				amount = amount.add( new Amount( transactionItem.getAmount() ) );
 		
 		transactionReport.setAmount( amount );
 		

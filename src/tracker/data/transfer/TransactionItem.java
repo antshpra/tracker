@@ -23,8 +23,11 @@ public interface TransactionItem extends Serializable {
 
 	void setTransactionDate( Date transactionDate );
 
-	Amount getAmount();
+	Long getAmount();
 	
+	void setAmount( Long amount );
+
+	@Deprecated
 	void setAmount( Amount amount );
 	
 	String getNote();

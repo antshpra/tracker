@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.Query;
 
 import tracker.commons.shared.TransactionFilter;
@@ -164,7 +165,12 @@ public class DataAccessorGaeImpl
 		
 	}
 
-
+	@Override
+	public Transaction createOrUpdateTransaction( Transaction tr ) {
+		return createOrUpdateEntity( tr );
+	}
+	
+	
 	@Override
 	public TransactionItem newTransactionItem() {
 		return new TransactionItemEntity();
@@ -199,6 +205,23 @@ public class DataAccessorGaeImpl
 		return (List<TransactionItem>) pm.detachCopyAll( triList );
 	}
 
+	@Override
+	public List<TransactionItem> createOrUpdateTransactionItemList( List<TransactionItem> triList ) {
+		for( TransactionItem tri : triList )
+			if( tri.getId() != null )
+				tri.setTransactionId( null );
+		return (List<TransactionItem>) createOrUpdateEntityList( triList );
+	}
+
+	@Override
+	public void deleteTransactionItem( String trId, String triId ) {
+		try {
+			deleteEntity( TransactionItemEntity.class, triId );
+		} catch( JDOObjectNotFoundException e ) {
+			// Do nothing
+		}
+	}
+	
 	
 	public List<TransactionItemType> getTransactionItemTypeList() {
 		TransactionItemTypeDB transactionItemTypeDBValues[] = TransactionItemTypeDB.values();

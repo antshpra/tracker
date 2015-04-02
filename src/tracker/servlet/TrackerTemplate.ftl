@@ -8,7 +8,13 @@
 	
 		<!-- jQuery 2.1.1 -->
 		<script src="//cdn-asia.pratilipi.com/third-party/jquery-2.1.1/jquery-2.1.1.min.js"></script>
-
+		
+		<#if request.getRequestURI() != "/">
+			<!-- BootStrap 3.2.0 -->
+			<script src="//cdn-asia.pratilipi.com/third-party/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+			<link rel="stylesheet" href="//cdn-asia.pratilipi.com/third-party/bootstrap-3.2.0/css/bootstrap.min.css">
+		</#if>
+		
 		<!-- Claymus Resources -->
 		<link type="text/css" rel="stylesheet" href="/theme.default/style.css">
 		<link type="text/css" rel="stylesheet" href="/theme.default/style.polymer.css">

@@ -20,6 +20,7 @@ import tracker.service.shared.data.TransactionItemData;
 import tracker.service.shared.data.TransactionItemTypeData;
 import tracker.service.transactionreport.shared.data.TransactionReportData;
 
+import com.claymus.commons.client.Amount;
 import com.claymus.commons.server.ClaymusHelper;
 import com.claymus.data.access.Memcache;
 
@@ -91,7 +92,7 @@ public class TrackerHelper extends ClaymusHelper {
 				triData.setTransactionItemTypeId( tri.getTransactionItemTypeId() );
 				triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
 				triData.setTransactionDate( tri.getTransactionDate() );
-				triData.setAmount( tri.getAmount() );
+				triData.setAmount( new Amount( tri.getAmount() ) );
 				triData.setNote( tri.getNote() );
 				triData.setOrder( tri.getOrder() );
 				triData.setCreationDate( tri.getCreationDate() );
@@ -146,7 +147,7 @@ public class TrackerHelper extends ClaymusHelper {
 				transactionItemTypeIdToTransactionItemTypeDataMap.get(
 						transactionItem.getTransactionItemTypeId() ) );
 		transactionItemData.setTransactionDate( transactionItem.getTransactionDate() );
-		transactionItemData.setAmount( transactionItem.getAmount() );
+		transactionItemData.setAmount( new Amount( transactionItem.getAmount() ) );
 		if( transactionItem.getOrder() != null )
 			transactionItemData.setNote(
 					transactionItem.getOrder() + ". "

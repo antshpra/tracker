@@ -74,6 +74,13 @@ public class DataAccessorWithMemcache
 		return dataAccessor.getTransactionList( trFilter, cursorStr, resultCount );
 	}
 	
+	@Override
+	public Transaction createOrUpdateTransaction( Transaction tr ) {
+		tr = dataAccessor.createOrUpdateTransaction( tr );
+		memcache.put( PREFIX_TRANSACTION + tr.getId(), tr );
+		return tr;
+	}
+
 	
 	@Override
 	public TransactionItem newTransactionItem() {
@@ -122,6 +129,20 @@ public class DataAccessorWithMemcache
 				memcache.put( PREFIX_TRANSACTION_ITEM_LIST + encodedTrId, new ArrayList<>( triList ) );
 		}
 		return triList;
+	}
+
+	@Override
+	public List<TransactionItem> createOrUpdateTransactionItemList( List<TransactionItem> triList ) {
+		triList = dataAccessor.createOrUpdateTransactionItemList( triList );
+		memcache.put( PREFIX_TRANSACTION_ITEM_LIST + triList.get( 0 ).getTransactionId(), new ArrayList<>( triList ) );
+		return triList;
+	}
+
+	@Override
+	public void deleteTransactionItem( String trId, String triId ) {
+		dataAccessor.deleteTransactionItem( trId, triId );
+		memcache.remove( PREFIX_TRANSACTION_ITEM + triId );
+		memcache.remove( PREFIX_TRANSACTION_ITEM_LIST + trId );
 	}
 
 	

@@ -1,7 +1,10 @@
 <!-- PageContent :: Transactions :: Start -->
 
 <div id="PageContent-Transactions" class="container">
-	<pagecontent-transactions apiUrl="/api/transaction/list" pageSize=10></pagecontent-transactions>
+	<pagecontent-transactions
+			apiUrl="/api/transaction"
+			listApiUrl="/api/transaction/list"
+			pageSize=10 ></pagecontent-transactions>
 </div>
 
 

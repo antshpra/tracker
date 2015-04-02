@@ -1,4 +1,4 @@
-<polymer-element name="pagecontent-transactions" attributes="apiUrl cursor pageSize">
+<polymer-element name="pagecontent-transactions" attributes="apiUrl listApiUrl cursor pageSize">
 
 	<template>
 
@@ -100,15 +100,16 @@
 						<span class="red" hidden?="{{ transaction | validateTr }}" >[ERROR]</span>
 						{{ transaction.description }}
 						<small class="gray"><small>{{ transaction.trDate | formatDate }}</small></small>
-						<small><small class="a" on-tap="{{ editTr }}" data-index="{{ i }}">edit</small></small>
+						<small hidden?="{{ transaction.isSaving }}"><small class="a" on-tap="{{ editTr }}" data-index="{{ i }}">edit</small></small>
+						<small hidden?="{{ !transaction.isSaving }}"><small>saving ...</small></small>
 					</h3>
 					<table>
 						<template repeat="{{ transactionItem in transaction.triList }}">
-							<tr class="{{ transactionItem.amount.value > 0 ? 'br-gray purchase' : 'payment' }}">
+							<tr class="{{ transactionItem.amount > 0 ? 'br-gray purchase' : 'payment' }}">
 								<td class="gray date"><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
-								<td class="{{ transactionItem.amount.value > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
-								<td class="{{ transactionItem.amount.value > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
-								<td class="{{ transactionItem.amount.value > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
+								<td class="{{ transactionItem.amount > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
+								<td class="{{ transactionItem.amount > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
+								<td class="{{ transactionItem.amount > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
 								<td class="gray"><small>{{ transactionItem.note }}</small></td>
 							</tr>
 						</template>
@@ -128,7 +129,7 @@
 						</h3>
 						<table>
 							<template repeat="{{ transactionItem in transactionClone.triList }}">
-								<tr class="{{ transactionItem.amount.value > 0 ? 'purchase' : 'payment' }}">
+								<tr class="{{ transactionItem.amount > 0 ? 'purchase' : 'payment' }}">
 									<td class="gray order">
 										<small>
 											<paper-input label="#" value="{{ transactionItem.order }}"></paper-input>
@@ -142,7 +143,7 @@
 									</td>
 									<td class="currency">Rs.</td>
 									<td class="amount">
-										<paper-input label="Amount" value="{{ transactionItem.amount.value / 100 }}"></paper-input>
+										<paper-input label="Amount" value="{{ transactionItem.amount }}"></paper-input>
 									</td>
 									<td class="category">{{ transactionItem.triType.title }}</td>
 									<td class="gray note">
@@ -176,12 +177,22 @@
 	
 		<core-ajax
 				id="AjaxGet"
-				url="{{ apiUrl }}"
+				url="{{ listApiUrl }}"
 				contentType="application/json"
 				method="GET"
 				handleAs="json"
 				on-core-response="{{ handleAjaxGetResponse }}"
 				on-core-error="{{ handleAjaxGetError }}" >
+		</core-ajax>
+
+		<core-ajax
+				id="AjaxPut"
+				url="{{ apiUrl }}"
+				contentType="application/json"
+				method="PUT"
+				handleAs="json"
+				on-core-response="{{ handleAjaxPutResponse }}"
+				on-core-error="{{ handleAjaxPutError }}" >
 		</core-ajax>
 
 	</template>
@@ -250,22 +261,34 @@
 			},
 			
 			formatAmount: function( amount ) {
-				var valueStr = ( amount.value < 0 ? -amount.value : amount.value ) + '';
-				if( valueStr.length == 1 )
-					return '0.0' + valueStr;
-				else if( valueStr.length == 2 )
-					return '0.' + valueStr;
+				var amountStr = ( amount < 0 ? -amount : amount ) + '';
+				if( amountStr.length == 1 )
+					return '0.0' + amountStr;
+				else if( amountStr.length == 2 )
+					return '0.' + amountStr;
 				else
-					return valueStr.substring( 0, valueStr.length - 2 ) + '.' + valueStr.substring( valueStr.length - 2 );
+					return amountStr.substring( 0, amountStr.length - 2 ) + '.' + amountStr.substring( amountStr.length - 2 );
 			},
 			
 			validateTr: function( transaction ) {
 				var triList = transaction.triList;
 				var sum = 0;
 				for( var i = 0; i < triList.length; i++ )
-					sum = sum + triList[i].amount.value;
+					sum = sum + triList[i].amount;
 				return sum == 0;
 			},
+			
+			loadTransactionList: function() {
+				if( this.isLoading || this.isFinished )
+					return;
+
+				this.isLoading = true;
+				
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params = JSON.stringify( { trDateOrder:false, creationDateOrder:false, cursor:this.cursor, resultCount:this.pageSize } );
+				ajaxGet.go();
+			},
+			
 			
 			formatHtmlDate: function( timeMillis ) {
 				if( ! timeMillis )
@@ -303,24 +326,64 @@
 				return timeStr;
 			},
 
+			getTimeMillis: function( htmlDate, htmlTime ) {
+				var date = parseInt( htmlDate.substring( 8 ) );
+				var month = parseInt( htmlDate.substring( 5, 7 ) );
+				var year = parseInt( htmlDate.substring( 0, 4 ) );
+				var hours = parseInt( htmlTime.substring( 0, 2 ) );
+				var minutes = parseInt( htmlTime.substring( 3 ) );
+				
+				var dateObj = new Date( 0 );
+				dateObj.setDate( date );
+				dateObj.setMonth( month - 1 );
+				dateObj.setFullYear( year );
+				dateObj.setHours( hours );
+				dateObj.setMinutes( minutes );
+				
+				return dateObj.getTime();
+			},
+
 			editTr: function( event ) {
 				var index = event.target.attributes[ 'data-index' ].value;
-
 				var transaction = this.transactionList[ index ];
-				transaction.isEditing = true;
 
 				var transactionClone = JSON.parse( JSON.stringify( transaction ) );
 				var trDateMillis = transactionClone.trDate;
 				transactionClone.trDate = this.formatHtmlDate( trDateMillis );
 				transactionClone.trTime = this.formatHtmlTime( trDateMillis );
 				var triList = transactionClone.triList;
-				for( var j = 0; j < triList.length; j++ ) {
-					var triDateMillis = triList[j].trDate;
-					triList[j].trDate = this.formatHtmlDate( trDateMillis );
-					triList[j].trTime = this.formatHtmlTime( trDateMillis );
+				for( var i = 0; i < triList.length; i++ ) {
+					var triDateMillis = triList[i].trDate;
+					triList[i].trDate = this.formatHtmlDate( triDateMillis );
+					triList[i].trTime = this.formatHtmlTime( triDateMillis );
+					triList[i].amount = triList[i].amount / 100;
 				}
 
 				this.transactionCloneList[ index ] = transactionClone;
+				transaction.isEditing = true;
+			},
+			
+			saveTr: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				var transactionClone = this.transactionCloneList[ index ];
+				
+				var transaction = JSON.parse( JSON.stringify( transactionClone ) );
+				transaction.trDate = this.getTimeMillis( transaction.trDate, transaction.trTime );
+				var triList = transaction.triList;
+				for( var j = 0; j < triList.length; j++ ) {
+					triList[j].trDate = this.getTimeMillis( triList[j].trDate, triList[j].trTime );
+					triList[j].amount = triList[j].amount == '' ? 0 : triList[j].amount * 100;
+					if( triList[j].note == '' )
+						triList[j].note = null;
+				}
+				
+				transaction.isSaving = true;
+				this.transactionList[ index ] = transaction;
+				
+				var ajaxPut = this.$.AjaxPut;
+				ajaxPut.body = JSON.stringify( transaction );
+				ajaxPut.go();
+				
 			},
 			
 			cancelEditTr: function( event ) {
@@ -330,16 +393,6 @@
 				transaction.isEditing = false;
 			},
 			
-			loadTransactionList: function() {
-				if( this.isLoading || this.isFinished )
-					return;
-
-				this.isLoading = true;
-				
-				var ajaxGet = this.$.AjaxGet;
-				ajaxGet.params = JSON.stringify( { trDateOrder:false, creationDateOrder:false, cursor:this.cursor, resultCount:this.pageSize } );
-				ajaxGet.go();
-			},
 
 			handleAjaxGetResponse: function( event, response ) {
 				if( response.response == '' ) {
@@ -349,8 +402,10 @@
 				} else {
 					this.cursor = response.response[ 'cursor' ];
 					var transactionList = response.response[ 'transactionList' ];
-					for( var i = 0; i < transactionList.length; i++ )
+					for( var i = 0; i < transactionList.length; i++ ) {
 						this.transactionList.push( transactionList[i] );
+						this.transactionCloneList.push( {} );
+					}
 					this.isFinished = transactionList.length < this.pageSize;
 					this.isLoading = false;
 					this.fire( 'load-success' );
