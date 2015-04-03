@@ -173,7 +173,7 @@
 							<div flex></div>
 							<div class="a" on-tap="{{ saveTr }}" data-index="{{ i }}">Save</div>
 							<div class="a" on-tap="{{ deleteTr }}" data-index="{{ i }}">Delete</div>
-							<div class="a" on-tap="{{ cancelEditTr }}" data-index="{{ i }}">Cancel</div>
+							<div hidden?="{{ transaction.isEditNotCancellable }}" class="a" on-tap="{{ cancelEditTr }}" data-index="{{ i }}">Cancel</div>
 						</div>
 					</template>
 				</div>
@@ -228,17 +228,11 @@
 		Polymer( 'pagecontent-transactions', {
 
 			handleAjaxGetTypeListResponse: function( event, response ) {
-				if( response.response == '' ) {
-					// TODO: retry ?
-					console.log( 'AjaxGetTypeList: Could not connect to the internet.' );
-				} else {
-					this.transactionItemTypeList = response.response[ 'transactionItemTypeList' ];
-				}
+				this.transactionItemTypeList = response.response[ 'transactionItemTypeList' ];
 			},
 
 			handleAjaxGetTypeListError: function( event, response ) {
-				// TODO: implementation
-				console.log( 'AjaxGetTypeList: Error occured at server.' );
+				this.$.AjaxGetTypeList.go();
 			},
 
 
@@ -393,11 +387,14 @@
 			},
 
 			getTimeMillis: function( htmlDate, htmlTime ) {
+				if( !htmlDate )
+					return null;
+			
 				var date = parseInt( htmlDate.substring( 8 ) );
 				var month = parseInt( htmlDate.substring( 5, 7 ) );
 				var year = parseInt( htmlDate.substring( 0, 4 ) );
-				var hours = parseInt( htmlTime.substring( 0, 2 ) );
-				var minutes = parseInt( htmlTime.substring( 3 ) );
+				var hours = parseInt( htmlTime ? htmlTime.substring( 0, 2 ) : 0 );
+				var minutes = parseInt( htmlTime ? htmlTime.substring( 3 ) : 0 );
 				
 				var dateObj = new Date( 0 );
 				dateObj.setDate( date );
@@ -493,13 +490,20 @@
 				transactionClone.trDate = this.formatHtmlDate( trDateMillis );
 				transactionClone.trTime = this.formatHtmlTime( trDateMillis );
 				var triList = transactionClone.triList;
-				for( var i = 0; i < triList.length; i++ ) {
-					var triDateMillis = triList[i].trDate;
-					triList[i].trDate = this.formatHtmlDate( triDateMillis );
-					triList[i].trTime = this.formatHtmlTime( triDateMillis );
-					triList[i].amount = triList[i].amount / 100;
+				
+				if( triList.length == 0 ) {
+					var transactionItem = {};
+					transactionItem.order = 0;
+					triList.push( transactionItem );
+				} else {
+					for( var i = 0; i < triList.length; i++ ) {
+						var triDateMillis = triList[i].trDate;
+						triList[i].trDate = this.formatHtmlDate( triDateMillis );
+						triList[i].trTime = this.formatHtmlTime( triDateMillis );
+						triList[i].amount = triList[i].amount / 100;
+					}
 				}
-
+				
 				this.transactionCloneList[ index ] = transactionClone;
 				transaction.isEditing = true;
 			},
@@ -523,7 +527,7 @@
 				
 				var ajaxPut = this.$.AjaxPut;
 				ajaxPut.body = JSON.stringify( transaction );
-				ajaxPut.go();
+				transaction[ 'xhr' ] = ajaxPut.go();
 			},
 			
 			cancelEditTr: function( event ) {
@@ -538,29 +542,23 @@
 			},
 			
 			handleAjaxPutResponse: function( event, response ) {
-				if( response.response == '' ) {
-					// TODO: notify user ?
-					console.log( 'AjaxPut: could not connect to the internet !' );
-
-				} else {
-					var transaction = response.response[ 'transaction' ];
-					for( var i = 0; i < this.transactionList.length; i++ ) {
-						if( this.transactionList[i].id == transaction.id ) {
-							this.transactionList[i] = transaction;
-							return;
-						}
-					}
-					
-					if( this.isAdding ) {
-						this.transactionList[0] = transaction;
-						this.isAdding = false;
+				for( var i = 0; i < this.transactionList.length; i++ ) {
+					if( this.transactionList[i][ 'xhr' ] == response.xhr ) {
+						this.transactionList[i] = response.response[ 'transaction' ];
+						if( this.isAdding && i == 0 )
+							this.isAdding = false;
 					}
 				}
 			},
 
 			handleAjaxPutError: function( event, response ) {
-				// TODO: implementation
-				console.log( 'AjaxPut: error occured at server !' );
+				for( var i = 0; i < this.transactionList.length; i++ ) {
+					if( this.transactionList[i][ 'xhr' ] == response.xhr ) {
+						this.transactionList[i].isEditing = true;
+						if( !this.isAdding || i != 0 )
+							this.transactionList[i].isEditNotCancellable = true;
+					}
+				}
 			},
 
 			ready: function() {
