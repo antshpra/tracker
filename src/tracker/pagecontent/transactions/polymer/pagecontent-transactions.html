@@ -122,7 +122,7 @@
 				<div hidden?="{{ !transaction.isEditing }}" class="bg-gray transaction-edit">
 					<template bind="{{ transactionCloneList[i] as transactionClone }}">
 						<h3 horizontal layout center>
-							<paper-input flex label="Description" value="{{ transactionClone.description }}"></paper-input>
+							<paper-input flex label="Description" value="{{ transactionClone.description }}" on-change="{{ validateTrCloneDescription }}" data-index="{{ i }}"></paper-input>
 							<small>
 								<small>
 									<input class="gray date" is="core-input" type="date" value="{{ transactionClone.trDate }}" />
@@ -131,11 +131,11 @@
 							</small>
 						</h3>
 						<table>
-							<template repeat="{{ transactionItem in transactionClone.triList }}">
+							<template repeat="{{ transactionItem, j in transactionClone.triList }}">
 								<tr class="{{ transactionItem.amount >= 0 ? 'purchase' : 'payment' }}">
 									<td class="gray order">
 										<small>
-											<paper-input label="#" value="{{ transactionItem.order }}"></paper-input>
+											<paper-input label="#" value="{{ transactionItem.order }}" on-change="{{ validateTrCloneOrder }}" data-index="{{ i }}" data-sub-index="{{ j }}"></paper-input>
 										</small>
 									</td>
 									<td class="datetime">
@@ -146,7 +146,7 @@
 									</td>
 									<td class="currency">Rs.</td>
 									<td class="amount">
-										<paper-input label="Amount" value="{{ transactionItem.amount }}" on-change="{{ validateTrClone }}" data-index="{{ i }}"></paper-input>
+										<paper-input label="Amount" value="{{ transactionItem.amount }}" on-change="{{ validateTrCloneAmount }}" data-index="{{ i }}" data-sub-index="{{ j }}"></paper-input>
 									</td>
 									<td class="category">
 										<div>
@@ -163,7 +163,7 @@
 									</td>
 									<td class="gray note">
 										<small>
-											<paper-input label="Note" value="{{ transactionItem.note }}"></paper-input>
+											<paper-input label="Note" value="{{ transactionItem.note }}" on-change="{{ validateTrCloneNote }}" data-index="{{ i }}" data-sub-index="{{ j }}"></paper-input>
 										</small>
 									</td>
 								</tr>
@@ -230,10 +230,15 @@
 			handleAjaxGetTypeListResponse: function( event, response ) {
 				if( response.response == '' ) {
 					// TODO: retry ?
-
+					console.log( 'AjaxGetTypeList: Could not connect to the internet.' );
 				} else {
 					this.transactionItemTypeList = response.response[ 'transactionItemTypeList' ];
 				}
+			},
+
+			handleAjaxGetTypeListError: function( event, response ) {
+				// TODO: implementation
+				console.log( 'AjaxGetTypeList: Error occured at server.' );
 			},
 
 
@@ -404,24 +409,58 @@
 				return dateObj.getTime();
 			},
 
-			validateTrClone: function( event ) {
+			validateTrCloneDescription: function( event ) {
 				var index = event.target.attributes[ 'data-index' ].value;
 				var trClone = this.transactionCloneList[ index ];
-
+				trClone.description = trClone.description.trim();
+				if( trClone.description == '' )
+					trClone.description = 'New Transaction';
+			},
+			
+			validateTrCloneOrder: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				var subIndex = event.target.attributes[ 'data-sub-index' ].value;
+				var trClone = this.transactionCloneList[ index ];
 				var triList = trClone.triList;
+				triList[ subIndex ].order = triList[ subIndex ].order.trim();
+				if( ! triList[ subIndex ].order.match( '^[0-9]+$' ) )
+					triList[ subIndex ].order = subIndex;
+			},
+			
+			validateTrCloneAmount: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				var subIndex = event.target.attributes[ 'data-sub-index' ].value;
+				var trClone = this.transactionCloneList[ index ];
+				var triList = trClone.triList;
+				triList[ subIndex ].amount = triList[ subIndex ].amount.trim();
+				if( ! triList[ subIndex ].amount.match( '^(([0-9]*)|([-]?[0-9]+))$' ) )
+					triList[ subIndex ].amount = '';
 
 				var sum = 0;
 				for( var i = 0; i < triList.length; i++ )
-					sum = sum + parseInt( triList[i].amount );
+					if( triList[i].amount != '' )
+						sum = sum + parseInt( triList[i].amount );
 
-				if( triList[length - 1].amount != '' && sum != 0 ) {
-					var tri = {};
-					tri.amount = -sum;
-					tri.order = triList.length;
-					triList.push( tri );
+				if( sum != 0 ) {
+					if( subIndex != triList.length - 1 ) {
+						triList[ triList.length - 1 ].amount -= sum;
+					} else {
+						var tri = {};
+						tri.amount = -sum;
+						tri.order = triList.length;
+						triList.push( tri );
+					}
 				}
 			},
 
+			validateTrCloneNote: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				var subIndex = event.target.attributes[ 'data-sub-index' ].value;
+				var trClone = this.transactionCloneList[ index ];
+				var triList = trClone.triList;
+				triList[ subIndex ].note = triList[ subIndex ].note.trim();
+			},
+			
 			addTr: function( event ) {
 				var transaction = {};
 				transaction.isEditing = true;
@@ -488,35 +527,41 @@
 			},
 			
 			cancelEditTr: function( event ) {
-				if( this.isAdding ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				if( index == 0 && this.isAdding ) {
 					this.transactionList.shift();
 					this.transactionCloneList.shift();
 					this.isAdding = false;
 				} else {
-					var index = event.target.attributes[ 'data-index' ].value;
-					var transaction = this.transactionList[ index ];
-					transaction.isEditing = false;
+					this.transactionList[ index ].isEditing = false;
 				}
 			},
 			
 			handleAjaxPutResponse: function( event, response ) {
 				if( response.response == '' ) {
-					// notify user
-					console.log( 'could not connect to the internet !' );
+					// TODO: notify user ?
+					console.log( 'AjaxPut: could not connect to the internet !' );
 
 				} else {
 					var transaction = response.response[ 'transaction' ];
+					for( var i = 0; i < this.transactionList.length; i++ ) {
+						if( this.transactionList[i].id == transaction.id ) {
+							this.transactionList[i] = transaction;
+							return;
+						}
+					}
+					
 					if( this.isAdding ) {
 						this.transactionList[0] = transaction;
 						this.isAdding = false;
-					} else {
-						for( var i = 0; i < this.transactionList.length; i++ )
-							if( this.transactionList[i].id == transaction.id )
-								this.transactionList[i] = transaction;
 					}
 				}
 			},
 
+			handleAjaxPutError: function( event, response ) {
+				// TODO: implementation
+				console.log( 'AjaxPut: error occured at server !' );
+			},
 
 			ready: function() {
 				this.transactionList = [];
