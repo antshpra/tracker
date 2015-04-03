@@ -58,11 +58,11 @@ public class TransactionItemData implements Serializable {
 	}
 	
 	public Date getTransactionDate() {
-		return new Date( trDate );
+		return trDate == null ? null : new Date( trDate );
 	}
 	
 	public void setTransactionDate( Date trDate ) {
-		this.trDate = trDate.getTime();
+		this.trDate = trDate == null ? null : trDate.getTime();
 	}
 	
 	public Long getAmount() {

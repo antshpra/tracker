@@ -229,6 +229,8 @@
 
 			handleAjaxGetTypeListResponse: function( event, response ) {
 				this.transactionItemTypeList = response.response[ 'transactionItemTypeList' ];
+				for( var i = 0; i < this.transactionItemTypeList.length; i++ )
+					this.transactionItemTypeMap[ this.transactionItemTypeList[i].id ] = this.transactionItemTypeList[i];
 			},
 
 			handleAjaxGetTypeListError: function( event, response ) {
@@ -516,7 +518,8 @@
 				transaction.trDate = this.getTimeMillis( transaction.trDate, transaction.trTime );
 				var triList = transaction.triList;
 				for( var j = 0; j < triList.length; j++ ) {
-					triList[j].trDate = this.getTimeMillis( triList[j].trDate, triList[j].trTime );
+					triList[j].triType = this.transactionItemTypeMap[ triList[j].triTypeId ];
+					triList[j].trDate = this.getTimeMillis( triList[j].trDate, triList[j].trTime ) || transaction.trDate;
 					triList[j].amount = triList[j].amount == '' ? 0 : triList[j].amount * 100;
 					if( triList[j].note == '' )
 						triList[j].note = null;
@@ -565,6 +568,7 @@
 				this.transactionList = [];
 				this.transactionCloneList = [];
 				this.transactionItemTypeList = [];
+				this.transactionItemTypeMap = {};
 
 				this.$.AjaxGetTypeList.go();
 			},

@@ -56,7 +56,7 @@ public class TransactionItemEntity implements TransactionItem {
 	
 	
 	public String getId() {
-		return KeyFactory.keyToString( transactionItemId );
+		return transactionItemId == null ? null : KeyFactory.keyToString( transactionItemId );
 	}
 	
 	public String getTransactionId() {
