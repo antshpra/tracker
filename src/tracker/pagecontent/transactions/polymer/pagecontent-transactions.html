@@ -1,4 +1,4 @@
-<polymer-element name="pagecontent-transactions" attributes="apiUrl listApiUrl cursor pageSize">
+<polymer-element name="pagecontent-transactions" attributes="apiUrl listApiUrl typeListApiUrl cursor pageSize">
 
 	<template>
 
@@ -91,7 +91,10 @@
 
 		</style>
 		
-		
+
+		<div hidden?="{{ isAdding }}" class="a" on-tap="{{ addTr }}">add</div>
+
+
 		<template repeat="{{ transaction, i in transactionList }}">
 			<div>
 
@@ -105,11 +108,11 @@
 					</h3>
 					<table>
 						<template repeat="{{ transactionItem in transaction.triList }}">
-							<tr class="{{ transactionItem.amount > 0 ? 'br-gray purchase' : 'payment' }}">
+							<tr class="{{ transactionItem.amount >= 0 ? 'br-gray purchase' : 'payment' }}">
 								<td class="gray date"><small>{{ transactionItem.trDate | formatDate( transaction.trDate ) }}</small></td>
-								<td class="{{ transactionItem.amount > 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
-								<td class="{{ transactionItem.amount > 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
-								<td class="{{ transactionItem.amount > 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
+								<td class="{{ transactionItem.amount >= 0 ? 'currency' : 'br-default currency' }}">Rs.</td>
+								<td class="{{ transactionItem.amount >= 0 ? 'amount' : 'br-default amount' }}">{{ transactionItem.amount | formatAmount }}</td>
+								<td class="{{ transactionItem.amount >= 0 ? 'category' : 'br-default category' }}">{{ transactionItem.triType.title }}</td>
 								<td class="gray"><small>{{ transactionItem.note }}</small></td>
 							</tr>
 						</template>
@@ -129,23 +132,35 @@
 						</h3>
 						<table>
 							<template repeat="{{ transactionItem in transactionClone.triList }}">
-								<tr class="{{ transactionItem.amount > 0 ? 'purchase' : 'payment' }}">
+								<tr class="{{ transactionItem.amount >= 0 ? 'purchase' : 'payment' }}">
 									<td class="gray order">
 										<small>
 											<paper-input label="#" value="{{ transactionItem.order }}"></paper-input>
 										</small>
 									</td>
 									<td class="datetime">
-										<small hidden?="{{ transactionClone.trDate == transactionItem.trDate && transactionClone.trTime == transactionItem.trTime }}">
+										<small hidden?="{{ ( !transactionItem.trDate && !transactionItem.trTime ) || ( transactionClone.trDate == transactionItem.trDate && transactionClone.trTime == transactionItem.trTime ) }}">
 											<input class="gray date" is="core-input" type="date" value="{{ transactionItem.trDate }}" />
 											<input class="gray time" is="core-input" type="time" value="{{ transactionItem.trTime }}" />
 										</small>
 									</td>
 									<td class="currency">Rs.</td>
 									<td class="amount">
-										<paper-input label="Amount" value="{{ transactionItem.amount }}"></paper-input>
+										<paper-input label="Amount" value="{{ transactionItem.amount }}" on-change="{{ validateTrClone }}" data-index="{{ i }}"></paper-input>
 									</td>
-									<td class="category">{{ transactionItem.triType.title }}</td>
+									<td class="category">
+										<div>
+										<core-dropdown-menu label="Category">
+											<core-dropdown class="dropdown">
+												<core-selector valueattr="value" selected="{{ transactionItem.triTypeId }}">
+													<template repeat="{{ transactionItemType in transactionItemTypeList }}">
+														<core-item label="{{ transactionItemType.title }}" value="{{ transactionItemType.id }}"></core-item>
+													</template>
+												</core-selector>
+											</core-dropdown>
+										</core-dropdown-menu>
+										</div>
+									</td>
 									<td class="gray note">
 										<small>
 											<paper-input label="Note" value="{{ transactionItem.note }}"></paper-input>
@@ -176,6 +191,16 @@
 	
 	
 		<core-ajax
+				id="AjaxGetTypeList"
+				url="{{ typeListApiUrl }}"
+				contentType="application/json"
+				method="GET"
+				handleAs="json"
+				on-core-response="{{ handleAjaxGetTypeListResponse }}"
+				on-core-error="{{ handleAjaxGetTypeListError }}" >
+		</core-ajax>
+
+		<core-ajax
 				id="AjaxGet"
 				url="{{ listApiUrl }}"
 				contentType="application/json"
@@ -201,6 +226,16 @@
 	<script>
 
 		Polymer( 'pagecontent-transactions', {
+
+			handleAjaxGetTypeListResponse: function( event, response ) {
+				if( response.response == '' ) {
+					// TODO: retry ?
+
+				} else {
+					this.transactionItemTypeList = response.response[ 'transactionItemTypeList' ];
+				}
+			},
+
 
 			formatDate: function( timeMillis, refTimeMillis ) {
 				var date = new Date( timeMillis );
@@ -272,6 +307,9 @@
 			
 			validateTr: function( transaction ) {
 				var triList = transaction.triList;
+				if( !triList )
+					return true;
+	
 				var sum = 0;
 				for( var i = 0; i < triList.length; i++ )
 					sum = sum + triList[i].amount;
@@ -289,6 +327,29 @@
 				ajaxGet.go();
 			},
 			
+			handleAjaxGetResponse: function( event, response ) {
+				if( response.response == '' ) {
+					this.isLoading = false;
+					this.fire( 'load-error' );
+
+				} else {
+					this.cursor = response.response[ 'cursor' ];
+					var transactionList = response.response[ 'transactionList' ];
+					for( var i = 0; i < transactionList.length; i++ ) {
+						this.transactionList.push( transactionList[i] );
+						this.transactionCloneList.push( {} );
+					}
+					this.isFinished = transactionList.length < this.pageSize;
+					this.isLoading = false;
+					this.fire( 'load-success' );
+				}
+			},
+
+			handleAjaxGetError: function( event, response ) {
+				this.isLoading = false;
+				this.fire( 'load-error' );
+			},
+
 			
 			formatHtmlDate: function( timeMillis ) {
 				if( ! timeMillis )
@@ -343,6 +404,47 @@
 				return dateObj.getTime();
 			},
 
+			validateTrClone: function( event ) {
+				var index = event.target.attributes[ 'data-index' ].value;
+				var trClone = this.transactionCloneList[ index ];
+
+				var triList = trClone.triList;
+
+				var sum = 0;
+				for( var i = 0; i < triList.length; i++ )
+					sum = sum + parseInt( triList[i].amount );
+
+				if( triList[length - 1].amount != '' && sum != 0 ) {
+					var tri = {};
+					tri.amount = -sum;
+					tri.order = triList.length;
+					triList.push( tri );
+				}
+			},
+
+			addTr: function( event ) {
+				var transaction = {};
+				transaction.isEditing = true;
+				this.transactionList.unshift( transaction );
+
+
+				var transactionClone = {};
+				var trDateMillis = new Date().getTime();
+				transactionClone.trDate = this.formatHtmlDate( trDateMillis );
+				transactionClone.trTime = this.formatHtmlTime( trDateMillis );
+				transactionClone.description = 'New Transaction';
+				transactionClone.triList = [];
+				
+				var transactionItem = {};
+				transactionItem.order = 0;
+				transactionClone.triList.push( transactionItem );
+
+				this.transactionCloneList.unshift( transactionClone );
+				
+				
+				this.isAdding = true;
+			},
+			
 			editTr: function( event ) {
 				var index = event.target.attributes[ 'data-index' ].value;
 				var transaction = this.transactionList[ index ];
@@ -383,47 +485,49 @@
 				var ajaxPut = this.$.AjaxPut;
 				ajaxPut.body = JSON.stringify( transaction );
 				ajaxPut.go();
-				
 			},
 			
 			cancelEditTr: function( event ) {
-				var index = event.target.attributes[ 'data-index' ].value;
-
-				var transaction = this.transactionList[ index ];
-				transaction.isEditing = false;
+				if( this.isAdding ) {
+					this.transactionList.shift();
+					this.transactionCloneList.shift();
+					this.isAdding = false;
+				} else {
+					var index = event.target.attributes[ 'data-index' ].value;
+					var transaction = this.transactionList[ index ];
+					transaction.isEditing = false;
+				}
 			},
 			
-
-			handleAjaxGetResponse: function( event, response ) {
+			handleAjaxPutResponse: function( event, response ) {
 				if( response.response == '' ) {
-					this.isLoading = false;
-					this.fire( 'load-error' );
+					// notify user
+					console.log( 'could not connect to the internet !' );
 
 				} else {
-					this.cursor = response.response[ 'cursor' ];
-					var transactionList = response.response[ 'transactionList' ];
-					for( var i = 0; i < transactionList.length; i++ ) {
-						this.transactionList.push( transactionList[i] );
-						this.transactionCloneList.push( {} );
+					var transaction = response.response[ 'transaction' ];
+					if( this.isAdding ) {
+						this.transactionList[0] = transaction;
+						this.isAdding = false;
+					} else {
+						for( var i = 0; i < this.transactionList.length; i++ )
+							if( this.transactionList[i].id == transaction.id )
+								this.transactionList[i] = transaction;
 					}
-					this.isFinished = transactionList.length < this.pageSize;
-					this.isLoading = false;
-					this.fire( 'load-success' );
 				}
 			},
 
-			handleAjaxGetError: function( event, response ) {
-				this.isLoading = false;
-				this.fire( 'load-error' );
-			},
 
 			ready: function() {
 				this.transactionList = [];
 				this.transactionCloneList = [];
+				this.transactionItemTypeList = [];
+
+				this.$.AjaxGetTypeList.go();
 			},
 
 		});
-		
+
 	</script>
 	
 </polymer-element>

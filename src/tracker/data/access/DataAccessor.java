@@ -44,8 +44,6 @@ public interface DataAccessor extends com.claymus.data.access.DataAccessor {
 	
 	List<TransactionItem> createOrUpdateTransactionItemList( List<TransactionItem> triList );
 
-	void deleteTransactionItem( String trId, String triId );
-
 	
 	List<TransactionItemType> getTransactionItemTypeList();
 

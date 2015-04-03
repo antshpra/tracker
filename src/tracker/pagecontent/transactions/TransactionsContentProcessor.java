@@ -15,6 +15,10 @@ public class TransactionsContentProcessor extends PageContentProcessor<Transacti
 				ClaymusResource.JQUERY_2,
 				ClaymusResource.POLYMER,
 				ClaymusResource.POLYMER_CORE_AJAX,
+				ClaymusResource.POLYMER_CORE_DROPDOWN,
+				ClaymusResource.POLYMER_CORE_DROPDOWN_MENU,
+				ClaymusResource.POLYMER_CORE_ITEM,
+				ClaymusResource.POLYMER_CORE_SELECTOR,
 				ClaymusResource.POLYMER_PAPER_INPUT,
 				ClaymusResource.POLYMER_PAPER_SPINNER,
 				new Resource() {

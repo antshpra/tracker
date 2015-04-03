@@ -138,13 +138,6 @@ public class DataAccessorWithMemcache
 		return triList;
 	}
 
-	@Override
-	public void deleteTransactionItem( String trId, String triId ) {
-		dataAccessor.deleteTransactionItem( trId, triId );
-		memcache.remove( PREFIX_TRANSACTION_ITEM + triId );
-		memcache.remove( PREFIX_TRANSACTION_ITEM_LIST + trId );
-	}
-
 	
 	@Override
 	public List<TransactionItemType> getTransactionItemTypeList() {

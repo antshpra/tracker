@@ -4,6 +4,7 @@
 	<pagecontent-transactions
 			apiUrl="/api/transaction"
 			listApiUrl="/api/transaction/list"
+			typeListApiUrl="/api/transaction/item/type/list"
 			pageSize=10 ></pagecontent-transactions>
 </div>
 

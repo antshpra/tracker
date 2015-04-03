@@ -213,15 +213,6 @@ public class DataAccessorGaeImpl
 		return (List<TransactionItem>) createOrUpdateEntityList( triList );
 	}
 
-	@Override
-	public void deleteTransactionItem( String trId, String triId ) {
-		try {
-			deleteEntity( TransactionItemEntity.class, triId );
-		} catch( JDOObjectNotFoundException e ) {
-			// Do nothing
-		}
-	}
-	
 	
 	public List<TransactionItemType> getTransactionItemTypeList() {
 		TransactionItemTypeDB transactionItemTypeDBValues[] = TransactionItemTypeDB.values();

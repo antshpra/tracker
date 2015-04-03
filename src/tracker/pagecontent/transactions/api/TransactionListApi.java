@@ -9,8 +9,6 @@ import tracker.pagecontent.transactions.api.shared.GetTransactionListResponse;
 import com.claymus.api.GenericApi;
 import com.claymus.api.annotation.Bind;
 import com.claymus.api.annotation.Get;
-import com.claymus.commons.shared.exception.InsufficientAccessException;
-import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.claymus.data.access.DataListCursorTuple;
 
 @SuppressWarnings("serial")
@@ -18,8 +16,7 @@ import com.claymus.data.access.DataListCursorTuple;
 public class TransactionListApi extends GenericApi {
 
 	@Get
-	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request )
-			throws InsufficientAccessException, UnexpectedServerException {
+	public GetTransactionListResponse getTransactionList( GetTransactionListRequest request ) {
 
 		TransactionFilter trFilter = new TransactionFilter();
 		trFilter.setTransactionDateChronologicalOrder( request.getTrDateOrder() );

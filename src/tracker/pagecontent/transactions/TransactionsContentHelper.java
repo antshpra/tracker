@@ -20,7 +20,6 @@ import tracker.data.transfer.shared.TransactionItemTypeData;
 import tracker.pagecontent.transactionlist.shared.TransactionListContentData;
 import tracker.pagecontent.transactions.gae.TransactionsContentEntity;
 
-import com.claymus.commons.shared.exception.UnexpectedServerException;
 import com.claymus.data.access.DataListCursorTuple;
 import com.claymus.pagecontent.PageContentHelper;
 
@@ -77,11 +76,15 @@ public class TransactionsContentHelper extends PageContentHelper<
 		
 		List<TransactionItemData> triDataList = new ArrayList<>( triList.size() );
 		for( TransactionItem tri : triList ) {
-		
+			
+			if( tri.getAmount() == 0 )
+				continue;
+			
 			TransactionItemData triData = new TransactionItemData();
 			
 			triData.setId( tri.getId() );
 			triData.setTransactionId( tri.getTransactionId() );
+			triData.setTransactionItemTypeId( tri.getTransactionItemTypeId() );
 			triData.setTransactionItemType( triTypeIdToTriTypeDataMap.get( tri.getTransactionItemTypeId() ) );
 			triData.setTransactionDate( tri.getTransactionDate() );
 			triData.setAmount( tri.getAmount() );
@@ -120,7 +123,7 @@ public class TransactionsContentHelper extends PageContentHelper<
 	
 	public static DataListCursorTuple<TransactionData> getTransactionList(
 			TransactionFilter trFilter, String cursor, Integer resultCount,
-			HttpServletRequest request ) throws UnexpectedServerException {
+			HttpServletRequest request ) {
 		
 		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
 		DataListCursorTuple<Transaction> trListCursorTuple = dataAccessor.getTransactionList( trFilter, cursor, resultCount );
@@ -174,11 +177,6 @@ public class TransactionsContentHelper extends PageContentHelper<
 			
 			} else { // Update existing Transaction Item
 
-				if( triData.getAmount() == 0 ) {
-					dataAccessor.deleteTransactionItem( triData.getTransactionId(), triData.getId() );
-					continue;
-				}
-	
 				transactionItem = dataAccessor.getTransactionItem( triData.getId() );
 				transactionItem.setAmount( triData.getAmount() );
 				transactionItem.setNote( triData.getNote() );
@@ -194,6 +192,25 @@ public class TransactionsContentHelper extends PageContentHelper<
 
 		
 		return createTransactionData( transaction, transactionItemList, request );
+	}
+
+
+	public static List<TransactionItemTypeData> getTransactionItemTypeList( HttpServletRequest request ) {
+		
+		DataAccessor dataAccessor = DataAccessorFactory.getDataAccessor( request );
+
+		List<TransactionItemType> triTypeList = dataAccessor.getTransactionItemTypeList();
+		List<TransactionItemTypeData> triTypeDataList = new ArrayList<>( triTypeList.size() );
+		
+		for( TransactionItemType triType : triTypeList ) {
+			TransactionItemTypeData triTypeData = new TransactionItemTypeData();
+			triTypeData.setId( triType.getId() );
+			triTypeData.setTitle( triType.getTitle() );
+			triTypeData.setInitialAmount( triType.getInitialAmount() );
+			triTypeDataList.add( triTypeData );
+		}
+		
+		return triTypeDataList;
 	}
 
 }
