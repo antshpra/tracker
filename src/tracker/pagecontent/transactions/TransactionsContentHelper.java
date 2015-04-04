@@ -147,6 +147,7 @@ public class TransactionsContentHelper extends PageContentHelper<
 			
 		} else { // Update existing Transaction
 			transaction = dataAccessor.getTransaction( trData.getId() );
+			transaction.setTransactionDate( trData.getTransactionDate() );
 			transaction.setDescription( trData.getDescription() );
 		}
 		transaction = dataAccessor.createOrUpdateTransaction( transaction );

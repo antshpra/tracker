@@ -445,6 +445,7 @@
 						triList[ triList.length - 1 ].amount -= sum;
 					} else {
 						var tri = {};
+						tri.triTypeId = triList[ triList.length - 1 ].triTypeId;
 						tri.amount = -sum;
 						tri.order = triList.length;
 						triList.push( tri );
