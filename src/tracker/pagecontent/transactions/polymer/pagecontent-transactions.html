@@ -432,7 +432,7 @@
 				var trClone = this.transactionCloneList[ index ];
 				var triList = trClone.triList;
 				triList[ subIndex ].amount = triList[ subIndex ].amount.trim();
-				if( ! triList[ subIndex ].amount.match( '^(([0-9]*)|([-]?[0-9]+))$' ) )
+				if( ! triList[ subIndex ].amount.match( '^(([0-9]*)|([-]?[0-9]+))([.][0-9]+)?$' ) )
 					triList[ subIndex ].amount = '';
 
 				var sum = 0;

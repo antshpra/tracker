@@ -8,6 +8,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public enum TransactionItemTypeDB {
 
+	// Prior FY 2014-15 Expense  Rs. 9,50,496.64
+	// Expenses on Shivendra's Education (FY 2012-13) Rs. 96,756.24 
+
+
 	REGULAR				( 1000, 1000, "Regular",   0, TransactionReportType.PERODIC ),
 	REGULAR_BREAKFAST	( 1001, 1000, "Breakfast", 0, TransactionReportType.PERODIC ),
 	REGULAR_LUNCH		( 1002, 1000, "Lunch",     0, TransactionReportType.PERODIC ),
@@ -34,6 +38,7 @@ public enum TransactionItemTypeDB {
 	BIKE_ACCESSORIES( 4004, 4000, "Accessories", 0, TransactionReportType.PERODIC ),
 	BIKE_INSURANCE	( 4005, 4000, "Insurance", 0, TransactionReportType.PERODIC ),
 	
+	
 	SAVINGS_ACCOUNT			( 6000, 6000, "Savings Account",                 0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_SBBJ	( 6001, 6000, "Savings Account (SBBJ)",          0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_IDBI	( 6002, 6000, "Savings Account (IDBI)",   10238.82, TransactionReportType.CUMULATIVE ),
@@ -48,15 +53,12 @@ public enum TransactionItemTypeDB {
 	CREDIT_CARD_HDFC	( 8001, 8000, "Credit Card (HDFC)",        0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_SC		( 8002, 8000, "Credit Card (SC)", -25832.78, TransactionReportType.CUMULATIVE ),
 	
-	POCKET			( 9000, 9000, "Pocket", 0, TransactionReportType.CUMULATIVE ),
-	// To Mama,for Cab -2400.00
-	// Shuchi, SC Cashback 180.15
-	POCKET_CASH		( 9001, 9000, "Cash", ( 13855.55 + 321.10) + 2219.85, TransactionReportType.CUMULATIVE ),
+	POCKET			( 9000, 9000, "Pocket", 0, TransactionReportType.CUMULATIVE ), // Rs. -21,099.12
+	POCKET_CASH		( 9001, 9000, "Cash", 13996.50, TransactionReportType.CUMULATIVE ),
 	POCKET_SODEXO	( 9002, 9000, "Sodexo", 0, TransactionReportType.CUMULATIVE ),
-	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35095.62, TransactionReportType.CUMULATIVE ), // (6565.57 - 41933.84 - 321.10 + 593.75)
+	POCKET_BILLSUP	( 9003, 9000, "Bills Up", -35095.62, TransactionReportType.CUMULATIVE ),
 	POCKET_PAY_TM	( 9004, 9000, "PayTM Wallet", 0, TransactionReportType.CUMULATIVE ),
-	
-	// Initial POCKET_CASH + POCKET_BILLSUP must be equal to  Rs. -20,918.97
+
 	
 	SERVICES					( 10000, 10000, "Services",          0, TransactionReportType.PERODIC ),
 	SERVICES_HOUSE_RENT			( 10001, 10000, "House Rent",        0, TransactionReportType.PERODIC ),
@@ -65,11 +67,13 @@ public enum TransactionItemTypeDB {
 	SERVICES_INTERNET			( 10004, 10000, "Internet",          0, TransactionReportType.PERODIC ),
 	SERVICES_CELL_PHONE			( 10005, 10000, "Cell Phone",        0, TransactionReportType.PERODIC ),
 
-	AMAZON			( 11000, 11000, "Amazon",          0, TransactionReportType.PERODIC ),
+	
+	AMAZON			( 11000, 11000, "Amazon",    -2352147, TransactionReportType.PERODIC ),
 	AMAZON_CASH		( 11001, 11000, "Amazon Salary",   0, TransactionReportType.PERODIC ),
 	AMAZON_SODEXO	( 11002, 11000, "Amazon Sodexoes", 0, TransactionReportType.PERODIC ),	
 
-	BULK_PURCHASES	( 12000, 12000, "Bulk Purchases", 0, TransactionReportType.PERODIC ),
+	
+	BULK_PURCHASES	( 12000, 12000, "Bulk Purchases",  470828.47, TransactionReportType.PERODIC ),
 
 	EVENTS								( 13000, 13000, "Events",														   0, TransactionReportType.PERODIC ),
 	EVENTS_BIKE_ACCIDENT_04APR14		( 13001, 13000, "Bike Accident near Naveen's Place (04 Apr'14)",				   0, TransactionReportType.PERODIC ),
@@ -87,29 +91,31 @@ public enum TransactionItemTypeDB {
 	EVENTS_HYDERABAD_TRIP_24DEC15		( 13014, 13000, "Hyderabad Trip for Bike Transfer (25-27 Dec'14)",				   0, TransactionReportType.PERODIC ),
 
 	EVENTS_BHOPAL_TRIP_14JAN15			( 13015, 13000, "Bhopal Trip (via Indore & Hyderabad) for Disha's B'Day (13-18 Jan'15)", 0, TransactionReportType.PERODIC ),
-	EVENTS_MOM_DAD_HYD_BNG_TRIP_29JAN15	( 13012, 13000, "Mom, Dad & Priyanshi's Hyderabad-Tirupathi-Bangalore Trip (29 Jan'15 - 11 Feb'15)", 0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_DAD_HYD_BNG_TRIP_29JAN15	( 13012, 13000, "Mom-Dad & Priyanshi's Hyderabad-Tirupathi-Bangalore Trip (29 Jan'15 - 11 Feb'15)", 0, TransactionReportType.PERODIC ),
 //	EVENTS_MAHOBA_BHOPAL_TRIP_20FEB15	( 13016, 13000, "Bhopal Trip for Engagement (19 Feb - 03 Mar'15)",					   0, TransactionReportType.PERODIC ),
-	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Mahoba-Raebareli-Sagar Trip for Engagement (19 Feb - 03 Mar'15)", 0, TransactionReportType.PERODIC ),
+	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Mahoba-Sagar-Raebareli Trip (via Delhi) for Engagement (19 Feb - 03 Mar'15)", 0, TransactionReportType.PERODIC ),
 	EVENTS_MARRIAGE_APPARALS_27APR15	( 13018, 13000, "Marriage - Apparels (27 Apr'15)",								   0, TransactionReportType.PERODIC ),
 	EVENTS_MARRIAGE_27APR15				( 13019, 13000, "Marriage (27 Apr'15)",											   0, TransactionReportType.PERODIC ),
 
+	MISCELLANEOUS	( 14000, 14000, "Miscellaneous",  -160804.51, TransactionReportType.PERODIC ),
+
+	HOME_SEND	( 15000, 15000, "Home Send", 95711, TransactionReportType.PERODIC ),
+
 	
-	MISCELLANEOUS	( 14000, 14000, "Miscellaneous", 0, TransactionReportType.PERODIC ),
-
-	HOME_SEND	( 15000, 15000, "Home Send", 0, TransactionReportType.PERODIC ),
-
 	PHYZOK		( 16000, 16000, "Phyzok", 0, TransactionReportType.PERODIC ),
 
-	CLAYMUS		( 17000, 17000, "Claymus", 0, TransactionReportType.PERODIC ),
+	CLAYMUS		( 17000, 17000, "Part Time / Claymus", -11845.81, TransactionReportType.PERODIC ),
 	
-	PRATILIPI						( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
-	PRATILIPI_EUREKA_IITB_31JAN15	( 18001, 18000, "Mumbai Trip for IIT-B Eureka (29 Jan - 2 Feb'15)", 0, TransactionReportType.PERODIC ),
+	PRATILIPI								( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
+	PRATILIPI_EUREKA_IITB_31JAN15			( 18001, 18000, "Mumbai Trip for IIT-B Eureka (29 Jan - 2 Feb'15)", 0, TransactionReportType.PERODIC ),
+	PRATILIPI_PRAYATNA_MIT_CHENNAI_31JAN15	( 18002, 18000, "Chennai Trip for MIT-Chennai Prayatna (06-08 Mar'15)", 0, TransactionReportType.PERODIC ),
 	
-	SAVINGS_ACCOUNT_INTEREST	   ( 19000, 19000, "Savings Account Interest",         0, TransactionReportType.CUMULATIVE ),
-	SAVINGS_ACCOUNT_INTEREST_SBBJ  ( 19001, 19000, "Savings Account Interest (SBBJ)",  0, TransactionReportType.CUMULATIVE ),
-	SAVINGS_ACCOUNT_INTEREST_IDBI  ( 19002, 19000, "Savings Account Interest (IDBI)",  0, TransactionReportType.CUMULATIVE ),
-	SAVINGS_ACCOUNT_INTEREST_ICICI ( 19003, 19000, "Savings Account Interest (ICICI)", 0, TransactionReportType.CUMULATIVE ),
-	SAVINGS_ACCOUNT_INTEREST_KMB   ( 19004, 19000, "Savings Account Interest (KMB)",   0, TransactionReportType.CUMULATIVE ),
+	
+	SAVINGS_ACCOUNT_INTEREST	   ( 19000, 19000, "Savings Account Interest",         0, TransactionReportType.PERODIC ),
+	SAVINGS_ACCOUNT_INTEREST_SBBJ  ( 19001, 19000, "Savings Account Interest (SBBJ)",  0, TransactionReportType.PERODIC ),
+	SAVINGS_ACCOUNT_INTEREST_IDBI  ( 19002, 19000, "Savings Account Interest (IDBI)",  0, TransactionReportType.PERODIC ),
+	SAVINGS_ACCOUNT_INTEREST_ICICI ( 19003, 19000, "Savings Account Interest (ICICI)", 0, TransactionReportType.PERODIC ),
+	SAVINGS_ACCOUNT_INTEREST_KMB   ( 19004, 19000, "Savings Account Interest (KMB)",   0, TransactionReportType.PERODIC ),
 
 	SAVINGS_ACCOUNT_DEDUCTIONS	     ( 20000, 20000, "Savings Account Deductions",         0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_DEDUCTIONS_SBBJ  ( 20001, 20000, "Savings Account Deductions (SBBJ)",  0, TransactionReportType.CUMULATIVE ),
@@ -119,11 +125,11 @@ public enum TransactionItemTypeDB {
 	
 	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 1650, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS_RANJEET	( 21002, 21000, "Loan and Deposits (Ranjeet)", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS_SANU		( 21003, 21000, "Loan and Deposits (Sanu)", 0, TransactionReportType.CUMULATIVE ),
 
 	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",           0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_CASHBACK_HDFC	( 22001, 22000, "Credit Card Cashback (HDFC)",    0, TransactionReportType.CUMULATIVE ),
-	// Rs. 59 - Sweets (24 Feb)
-	// Rs. 180.15 - Shuchi (29 Mar)
 	CREDIT_CARD_CASHBACK_SC		( 22002, 22000, "Credit Card Cashback (SC)", 239.15, TransactionReportType.CUMULATIVE ),
 	
 	CREDIT_CARD_POINTS			( 23000, 23000, "Credit Card Points",        0, TransactionReportType.CUMULATIVE ),
@@ -134,7 +140,9 @@ public enum TransactionItemTypeDB {
 	FIXED_DEPOSIT_INTEREST_ICICI ( 24001, 24000, "Fixed Deposit Interest (ICICI)", -12046, TransactionReportType.PERODIC ),
 	FIXED_DEPOSIT_INTEREST_KMB	 ( 24002, 24000, "Fixed Deposit Interest (KMB)",        0, TransactionReportType.PERODIC ),
 
-	PPF_ACCOUNT		 ( 25000, 25000, "PPF Account",              0, TransactionReportType.PERODIC ),
+	PPF_ACCOUNT		 ( 25000, 25000, "PPF Account", 61400, TransactionReportType.PERODIC ),
+	
+	GOLD_AND_JEWELRY ( 26000, 26000, "Gold and Jewelry", 497100, TransactionReportType.CUMULATIVE ),
 	;
 	
 	private int id;

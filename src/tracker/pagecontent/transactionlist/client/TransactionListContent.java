@@ -69,7 +69,7 @@ public class TransactionListContent implements EntryPoint, ClickHandler {
 								if( event.getValue() != null ) {
 									GetMonthlyReportRequest request = new GetMonthlyReportRequest();
 									request.setTransactionItemTypeId( event.getValue().getTransactionItemTypeId() );
-									request.setYear( 2014 );
+									request.setYear( 2015 );
 									request.setYearType( YearType.FINANCIAL );
 									transactionReportService.getMonthlyReport(
 											request,

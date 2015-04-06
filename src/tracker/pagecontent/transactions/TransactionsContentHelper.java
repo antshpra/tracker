@@ -179,6 +179,10 @@ public class TransactionsContentHelper extends PageContentHelper<
 			} else { // Update existing Transaction Item
 
 				transactionItem = dataAccessor.getTransactionItem( triData.getId() );
+				if( triData.getTransactionDate() == null )
+					transactionItem.setTransactionDate( transaction.getTransactionDate() );
+				else
+					transactionItem.setTransactionDate( triData.getTransactionDate() );
 				transactionItem.setAmount( triData.getAmount() );
 				transactionItem.setNote( triData.getNote() );
 				transactionItem.setOrder( (long) (int) triData.getOrder() );
