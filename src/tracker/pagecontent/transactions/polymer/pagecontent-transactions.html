@@ -438,15 +438,15 @@
 				var sum = 0;
 				for( var i = 0; i < triList.length; i++ )
 					if( triList[i].amount != '' )
-						sum = sum + parseInt( triList[i].amount );
+						sum = sum + Math.round( parseFloat( triList[i].amount ) * 100 );
 
 				if( sum != 0 ) {
 					if( subIndex != triList.length - 1 ) {
-						triList[ triList.length - 1 ].amount -= sum;
+						triList[ triList.length - 1 ].amount = ( Math.round( triList[ triList.length - 1 ].amount * 100 ) - sum ) / 100;
 					} else {
 						var tri = {};
 						tri.triTypeId = triList[ triList.length - 1 ].triTypeId;
-						tri.amount = -sum;
+						tri.amount = -sum / 100;
 						tri.order = triList.length;
 						triList.push( tri );
 					}
@@ -521,7 +521,7 @@
 				for( var j = 0; j < triList.length; j++ ) {
 					triList[j].triType = this.transactionItemTypeMap[ triList[j].triTypeId ];
 					triList[j].trDate = this.getTimeMillis( triList[j].trDate, triList[j].trTime ) || transaction.trDate;
-					triList[j].amount = triList[j].amount == '' ? 0 : triList[j].amount * 100;
+					triList[j].amount = triList[j].amount == '' ? 0 : Math.round( triList[j].amount * 100 );
 					if( triList[j].note == '' )
 						triList[j].note = null;
 				}

@@ -66,6 +66,7 @@ public enum TransactionItemTypeDB {
 	SERVICES_HOUSE_ELECTRICITY	( 10003, 10000, "House Electricity", 0, TransactionReportType.PERODIC ),
 	SERVICES_INTERNET			( 10004, 10000, "Internet",          0, TransactionReportType.PERODIC ),
 	SERVICES_CELL_PHONE			( 10005, 10000, "Cell Phone",        0, TransactionReportType.PERODIC ),
+	SERVICES_CELL_PHONE_DISHA	( 10006, 10000, "Cell Phone (Disha)",0, TransactionReportType.PERODIC ),
 
 	
 	AMAZON			( 11000, 11000, "Amazon",    -2352147, TransactionReportType.PERODIC ),
@@ -96,10 +97,12 @@ public enum TransactionItemTypeDB {
 	EVENTS_ENGAGEMENT_22FEB15			( 13017, 13000, "Mahoba-Sagar-Raebareli Trip (via Delhi) for Engagement (19 Feb - 03 Mar'15)", 0, TransactionReportType.PERODIC ),
 	EVENTS_MARRIAGE_APPARALS_27APR15	( 13018, 13000, "Marriage - Apparels (27 Apr'15)",								   0, TransactionReportType.PERODIC ),
 	EVENTS_MARRIAGE_27APR15				( 13019, 13000, "Marriage (27 Apr'15)",											   0, TransactionReportType.PERODIC ),
+	EVENTS_MARRIAGE_HONEYMOON_09MAY15	( 13020, 13000, "Marriage - Honeymoon (09-18 May'15)",							   0, TransactionReportType.PERODIC ),
+	EVENTS_MOM_DAD_BNG_TRIP_18JUN15		( 13021, 13000, "Mom-Dad's (+ Disha) Bangalore Trip (18-?? Jun'15)",			   0, TransactionReportType.PERODIC ),
 
 	MISCELLANEOUS	( 14000, 14000, "Miscellaneous",  -160804.51, TransactionReportType.PERODIC ),
 
-	HOME_SEND	( 15000, 15000, "Home Send", 95711, TransactionReportType.PERODIC ),
+	HOME_SEND	( 15000, 15000, "Home Send", 95711, TransactionReportType.CUMULATIVE ),
 
 	
 	PHYZOK		( 16000, 16000, "Phyzok", 0, TransactionReportType.PERODIC ),
@@ -109,6 +112,7 @@ public enum TransactionItemTypeDB {
 	PRATILIPI								( 18000, 18000, "Pratilipi", 0, TransactionReportType.PERODIC ),
 	PRATILIPI_EUREKA_IITB_31JAN15			( 18001, 18000, "Mumbai Trip for IIT-B Eureka (29 Jan - 2 Feb'15)", 0, TransactionReportType.PERODIC ),
 	PRATILIPI_PRAYATNA_MIT_CHENNAI_31JAN15	( 18002, 18000, "Chennai Trip for MIT-Chennai Prayatna (06-08 Mar'15)", 0, TransactionReportType.PERODIC ),
+	PRATILIPI_SALARY						( 18003, 18000, "Pratilipi Salary", 0, TransactionReportType.PERODIC ),
 	
 	
 	SAVINGS_ACCOUNT_INTEREST	   ( 19000, 19000, "Savings Account Interest",         0, TransactionReportType.PERODIC ),
@@ -123,10 +127,11 @@ public enum TransactionItemTypeDB {
 	SAVINGS_ACCOUNT_DEDUCTIONS_ICICI ( 20003, 20000, "Savings Account Deductions (ICICI)", 0, TransactionReportType.CUMULATIVE ),
 	SAVINGS_ACCOUNT_DEDUCTIONS_KMB   ( 20004, 20000, "Savings Account Deductions (KMB)",   0, TransactionReportType.CUMULATIVE ),
 	
-	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 1650, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS			( 21000, 21000, "Loan and Deposits", 21650, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SHIVENDRA	( 21001, 21000, "Loan and Deposits (Shivendra)", 0, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_RANJEET	( 21002, 21000, "Loan and Deposits (Ranjeet)", 0, TransactionReportType.CUMULATIVE ),
 	LOAN_AND_DEPOSITS_SANU		( 21003, 21000, "Loan and Deposits (Sanu)", 0, TransactionReportType.CUMULATIVE ),
+	LOAN_AND_DEPOSITS_THOMAS	( 21004, 21000, "Loan and Deposits (Thomas)", 0, TransactionReportType.CUMULATIVE ),
 
 	CREDIT_CARD_CASHBACK		( 22000, 22000, "Credit Card Cashback",           0, TransactionReportType.CUMULATIVE ),
 	CREDIT_CARD_CASHBACK_HDFC	( 22001, 22000, "Credit Card Cashback (HDFC)",    0, TransactionReportType.CUMULATIVE ),
